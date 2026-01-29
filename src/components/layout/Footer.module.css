@@ -1,0 +1,54 @@
+.footer {
+    padding: 4rem 5% 2rem;
+    background: black;
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.brand h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.brand p {
+    opacity: 0.6;
+}
+
+.socials {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.iconLink {
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.2s;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconLink:hover {
+    color: white;
+    background: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.copy {
+    opacity: 0.4;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    width: 100%;
+}

@@ -1,0 +1,112 @@
+{
+  "hero": {
+    "title": "Building Smart Solutions with AI & Code",
+    "subtitle": "CSE (AIML) student at Chandigarh University passionate about building intelligent, scalable, and user-centric web applications using AI and modern technologies.",
+    "primaryCta": "View Projects",
+    "secondaryCta": "Contact Me"
+  },
+  "about": {
+    "title": "About Me",
+    "text1": "I’m a Computer Science (AIML) student at Chandigarh University with a strong interest in full-stack development and artificial intelligence. I enjoy building modern web applications that are not only functional, but intelligent, scalable, and user-focused.",
+    "text2": "My journey involves continuously exploring new technologies—from developing responsive React and Next.js frontends to working with backend systems and experimenting with machine learning models. I enjoy learning by building real projects and improving my skills every day.",
+    "skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Next.js",
+      "Node.js",
+      "Python",
+      "Machine Learning",
+      "TensorFlow",
+      "OpenAI API",
+      "MongoDB",
+      "PostgreSQL",
+      "Git",
+      "Docker",
+      "AWS",
+      "Tailwind CSS",
+      "Figma"
+    ],
+    "image": "/uploads/1769715317677-WhatsApp-Image-2026-01-30-at-12.57.20-AM.jpeg"
+  },
+  "projects": [
+    {
+      "title": "Suroor — Music Streaming Platform (Spotify Clone)",
+      "description": "Suroor is a full-stack music streaming web application inspired by Spotify. It features user authentication, playlist management, music streaming, and a modern, responsive UI. The project focuses on delivering a smooth user experience while handling real-world frontend and backend challenges.",
+      "tags": [
+        "React",
+        "Next.js",
+        "Node.js",
+        "Music Streaming",
+        "Spotify Clone",
+        "Full Stack",
+        "UI/UX"
+      ],
+      "link": "",
+      "image": "/uploads/1769713146161-Screenshot-2026-01-30-at-12.23.05-AM.png",
+      "id": 1769713194365
+    },
+    {
+      "title": "Virtual Healthcare & Appointment Management System",
+      "description": "A web-based healthcare platform that enables patients to book appointments, consult doctors virtually, and manage medical records online. Designed to improve accessibility and efficiency in healthcare services using secure and scalable web technologies",
+      "tags": [
+        "React",
+        "Node.js",
+        "Healthcare",
+        "Web Application",
+        "Appointment System",
+        "Full Stack"
+      ],
+      "link": "",
+      "image": "/uploads/1769713577999-Gemini_Generated_Image_s1o2nes1o2nes1o2.png",
+      "id": 1769713246671
+    },
+    {
+      "title": "Swasthya — Smart Healthcare & Wellness Platform",
+      "description": "Swasthya is a smart healthcare and wellness platform designed to improve access to medical services through technology. The system allows users to manage health records, book doctor appointments, and receive basic health guidance through a simple and user-friendly interface. The project focuses on combining healthcare management with modern web technologies for better user experience and accessibility.",
+      "tags": [
+        "Healthcare",
+        "Web Application",
+        "React",
+        "Node.js",
+        "Health Records",
+        "Appointment System",
+        "Full Stack"
+      ],
+      "link": "",
+      "image": "",
+      "id": 1769713362547
+    }
+  ],
+  "resume": {
+    "fileUrl": "/uploads/1769713925222-Dev-saini-(2).pdf",
+    "summary": "Experienced full-stack developer with a focus on AI integration. Proven track record of delivering scalable web applications."
+  },
+  "socials": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/sainidev1211",
+      "icon": "",
+      "id": 1769712303185
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/dev-sainii/",
+      "icon": "",
+      "id": 1769712322819
+    },
+    {
+      "platform": "Twitter",
+      "url": "https://x.com/saini_dev1",
+      "icon": "",
+      "id": 1769712514936
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://www.instagram.com/dev__sainii/",
+      "icon": "",
+      "id": 1769715531604
+    }
+  ]
+}
