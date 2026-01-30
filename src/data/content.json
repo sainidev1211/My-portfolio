@@ -10,9 +10,7 @@
     "text1": "I’m a Computer Science (AIML) student at Chandigarh University with a strong interest in full-stack development and artificial intelligence. I enjoy building modern web applications that are not only functional, but intelligent, scalable, and user-focused.",
     "text2": "My journey involves continuously exploring new technologies—from developing responsive React and Next.js frontends to working with backend systems and experimenting with machine learning models. I enjoy learning by building real projects and improving my skills every day.",
     "skills": [
-      "HTML",
-      "CSS",
-      "JavaScript",
+      "Full stack",
       "React",
       "Next.js",
       "Node.js",
@@ -44,7 +42,7 @@
         "UI/UX"
       ],
       "link": "",
-      "image": "/uploads/1769713146161-Screenshot-2026-01-30-at-12.23.05-AM.png",
+      "image": "/uploads/1769762763180-Screenshot-2026-01-30-at-12.28.57-AM.png",
       "id": 1769713194365
     },
     {
@@ -75,7 +73,7 @@
         "Full Stack"
       ],
       "link": "",
-      "image": "",
+      "image": "/uploads/1769763001336-Gemini_Generated_Image_3phiug3phiug3phi.png",
       "id": 1769713362547
     }
   ],

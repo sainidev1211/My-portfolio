@@ -139,3 +139,26 @@
         transform: translateY(0);
     }
 }
+
+.socialsSidebar {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .socialsSidebar {
+        display: none !important;
+    }
+
+    .section {
+        padding: 4rem 1rem;
+    }
+
+    .form {
+        padding: 1.5rem;
+    }
+
+    .container {
+        z-index: 20;
+        /* Ensure form is above everything on mobile */
+    }
+}

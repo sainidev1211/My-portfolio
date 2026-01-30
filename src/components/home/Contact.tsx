@@ -77,7 +77,7 @@ const Contact = () => {
                 flexDirection: 'column',
                 gap: '1.5rem',
                 zIndex: 10
-            }}>
+            }} className={styles.socialsSidebar}>
                 <div style={{ height: '50px', width: '1px', background: 'rgba(255,255,255,0.3)', margin: '0 auto' }} />
                 {socials.map((s: any) => {
                     const Icon = getIcon(s.platform);
@@ -123,10 +123,16 @@ const Contact = () => {
                         {/* Form Content */}
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                             <div className={styles.group}>
-                                <input required type="text" className={styles.input} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Name" />
+                                <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
+                                    Name <span style={{ color: 'var(--primary)' }}>*</span>
+                                </label>
+                                <input required type="text" className={styles.input} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="John Doe" />
                             </div>
                             <div className={styles.group}>
-                                <input required type="email" className={styles.input} value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="Email" />
+                                <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
+                                    Email <span style={{ color: 'var(--primary)' }}>*</span>
+                                </label>
+                                <input required type="email" className={styles.input} value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="john@example.com" />
                             </div>
                             <div className={styles.group} style={{ gridColumn: 'span 2' }}>
                                 <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
