@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 
 const geistSans = Geist({
@@ -26,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ScrollProgress />
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );

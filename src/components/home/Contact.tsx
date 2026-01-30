@@ -3,17 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Contact.module.css';
 import { ScrollReveal } from '../ui/ScrollReveal';
-import { FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaFacebook, FaYoutube, FaGlobe } from 'react-icons/fa';
-
-const iconMap: Record<string, any> = {
-    github: FaGithub,
-    linkedin: FaLinkedin,
-    twitter: FaTwitter,
-    instagram: FaInstagram,
-    facebook: FaFacebook,
-    youtube: FaYoutube,
-    website: FaGlobe
-};
+import { motion, AnimatePresence } from 'framer-motion';
+import SocialLinks from '../ui/SocialLinks';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const Contact = () => {
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -27,17 +19,6 @@ const Contact = () => {
             .then(res => setSocials(res.socials || []));
     }, []);
 
-    const getIcon = (platform: string) => {
-        const key = platform.toLowerCase();
-        if (key.includes('git')) return FaGithub;
-        if (key.includes('linked')) return FaLinkedin;
-        if (key.includes('twitter') || key.includes('x')) return FaTwitter;
-        if (key.includes('insta')) return FaInstagram;
-        if (key.includes('face')) return FaFacebook;
-        if (key.includes('tube')) return FaYoutube;
-        return FaGlobe;
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('submitting');
@@ -50,8 +31,10 @@ const Contact = () => {
             const data = await res.json();
             if (data.success) {
                 setStatus('success');
-                setResponseMsg(data.message);
+                setResponseMsg(data.message || 'Message Sent!');
                 setFormData({ name: '', email: '', phone: '', message: '' });
+                // Reset after 5 seconds to allow sending another message
+                setTimeout(() => setStatus(''), 5000);
             } else {
                 setStatus('error');
                 setResponseMsg(data.error || 'Something went wrong');
@@ -68,7 +51,7 @@ const Contact = () => {
             <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '500px', height: '500px', background: 'var(--secondary-glow)', filter: 'blur(150px)', borderRadius: '50%', zIndex: 0 }} />
 
             {/* Left Side Socials Column */}
-            <div style={{
+            <div className={styles.socialsSidebar} style={{
                 position: 'absolute',
                 left: '2rem',
                 top: '50%',
@@ -76,39 +59,15 @@ const Contact = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.5rem',
-                zIndex: 10
-            }} className={styles.socialsSidebar}>
-                <div style={{ height: '50px', width: '1px', background: 'rgba(255,255,255,0.3)', margin: '0 auto' }} />
-                {socials.map((s: any) => {
-                    const Icon = getIcon(s.platform);
-                    return (
-                        <a
-                            key={s.id}
-                            href={s.url}
-                            target="_blank"
-                            aria-label={s.platform}
-                            style={{
-                                color: 'rgba(255,255,255,0.6)',
-                                fontSize: '1.5rem',
-                                transition: 'all 0.3s'
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.color = 'var(--primary)';
-                                e.currentTarget.style.transform = 'scale(1.2) translateX(5px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
-                                e.currentTarget.style.transform = 'scale(1) translateX(0)';
-                            }}
-                        >
-                            <Icon />
-                        </a>
-                    );
-                })}
-                <div style={{ height: '50px', width: '1px', background: 'rgba(255,255,255,0.3)', margin: '0 auto' }} />
+                zIndex: 10,
+                alignItems: 'center'
+            }}>
+                <div style={{ height: '50px', width: '1px', background: 'rgba(255,255,255,0.3)' }} />
+                <SocialLinks socials={socials} direction="column" iconSize={24} />
+                <div style={{ height: '50px', width: '1px', background: 'rgba(255,255,255,0.3)' }} />
             </div>
 
-            <div className={styles.container} style={{ width: '100%', maxWidth: '700px', margin: '0 auto' }}>
+            <div className={styles.container} style={{ width: '100%', maxWidth: '700px', margin: '0 auto', zIndex: 2 }}>
                 <ScrollReveal>
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                         <h2 className={styles.title}>Let's Connect</h2>
@@ -119,42 +78,92 @@ const Contact = () => {
                 </ScrollReveal>
 
                 <ScrollReveal delay={0.2} width="100%">
-                    <form onSubmit={handleSubmit} className={styles.form}>
-                        {/* Form Content */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                            <div className={styles.group}>
-                                <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
-                                    Name <span style={{ color: 'var(--primary)' }}>*</span>
-                                </label>
-                                <input required type="text" className={styles.input} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="John Doe" />
-                            </div>
-                            <div className={styles.group}>
-                                <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
-                                    Email <span style={{ color: 'var(--primary)' }}>*</span>
-                                </label>
-                                <input required type="email" className={styles.input} value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="john@example.com" />
-                            </div>
-                            <div className={styles.group} style={{ gridColumn: 'span 2' }}>
-                                <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
-                                    Phone Number <span style={{ color: 'var(--primary)' }}>*</span>
-                                </label>
-                                <input required type="tel" className={styles.input} value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} placeholder="+1 234 567 890" />
-                            </div>
-                        </div>
+                    <AnimatePresence mode='wait'>
+                        {status === 'success' ? (
+                            <motion.div
+                                key="success"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className={styles.form}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    minHeight: '400px',
+                                    textAlign: 'center',
+                                    gap: '1.5rem'
+                                }}
+                            >
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ type: 'spring', stiffness: 200, damping: 10, delay: 0.2 }}
+                                    style={{ color: '#4ade80', fontSize: '4rem' }}
+                                >
+                                    <FaCheckCircle />
+                                </motion.div>
+                                <h3 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Message Received!</h3>
+                                <p style={{ opacity: 0.8, maxWidth: '80%' }}>
+                                    Thanks for reaching out. I'll get back to you as soon as possible.
+                                </p>
+                                <button
+                                    onClick={() => setStatus('')}
+                                    className={styles.button}
+                                    style={{ marginTop: '1rem', width: 'auto', padding: '0.8rem 2rem' }}
+                                >
+                                    Send Another
+                                </button>
+                            </motion.div>
+                        ) : (
+                            <motion.form
+                                key="form"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onSubmit={handleSubmit}
+                                className={styles.form}
+                            >
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                    <div className={styles.group}>
+                                        <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
+                                            Name <span style={{ color: 'var(--primary)' }}>*</span>
+                                        </label>
+                                        <input required type="text" className={styles.input} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="John Doe" />
+                                    </div>
+                                    <div className={styles.group}>
+                                        <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
+                                            Email <span style={{ color: 'var(--primary)' }}>*</span>
+                                        </label>
+                                        <input required type="email" className={styles.input} value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="john@example.com" />
+                                    </div>
+                                    <div className={styles.group} style={{ gridColumn: 'span 2' }}>
+                                        <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
+                                            Phone Number <span style={{ color: 'var(--primary)' }}>*</span>
+                                        </label>
+                                        <input required type="tel" className={styles.input} value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} placeholder="+1 234 567 890" />
+                                    </div>
+                                </div>
 
-                        <div className={styles.group} style={{ marginTop: '1rem' }}>
-                            <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
-                                Message <span style={{ color: 'var(--primary)' }}>*</span>
-                            </label>
-                            <textarea required className={styles.textarea} value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} placeholder="Your Message..." style={{ minHeight: '120px' }} />
-                        </div>
+                                <div className={styles.group} style={{ marginTop: '1rem' }}>
+                                    <label style={{ fontSize: '0.9rem', marginBottom: '0.5rem', display: 'block', opacity: 0.8 }}>
+                                        Message <span style={{ color: 'var(--primary)' }}>*</span>
+                                    </label>
+                                    <textarea required className={styles.textarea} value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} placeholder="Your Message..." style={{ minHeight: '120px' }} />
+                                </div>
 
-                        <button type="submit" className={styles.button} disabled={status === 'submitting'}>
-                            {status === 'submitting' ? 'Sending...' : 'Send Message'}
-                        </button>
-
-                        {status === 'success' && <div className={styles.success}>{responseMsg}</div>}
-                    </form>
+                                <button type="submit" className={styles.button} disabled={status === 'submitting'}>
+                                    {status === 'submitting' ? (
+                                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                                            <span className={styles.spinner} /> Sending...
+                                        </span>
+                                    ) : 'Send Message'}
+                                </button>
+                                {status === 'error' && <div className={styles.error} style={{ color: '#ff6b6b', marginTop: '1rem', textAlign: 'center' }}>{responseMsg}</div>}
+                            </motion.form>
+                        )}
+                    </AnimatePresence>
                 </ScrollReveal>
             </div>
 
