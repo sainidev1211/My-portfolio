@@ -21,12 +21,16 @@ export async function getContacts() {
 
 export async function saveContact(data: any) {
     try {
+        console.log('[DEBUG] saveContact: Starting...');
         await connectDB();
+
         const contact = new Contact(data);
-        await contact.save();
+        const saved = await contact.save();
+        console.log('[DEBUG] saveContact: Saved successfully', saved._id);
+
         return true;
     } catch (error) {
-        console.error('Error saving contact:', error);
+        console.error('[ERROR] Error saving contact:', error);
         throw error;
     }
 }
