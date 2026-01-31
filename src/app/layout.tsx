@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import { Analytics } from "@vercel/analytics/react";
 
 
 const geistSans = Geist({
@@ -31,6 +32,7 @@ export default function RootLayout({
         <ScrollProgress />
         {children}
         <ScrollToTop />
+        <Analytics />
       </body>
     </html>
   );
