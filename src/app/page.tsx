@@ -4,13 +4,12 @@ import Contact from "@/components/home/Contact";
 import Projects from "@/components/home/Projects";
 import Resume from "@/components/home/Resume";
 import Header from "@/components/layout/Header";
-import AiAssistant from "@/components/home/AiAssistant";
-import Certifications from "@/components/home/Certifications";
+import Certifications from '@/components/home/Certifications';
+import AiAssistant from '@/components/home/AiAssistant';
 
 export default function Home() {
   return (
     <main className="snap-container">
-      {/* Global Header */}
       <Header />
 
       {/* Slide 1: Hero */}
@@ -18,7 +17,7 @@ export default function Home() {
         <Hero />
       </div>
 
-      {/* Slide 2: About + Resume (Profile) */}
+      {/* Slide 2: About & Resume */}
       <div className="snap-section" id="about">
         <AboutResume />
       </div>
@@ -38,16 +37,15 @@ export default function Home() {
         <AiAssistant />
       </div>
 
-      {/* Slide 5: Standalone Resume */}
+      {/* Slide 6: Resume PDF View */}
       <div className="snap-section" id="resume-slide">
         <Resume />
       </div>
 
-      {/* Slide 6: Contact (with Socials & Footer) */}
+      {/* Slide 7: Contact */}
       <div className="snap-section" id="contact">
         <Contact />
       </div>
     </main>
   );
 }
-

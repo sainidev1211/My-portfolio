@@ -1,7 +1,8 @@
-import AiAssistantClient from "./AiAssistantClient";
+import React from 'react';
+import AiAssistantClient from './AiAssistantClient';
 
-export default function AiAssistant() {
-    return (
-        <AiAssistantClient />
-    );
-}
+const AiAssistant = () => {
+    return <AiAssistantClient />;
+};
+
+export default AiAssistant;

@@ -17,6 +17,10 @@ export async function POST(request: Request) {
         // Ensure unique filename
         const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
         const uploadDir = path.join(process.cwd(), 'public/uploads');
+
+        // Ensure directory exists
+        await import('fs/promises').then(fs => fs.mkdir(uploadDir, { recursive: true }));
+
         const filepath = path.join(uploadDir, filename);
 
         await writeFile(filepath, buffer);

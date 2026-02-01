@@ -68,15 +68,10 @@ export async function POST(req: NextRequest) {
         try {
             await connectDB();
             const dbContent = await Content.findOne().sort({ updatedAt: -1 }).lean();
-            if (dbContent) {
-                contentData = dbContent;
-            } else {
-                throw new Error("No content in DB");
-            }
+            contentData = dbContent || { knowledgeFiles: [] }; // Default to empty object if DB empty
         } catch (dbError) {
-            console.warn("MongoDB Fetch Failed, falling back to local file:", dbError);
-            const contentPath = path.join(process.cwd(), 'src/data/content.json');
-            contentData = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
+            console.warn("MongoDB Fetch Failed, using empty context:", dbError);
+            contentData = { knowledgeFiles: [] };
         }
 
         // 1. Check API Key presence for immediate fallback

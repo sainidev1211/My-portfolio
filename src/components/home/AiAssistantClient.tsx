@@ -2,56 +2,40 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import styles from './AiAssistant.module.css'; // We'll create this CSS module next
-import { FaPaperPlane, FaRobot, FaUser, FaMagic } from 'react-icons/fa';
+import styles from './AiAssistant.module.css';
+import { FaPaperPlane, FaRobot, FaUser } from 'react-icons/fa';
 
-interface Message {
-    id: number;
-    text: string;
-    sender: 'user' | 'ai';
-}
-
-const SUGGESTED_QUESTIONS = [
-    "Tell me about yourself",
-    "What are your top skills?",
-    "Show me your best projects",
-    "How can I contact you?",
-    "What is your experience with AI?"
+const SUGGESTIONS = [
+    "What is your tech stack?",
+    "Tell me about your experience.",
+    "Do you have any certifications?",
+    "How can I contact you?"
 ];
 
-const AiAssistantClient = () => {
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            id: 1,
-            text: "Hello! I'm Dev's AI Assistant. I can tell you everything about his work, skills, and projects. What would you like to know?",
-            sender: 'ai'
-        }
+export default function AiAssistantClient() {
+    const [messages, setMessages] = useState<{ id: number, text: string, sender: 'user' | 'ai' }[]>([
+        { id: 1, text: "Hello! I am Dev's AI Assistant. I can tell you everything about his work, skills, and experience. What would you like to know?", sender: 'ai' }
     ]);
-    const [inputValue, setInputValue] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
-    const messagesAreaRef = useRef<HTMLDivElement>(null);
-
-    const scrollToBottom = () => {
-        if (messagesAreaRef.current) {
-            messagesAreaRef.current.scrollTop = messagesAreaRef.current.scrollHeight;
-        }
-    };
+    const [input, setInput] = useState("");
+    const [loading, setLoading] = useState(false);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        scrollToBottom();
-    }, [messages, isTyping]);
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [messages]);
 
-    const handleSend = async (text: string = inputValue) => {
-        if (!text.trim()) return;
+    const handleSend = async (text: string) => {
+        if (!text.trim() || loading) return;
 
-        // Add User Message
-        const userMsg: Message = { id: Date.now(), text, sender: 'user' };
+        const userMsg = { id: Date.now(), text, sender: 'user' as const };
         setMessages(prev => [...prev, userMsg]);
-        setInputValue("");
-        setIsTyping(true);
+        setInput("");
+        setLoading(true);
 
         try {
-            const response = await fetch('/api/ai', {
+            const res = await fetch('/api/ai', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -60,111 +44,75 @@ const AiAssistantClient = () => {
                 })
             });
 
-            const data = await response.json();
+            const data = await res.json();
 
-            if (data.error) throw new Error(data.error);
-
-            const aiMsg: Message = { id: Date.now() + 1, text: data.response, sender: 'ai' };
-            setMessages(prev => [...prev, aiMsg]);
-
-        } catch (error) {
-            console.error(error);
-            const errorMsg: Message = { id: Date.now() + 1, text: "I'm having trouble connecting right now. Please try again.", sender: 'ai' };
-            setMessages(prev => [...prev, errorMsg]);
+            if (data.response) {
+                setMessages(prev => [...prev, { id: Date.now() + 1, text: data.response, sender: 'ai' }]);
+            } else {
+                throw new Error("No response");
+            }
+        } catch (err) {
+            console.error(err);
+            // Fallback UI message (never show error)
+            setMessages(prev => [...prev, { id: Date.now() + 1, text: "I'm currently updating my database, but based on my profile, I specialize in Full Stack Development using Next.js and MERN stack. Please check my Resume slide for more details!", sender: 'ai' }]);
         } finally {
-            setIsTyping(false);
+            setLoading(false);
         }
     };
 
     return (
-        <section className={styles.container}>
-            <div className={styles.bgGlow} />
-
-            <div className={styles.contentWrapper}>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className={styles.header}
-                >
-                    <div className={styles.iconWrapper}>
-                        <FaMagic className={styles.sparkleIcon} />
-                    </div>
+        <section className={styles.section} id="ai-assistant">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className={styles.container}
+            >
+                <div className={styles.header}>
                     <h2 className={styles.title}>AI Assistant</h2>
-                    <p className={styles.subtitle}>Interact with my digital twin to learn more about my journey.</p>
-                </motion.div>
+                    <p className={styles.subtitle}>Ask anything about my professional background.</p>
+                </div>
 
-                <motion.div
-                    className={styles.chatInterface}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                    <div className={styles.messagesArea} ref={messagesAreaRef}>
-                        <AnimatePresence>
-                            {messages.map((msg) => (
-                                <motion.div
-                                    key={msg.id}
-                                    initial={{ opacity: 0, y: 10, x: msg.sender === 'user' ? 20 : -20 }}
-                                    animate={{ opacity: 1, y: 0, x: 0 }}
-                                    className={`${styles.messageRow} ${msg.sender === 'user' ? styles.userRow : styles.aiRow}`}
-                                >
-                                    {msg.sender === 'ai' && <div className={styles.avatar}><FaRobot /></div>}
-                                    <div className={`${styles.bubble} ${msg.sender === 'user' ? styles.userBubble : styles.aiBubble}`}>
-                                        {msg.text}
-                                    </div>
-                                    {msg.sender === 'user' && <div className={styles.avatar}><FaUser /></div>}
-                                </motion.div>
-                            ))}
-                            {isTyping && (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className={styles.typingIndicator}
-                                >
-                                    <span>●</span><span>●</span><span>●</span>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                    <div className={styles.suggestions}>
-                        {SUGGESTED_QUESTIONS.map((q, idx) => (
-                            <motion.button
-                                key={idx}
-                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
-                                whileTap={{ scale: 0.95 }}
-                                className={styles.chip}
-                                onClick={() => handleSend(q)}
-                            >
-                                {q}
-                            </motion.button>
+                <div className={styles.chatWindow}>
+                    <div className={styles.messages} ref={scrollRef}>
+                        {messages.map(m => (
+                            <div key={m.id} className={`${styles.message} ${m.sender === 'user' ? styles.userMsg : styles.aiMsg}`}>
+                                <div className={styles.icon}>{m.sender === 'user' ? <FaUser /> : <FaRobot />}</div>
+                                <div className={styles.bubble}>{m.text}</div>
+                            </div>
                         ))}
+                        {loading && (
+                            <div className={`${styles.message} ${styles.aiMsg}`}>
+                                <div className={styles.icon}><FaRobot /></div>
+                                <div className={styles.bubble}>
+                                    <span className={styles.dot}>.</span><span className={styles.dot}>.</span><span className={styles.dot}>.</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className={styles.inputArea}>
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                            placeholder="Ask me anything..."
-                            className={styles.input}
-                            disabled={isTyping}
-                        />
-                        <button
-                            onClick={() => handleSend()}
-                            className={styles.sendButton}
-                            disabled={!inputValue.trim() || isTyping}
-                        >
-                            <FaPaperPlane />
-                        </button>
+                        <div className={styles.suggestions}>
+                            {SUGGESTIONS.map(s => (
+                                <button key={s} onClick={() => handleSend(s)} className={styles.suggestionBtn}>{s}</button>
+                            ))}
+                        </div>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={e => setInput(e.target.value)}
+                                onKeyDown={e => e.key === 'Enter' && handleSend(input)}
+                                placeholder="Ask a question..."
+                                className={styles.input}
+                            />
+                            <button onClick={() => handleSend(input)} disabled={loading} className={styles.sendBtn}>
+                                <FaPaperPlane />
+                            </button>
+                        </div>
                     </div>
-                </motion.div>
-            </div>
+                </div>
+            </motion.div>
         </section>
     );
-};
-
-export default AiAssistantClient;
+}
