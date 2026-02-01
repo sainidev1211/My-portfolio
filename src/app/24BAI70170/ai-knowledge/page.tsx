@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../editor.module.css';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 export default function AiKnowledgeManager() {
     const [knowledge, setKnowledge] = useState<any[]>([]);
@@ -144,10 +145,12 @@ export default function AiKnowledgeManager() {
                         </div>
                     ) : (
                         <div className={styles.group}>
-                            <label className={styles.label}>File URL (Use File Uploads page to get path)</label>
-                            <input className={styles.input} value={fileUrl} onChange={e => setFileUrl(e.target.value)} required placeholder="/uploads/filename.pdf" />
+                            <ImageUpload
+                                label="Upload File"
+                                value={fileUrl}
+                                onChange={(url) => setFileUrl(url)}
+                            />
                             <p style={{ fontSize: '0.8rem', opacity: 0.6, marginTop: '0.5rem' }}>
-                                Tip: Upload the file first in the "File Uploads" tab, then copy the path here.
                                 The AI reads the filename and metadata, but works best with Text Notes for raw content.
                             </p>
                         </div>
