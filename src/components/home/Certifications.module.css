@@ -1,102 +1,98 @@
+/* Certifications.module.css */
 .section {
-    width: 100%;
+    padding: 6rem 0;
     min-height: 100vh;
-    padding: 6rem 2rem;
-    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background: radial-gradient(circle at center, #111 0%, #000 100%);
+    justify-content: center;
+    position: relative;
     overflow: hidden;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 3rem;
-    z-index: 2;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
 }
 
 .title {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(to right, #fff, #3b82f6);
-    background-clip: text;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #fff, #aaa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
 }
 
 .subtitle {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 1.1rem;
+    opacity: 0.6;
     max-width: 600px;
     margin: 0 auto;
 }
 
-.filterContainer {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    z-index: 2;
-}
-
-.filterButton {
-    padding: 0.6rem 1.5rem;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.filterButton:hover,
-.activeFilter {
-    background: rgba(59, 130, 246, 0.2);
-    border-color: #3b82f6;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-}
-
+/* Grid is fallback, Slider is main */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    display: none;
+    /* Hidden by default if we use slider */
+}
+
+.sliderContainer {
     width: 100%;
-    max-width: 1200px;
-    z-index: 2;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0;
+}
+
+.track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    /* 
+       We will animate X from 0% to -50% because we will duplicate the content: [A, B, A, B].
+       When it reaches -50% (start of second A), it snaps back to 0% (start of first A).
+       This creates a perfect infinite loop.
+    */
+    animation: scroll 60s linear infinite;
+    will-change: transform;
+}
+
+.track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .card {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    padding: 1.5rem;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    position: relative;
     overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 350px;
+    /* Fixed width for slider */
+    flex-shrink: 0;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .imageWrapper {
-    width: 100%;
     height: 180px;
-    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 1.2rem;
     position: relative;
-    background: rgba(255, 255, 255, 0.02);
 }
 
 .certImage {
@@ -111,50 +107,48 @@
 }
 
 .cardContent {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    padding: 1.5rem;
 }
 
 .cardTitle {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.4;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .cardIssuer {
-    color: #3b82f6;
     font-size: 0.9rem;
-    font-weight: 500;
+    opacity: 0.7;
+    margin-bottom: 1rem;
 }
 
 .cardMeta {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.4);
-    margin-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 0.8rem;
+    opacity: 0.6;
 }
 
 .viewButton {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
     color: white;
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    transition: all 0.2s;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background 0.2s;
 }
 
-.card:hover .viewButton {
-    background: white;
-    color: black;
+.viewButton:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* Modal */
+/* Modal Styles */
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -163,86 +157,56 @@
     bottom: 0;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
-    z-index: 100;
+    z-index: 1000;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 2rem;
 }
 
 .modalContent {
-    background: #1a1a1a;
+    background: #111;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 2rem;
-    max-width: 800px;
+    border-radius: 20px;
     width: 100%;
+    max-width: 800px;
     position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
 }
 
 .closeButton {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1rem;
+    right: 1rem;
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
 }
 
 .closeButton:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
 }
 
 .modalBody {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    padding: 2rem;
 }
 
-.modalImage {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.modalDetails h2 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    color: white;
-}
-
-.modalDetails h3 {
-    font-size: 1.1rem;
-    color: #3b82f6;
-    margin-bottom: 2rem;
-}
-
-.verifyLink {
-    display: inline-block;
-    background: #3b82f6;
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.2s;
-    margin-top: 2rem;
-}
-
-.verifyLink:hover {
-    background: #2563eb;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+@media (max-width: 1024px) {
+    .card {
+        width: 320px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -250,7 +214,13 @@
         grid-template-columns: 1fr;
     }
 
-    .title {
-        font-size: 2rem;
+    .card {
+        width: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 260px;
     }
 }

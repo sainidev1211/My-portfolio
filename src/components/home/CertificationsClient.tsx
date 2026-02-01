@@ -36,17 +36,43 @@ const CertificationsClient = () => {
 
 
 
-            {/* Grid */}
-            <div className={styles.grid}>
-                <AnimatePresence mode="popLayout">
-                    {certs.map((cert) => (
-                        <motion.div
-                            key={cert.id}
-                            layout
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 0.3 }}
+            {/* Infinite Slider */}
+            <div className={styles.sliderContainer} style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100px',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, #000 0%, transparent 100%)',
+                    zIndex: 2,
+                    pointerEvents: 'none'
+                }} />
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    width: '100px',
+                    height: '100%',
+                    background: 'linear-gradient(270deg, #000 0%, transparent 100%)',
+                    zIndex: 2,
+                    pointerEvents: 'none'
+                }} />
+
+
+                <div
+                    className={styles.track}
+                    onMouseEnter={() => { /* Handled by CSS */ }}
+                    onMouseLeave={() => { /* Handled by CSS */ }}
+                >
+                    {/* 
+                        We duplicate the content 4 times to ensure we have enough length 
+                        to scroll -50% smoothly even on wide screens.
+                        Set 1 & 2 will scroll out, replcaed by Set 3 & 4.
+                    */}
+                    {[...certs, ...certs, ...certs, ...certs].map((cert, index) => (
+                        <div
+                            key={`${cert.id}-${index}`}
                             className={styles.card}
                             onClick={() => setSelectedCert(cert)}
                         >
@@ -67,9 +93,9 @@ const CertificationsClient = () => {
                                     <button className={styles.viewButton}>View Details</button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </AnimatePresence>
+                </div>
             </div>
 
             {/* Modal */}
@@ -116,7 +142,7 @@ const CertificationsClient = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </section>
+        </section >
     );
 };
 
