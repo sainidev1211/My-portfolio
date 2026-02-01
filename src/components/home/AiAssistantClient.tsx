@@ -53,8 +53,8 @@ export default function AiAssistantClient() {
             }
         } catch (err) {
             console.error(err);
-            // Fallback UI message (never show error)
-            setMessages(prev => [...prev, { id: Date.now() + 1, text: "I'm currently updating my database, but based on my profile, I specialize in Full Stack Development using Next.js and MERN stack. Please check my Resume slide for more details!", sender: 'ai' }]);
+            // Only triggers on network failure (API returns 200 even on logic errors)
+            setMessages(prev => [...prev, { id: Date.now() + 1, text: "I am having trouble connecting to the internet. Please check my Resume slide for details.", sender: 'ai' }]);
         } finally {
             setLoading(false);
         }

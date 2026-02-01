@@ -51,11 +51,20 @@ function localSearch(query: string, data: any): string {
     }
 
     if (matches.length > 0) {
-        return `I found some relevant info in my records:\n\n${matches.slice(0, 3).join('\n\n')}\n\nI can tell you more if you specify exactly what you're looking for!`;
+        return `I found some specific details in my records:\n\n${matches.slice(0, 3).join('\n\n')}\n\nI can tell you more if you specify exactly what you're looking for!`;
     }
 
-    // Generic safe fallback
-    return "I'm currently updating my live connection, but I can tell you that I am a Full Stack Developer specializing in Next.js and AI. Feel free to ask about my projects or check out my Resume slide!";
+    // STRICT DYNAMIC FALLBACK - NO PLACEHOLDERS
+    // If no specific match, return a broad summary of the profile
+    const summary = [];
+    if (data.about && data.about.text1) summary.push(data.about.text1);
+    if (data.about && data.about.skills) summary.push(`My core skills are: ${data.about.skills.slice(0, 5).join(', ')}.`);
+
+    if (summary.length > 0) {
+        return `I don't have a specific answer for "${query}" in my immediate index, but here is my professional validation: \n\n${summary.join('\n\n')}`;
+    }
+
+    return "I am a Full Stack Developer specializing in Next.js and AI. I have built multiple production-ready applications. Please ask about my projects.";
 }
 
 export async function POST(req: NextRequest) {
@@ -134,8 +143,8 @@ ${JSON.stringify({ ...contentData, knowledgeFiles: undefined })}
     } catch (error) {
         console.error("Critical AI Error:", error);
         return NextResponse.json(
-            { response: "I'm focusing on my code right now! Check out my projects below." },
-            { status: 200 } // Return 200 to frontend so it doesn't show red error
+            { response: "I am a Full Stack Developer. Please ask me about my specific projects or skills." },
+            { status: 200 }
         );
     }
 }
