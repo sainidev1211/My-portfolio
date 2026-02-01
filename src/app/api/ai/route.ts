@@ -9,7 +9,7 @@ import Content from '@/models/Content';
 const API_KEY = process.env.GROQ_API_KEY;
 
 const groq = new Groq({
-    apiKey: API_KEY
+    apiKey: API_KEY || "dummy_key_for_build"
 });
 
 // Fallback: Local Keyword Search
