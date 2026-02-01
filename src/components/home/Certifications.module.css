@@ -70,9 +70,11 @@
     }
 }
 
+/* Strict Two-Part Layout: Image Top, Content Bottom */
 .card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #0a0a0a;
+    /* Dark background for contrast */
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
@@ -82,19 +84,20 @@
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.2);
+    height: 420px;
+    /* Fixed height to ensure uniformity */
 }
 
 .imageWrapper {
-    height: 180px;
+    height: 200px;
+    /* Strict fixed height for top part */
+    width: 100%;
     overflow: hidden;
     position: relative;
+    background: #111;
+    /* Fallback */
+    flex-shrink: 0;
+    /* Prevent shrinking */
 }
 
 .certImage {
@@ -106,6 +109,7 @@
 
 .card:hover .certImage {
     transform: scale(1.05);
+    /* Gentle zoom */
 }
 
 .cardContent {
@@ -113,31 +117,33 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    /* Space out title/issuer from button */
+    background: #0a0a0a;
 }
 
 .cardTitle {
     font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-    /* Allow wrapping up to 2 lines */
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    color: #ffffff;
+    /* Clean text wrapping */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: normal;
-    min-height: 2.8em;
-    /* Ensure consistent height for alignment */
+    min-height: 2.6em;
+    /* Reserve space for 2 lines */
 }
 
 .cardIssuer {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: auto;
-    /* Push meta down */
-    padding-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    /* High contrast grey */
     font-weight: 500;
+    margin-bottom: 1rem;
 }
 
 .cardMeta {
