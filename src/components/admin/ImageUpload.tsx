@@ -78,24 +78,6 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
                     />
                     {uploading && <p style={{ fontSize: '0.8rem', color: '#60a5fa', marginTop: '0.25rem' }}>Uploading...</p>}
                     {error && <p style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '0.25rem' }}>{error}</p>}
-
-                    {/* Fallback/Manual Input */}
-                    <input
-                        type="text"
-                        value={value || ''}
-                        onChange={(e) => onChange(e.target.value)}
-                        placeholder="Or paste URL manually..."
-                        style={{
-                            marginTop: '0.5rem',
-                            padding: '0.5rem',
-                            background: 'transparent',
-                            borderRadius: '4px',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            width: '100%',
-                            color: 'white',
-                            fontSize: '0.8rem'
-                        }}
-                    />
                 </div>
             </div>
         </div>
