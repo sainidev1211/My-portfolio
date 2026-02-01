@@ -25,8 +25,10 @@ const Header = () => {
                     width: '100%',
                     zIndex: 100,
                     display: 'flex',
+                    flexWrap: 'wrap',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap: '1rem',
                     padding: '1.5rem 5%',
                     backdropFilter: 'blur(10px)',
                     background: 'rgba(0,0,0,0.2)'
@@ -47,10 +49,16 @@ const Header = () => {
 
                 {/* Right: Navigation */}
                 <nav style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                    {['About', 'Projects', 'Contact'].map((item) => (
+                    {[
+                        { label: 'About', id: 'about' },
+                        { label: 'Projects', id: 'projects' },
+                        { label: 'Certificates', id: 'certifications' },
+                        { label: 'AI Assistant', id: 'ai-assistant' },
+                        { label: 'Contact', id: 'contact' }
+                    ].map((item) => (
                         <button
-                            key={item}
-                            onClick={() => scrollToSection(item.toLowerCase())}
+                            key={item.label}
+                            onClick={() => scrollToSection(item.id)}
                             style={{
                                 background: 'none',
                                 border: 'none',
@@ -63,7 +71,7 @@ const Header = () => {
                             onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
                             onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'}
                         >
-                            {item}
+                            {item.label}
                         </button>
                     ))}
 
