@@ -6,7 +6,7 @@ import connectDB from '@/lib/db';
 import Content from '@/models/Content';
 
 // Initialize Groq client
-const API_KEY = process.env.GROQ_API_KEY || "insert_your_groq_api_key_here";
+const API_KEY = process.env.GROQ_API_KEY;
 
 const groq = new Groq({
     apiKey: API_KEY

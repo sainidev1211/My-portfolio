@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Certifications.module.css';
 import { FaAward, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
 
-const categories = ["All", "AI", "Web", "Cloud", "Other"];
+
 
 const CertificationsClient = () => {
     const [certs, setCerts] = useState<any[]>([]);
@@ -103,7 +103,7 @@ const CertificationsClient = () => {
                                 <div className={styles.modalDetails}>
                                     <h2>{selectedCert.title}</h2>
                                     <h3>{selectedCert.issuer}</h3>
-                                    <p style={{ color: '#aaa', marginBottom: '1rem' }}>Issued: {selectedCert.date} • {selectedCert.category}</p>
+                                    <p style={{ color: '#aaa', marginBottom: '1rem' }}>Issued: {selectedCert.date}</p>
 
                                     {selectedCert.link && (
                                         <a href={selectedCert.link} target="_blank" rel="noopener noreferrer" className={styles.verifyLink}>

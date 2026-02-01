@@ -29,7 +29,7 @@ export default function CertificationsManager() {
 
     const resetForm = () => {
         setEditingId(null);
-        setEditForm({ title: '', issuer: '', date: '', category: 'All', link: '', image: '' });
+        setEditForm({ title: '', issuer: '', date: '', link: '', image: '' });
     };
 
     const handleEdit = (cert: any) => {
@@ -103,7 +103,7 @@ export default function CertificationsManager() {
                             {c.image && <img src={c.image} alt={c.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />}
                             <div>
                                 <h3 style={{ fontWeight: 'bold' }}>{c.title}</h3>
-                                <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>{c.issuer} • {c.date} • {c.category}</p>
+                                <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>{c.issuer} • {c.date}</p>
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
