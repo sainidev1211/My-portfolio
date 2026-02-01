@@ -236,14 +236,21 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .section {
         height: auto;
-        padding: 6rem 5%;
+        padding: 6rem 1.5rem;
         min-height: 100vh;
     }
 
     .modalBody {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 300px;
+        height: 380px;
     }
 }

@@ -221,13 +221,27 @@
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
+        width: 95%;
     }
 
     .title {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .chatWindow {
         height: 60vh;
+    }
+
+    .message {
+        max-width: 90%;
+    }
+
+    .inputWrapper {
+        flex-direction: column;
+    }
+
+    .sendBtn {
+        width: 100%;
+        border-radius: 12px;
     }
 }
