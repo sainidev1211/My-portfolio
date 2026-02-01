@@ -1,22 +1,28 @@
 /* Projects.module.css */
 .section {
-    padding: 6rem 0;
-    min-height: 100vh;
+    padding: 0 5%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
     overflow: hidden;
+    /* Clean dark background */
 }
 
 .container {
-    padding: 0 1rem;
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .title {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: 800;
     margin-bottom: 3rem;
     text-align: center;
 }
@@ -24,8 +30,9 @@
 /* Grid is default for few items */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
+    padding: 1rem;
 }
 
 /* Slider styles */
@@ -33,20 +40,16 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 3rem 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .track {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
     width: max-content;
-    /* 
-       Same robust logic as Certifications:
-       Duplicate content 4x -> [A, B, A, B]
-       Animate 0% to -50% (scrolling past first A and B)
-       Jump back to 0% (start of first A) seamlessly.
-    */
-    animation: scroll 60s linear infinite;
+    animation: scroll 40s linear infinite;
     padding-left: 0;
     will-change: transform;
 }
@@ -67,30 +70,32 @@
 
 .card {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     width: 400px;
-    /* Fixed width for slider */
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    backdrop-filter: blur(10px);
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .image {
-    height: 220px;
+    height: 240px;
     overflow: hidden;
+    position: relative;
 }
 
 .image img {
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -100,54 +105,80 @@
     transform: scale(1.1);
 }
 
+/* Add overlay on image hover */
+.image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.card:hover .image::after {
+    opacity: 1;
+}
+
 .content {
-    padding: 1.5rem;
+    padding: 1.8rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .cardTitle {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    color: #fff;
 }
 
 .cardDesc {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     opacity: 0.7;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    line-height: 1.6;
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.6rem;
+    margin-bottom: 1.8rem;
 }
 
 .tag {
     font-size: 0.75rem;
-    padding: 0.2rem 0.6rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .link {
     text-align: center;
-    padding: 0.8rem;
+    padding: 0.9rem;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    border-radius: 12px;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: all 0.3s;
+    border: 1px solid var(--glass-border);
 }
 
 .link:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px var(--primary-glow);
 }
 
 @media (max-width: 1024px) {
@@ -157,8 +188,18 @@
 }
 
 @media (max-width: 768px) {
+    .section {
+        height: auto;
+        padding: 6rem 5%;
+        min-height: 100vh;
+    }
+
     .card {
         width: 300px;
+    }
+
+    .title {
+        font-size: 2.2rem;
     }
 }
 

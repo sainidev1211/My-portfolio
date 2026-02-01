@@ -10,51 +10,23 @@ interface ProjectsProps {
 }
 
 const ProjectsClient: React.FC<ProjectsProps> = ({ projects }) => {
-    // Filter/Sort logic if needed, but for now we assume content.json is managed or we map specifically.
-    // User requested order: Suroor, Swasthya, Virtual Healthcare...
-    // We will map over the projects and just render them. 
-    // Ideally we'd sort, but let's trust the CMS order or display what's there.
-
-    // Use all projects, or maybe verify if we have enough to slide. 
-    // User asked to slide IF > 4-5 items.
-    // If we have few, grid is fine. But for consistency, let's use slider if length > 3 to fill screen.
+    // Logic: Always show slider if more than 3, else grid
     const showSlider = projects.length > 3;
 
     return (
         <section id="projects" className={styles.section}>
-            <div className={styles.container} style={{ width: '100%', maxWidth: '100%' }}>
+            <div className={styles.container}>
                 <motion.h2
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className={styles.title}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className={`${styles.title} text-gradient`}
                 >
                     Selected Works
                 </motion.h2>
 
                 {showSlider ? (
                     <div className={styles.sliderContainer}>
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100px',
-                            height: '100%',
-                            background: 'linear-gradient(90deg, #000 0%, transparent 100%)',
-                            zIndex: 2,
-                            pointerEvents: 'none'
-                        }} />
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
-                            width: '100px',
-                            height: '100%',
-                            background: 'linear-gradient(270deg, #000 0%, transparent 100%)',
-                            zIndex: 2,
-                            pointerEvents: 'none'
-                        }} />
-
                         <div
                             className={styles.track}
                             onMouseEnter={() => { /* Handled by CSS */ }}

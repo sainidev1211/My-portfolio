@@ -1,12 +1,13 @@
 :root {
-  --background: #000000;
+  --background: #050505;
   --foreground: #ffffff;
   --primary: #8b5cf6;
-  --primary-glow: rgba(139, 92, 246, 0.4);
+  --primary-glow: rgba(139, 92, 246, 0.5);
   --secondary: #ec4899;
-  --secondary-glow: rgba(236, 72, 153, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --secondary-glow: rgba(236, 72, 153, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.08);
   --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-highlight: rgba(255, 255, 255, 0.15);
 }
 
 * {
@@ -14,6 +15,11 @@
   scroll-behavior: smooth;
   padding: 0;
   margin: 0;
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
 }
 
 html,
@@ -24,6 +30,26 @@ body {
   color: var(--foreground);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  /* Fix navbar overlap */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* Scroll Snap Container */
@@ -45,14 +71,30 @@ body {
   justify-content: center;
   position: relative;
   overflow: hidden;
+  padding-top: 80px;
+  /* Account for fixed navbar */
 }
 
-/* Hide Scrollbar but keep functionality */
-.snap-container::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+/* Utility Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
+.text-gradient {
+  background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 a {
   color: inherit;

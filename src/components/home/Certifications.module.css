@@ -1,12 +1,14 @@
 /* Certifications.module.css */
 .section {
-    padding: 6rem 0;
-    min-height: 100vh;
+    padding: 0 5%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
     overflow: hidden;
+    /* Clean dark background */
 }
 
 .header {
@@ -16,24 +18,18 @@
 }
 
 .title {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: 800;
     margin-bottom: 1rem;
-    background: linear-gradient(to right, #fff, #aaa);
+    background: linear-gradient(to right, #fff, #a5a5a5);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-    opacity: 0.6;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* Grid is fallback, Slider is main */
-.grid {
-    display: none;
-    /* Hidden by default if we use slider */
+    color: var(--foreground);
+    opacity: 0.7;
+    font-weight: 300;
 }
 
 .sliderContainer {
@@ -41,19 +37,16 @@
     position: relative;
     overflow: hidden;
     padding: 2rem 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .track {
     display: flex;
     gap: 2rem;
     width: max-content;
-    /* 
-       We will animate X from 0% to -50% because we will duplicate the content: [A, B, A, B].
-       When it reaches -50% (start of second A), it snaps back to 0% (start of first A).
-       This creates a perfect infinite loop.
-    */
     animation: scroll 60s linear infinite;
-    will-change: transform;
+    padding-left: 0;
 }
 
 .track:hover {
@@ -70,109 +63,93 @@
     }
 }
 
-/* Strict Two-Part Layout: Image Top, Content Bottom */
 .card {
-    background: #0a0a0a;
-    /* Dark background for contrast */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
     width: 350px;
-    /* Fixed width for slider */
+    height: 380px;
+    border-radius: 20px;
+    overflow: hidden;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    height: 420px;
-    /* Fixed height to ensure uniformity */
+    text-align: left;
+    transition: all 0.3s ease;
 }
 
-.imageWrapper {
-    height: 200px;
-    /* Strict fixed height for top part */
+.card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.image {
     width: 100%;
-    overflow: hidden;
+    height: 200px;
     position: relative;
-    background: #111;
-    /* Fallback */
-    flex-shrink: 0;
-    /* Prevent shrinking */
+    overflow: hidden;
 }
 
-.certImage {
+.image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.card:hover .certImage {
-    transform: scale(1.05);
-    /* Gentle zoom */
+.card:hover .image img {
+    transform: scale(1.1);
 }
 
-.cardContent {
-    padding: 1.5rem;
+.content {
+    padding: 1.2rem;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Space out title/issuer from button */
-    background: #0a0a0a;
 }
 
 .cardTitle {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
-    color: #ffffff;
-    /* Clean text wrapping */
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #fff;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    min-height: 2.6em;
-    /* Reserve space for 2 lines */
 }
 
-.cardIssuer {
-    font-size: 0.9rem;
-    color: #a0a0a0;
-    /* High contrast grey */
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
-
-.cardMeta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.issuer {
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1rem;
+    color: var(--primary);
+    opacity: 0.8;
+}
+
+.date {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-top: 0.2rem;
 }
 
 .viewButton {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
     padding: 0.5rem 1rem;
     border-radius: 8px;
+    margin-top: 0.8rem;
     cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    align-self: flex-start;
 }
 
 .viewButton:hover {
-    background: white;
-    color: black;
-    transform: translateY(-2px);
+    background: var(--primary);
+    color: white;
 }
 
 /* Modal Styles */
@@ -182,23 +159,26 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    animation: fadeIn 0.3s ease;
 }
 
 .modalContent {
     background: #111;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
     position: relative;
-    overflow: hidden;
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
 }
 
 .closeButton {
@@ -228,38 +208,42 @@
     height: auto;
     max-height: 60vh;
     object-fit: contain;
-    /* Shows full image */
     background: #000;
-    /* Letterboxing background */
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .modalBody {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     gap: 2rem;
     padding: 2rem;
 }
 
-@media (max-width: 1024px) {
-    .card {
-        width: 320px;
+.modalDetails h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
 
 @media (max-width: 768px) {
+    .section {
+        height: auto;
+        padding: 6rem 5%;
+        min-height: 100vh;
+    }
+
     .modalBody {
         grid-template-columns: 1fr;
-    }
-
-    .card {
-        width: 280px;
-    }
-}
-
-@media (max-width: 480px) {
-    .card {
-        width: 260px;
     }
 }

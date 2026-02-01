@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import styles from './Header.module.css';
 
 const Header = () => {
 
@@ -18,21 +19,7 @@ const Header = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    zIndex: 100,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    padding: '1.5rem 5%',
-                    backdropFilter: 'blur(10px)',
-                    background: 'rgba(0,0,0,0.2)'
-                }}
+                className={styles.header}
             >
                 {/* Left: Logo */}
                 <div

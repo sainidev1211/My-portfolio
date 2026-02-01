@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from './About.module.css';
-import { ScrollReveal } from '../ui/ScrollReveal';
+import { motion } from 'framer-motion';
 
 interface AboutProps {
     data: any;
@@ -11,39 +11,93 @@ interface AboutProps {
 const AboutClient: React.FC<AboutProps> = ({ data }) => {
     const { title, text1, text2, skills, image } = data;
 
+    // Animation Variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, x: -30 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    };
+
+    const imageVariants = {
+        hidden: { opacity: 0, scale: 0.9, rotate: -2 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            rotate: 0,
+            transition: { duration: 1, ease: "easeOut" }
+        }
+    };
+
     return (
         <section id="about" className={styles.section}>
             <div className={styles.container}>
-                <div className={styles.content}>
-                    <ScrollReveal>
-                        <h2 className={styles.title}>{title}</h2>
-                    </ScrollReveal>
+                {/* Text Content */}
+                <motion.div
+                    className={styles.content}
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                >
+                    <motion.h2 className={`${styles.title} text-gradient`} variants={itemVariants}>
+                        {title}
+                    </motion.h2>
 
-                    <ScrollReveal delay={0.1}>
-                        <p className={styles.text}>{text1}</p>
-                    </ScrollReveal>
+                    <motion.p className={styles.text} variants={itemVariants}>
+                        {text1}
+                    </motion.p>
 
-                    <ScrollReveal delay={0.2}>
-                        <p className={styles.text}>{text2}</p>
-                    </ScrollReveal>
+                    <motion.p className={styles.text} variants={itemVariants}>
+                        {text2}
+                    </motion.p>
 
-                    <ScrollReveal delay={0.3}>
-                        <div className={styles.techStack}>
-                            {skills.map((skill: string) => (
-                                <span key={skill} className={styles.techItem}>{skill}</span>
-                            ))}
+                    <motion.div className={styles.techStack} variants={itemVariants}>
+                        {skills.map((skill: string, index: number) => (
+                            <motion.span
+                                key={skill}
+                                className={styles.techItem}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.5 + (index * 0.05) }}
+                                viewport={{ once: true }}
+                            >
+                                {skill}
+                            </motion.span>
+                        ))}
+                    </motion.div>
+                </motion.div>
+
+                {/* Profile Image */}
+                <div className={styles.imageWrapper}>
+                    <motion.div
+                        className={styles.imageContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={imageVariants}
+                    >
+                        <div className={styles.innerImage}>
+                            {image ? (
+                                <img
+                                    src={image}
+                                    alt="Profile"
+                                    className={styles.profileImage}
+                                />
+                            ) : (
+                                <div className={styles.placeholderImage}>No Image</div>
+                            )}
                         </div>
-                    </ScrollReveal>
-                </div>
-
-                <div className={styles.imageContainer}>
-                    <ScrollReveal delay={0.2}>
-                        {image ? (
-                            <img src={image} alt="Profile" className={styles.profileImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        ) : (
-                            <div className={styles.placeholderImage} />
-                        )}
-                    </ScrollReveal>
+                    </motion.div>
                 </div>
             </div>
         </section>
