@@ -27,20 +27,25 @@ export default function UploadManager() {
         formData.append('file', file);
 
         try {
+            console.log("Starting upload...");
             const res = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
             });
+
+            console.log("Upload status:", res.status);
             const data = await res.json();
+            console.log("Upload response:", data);
 
             if (data.success) {
                 setUploadedUrl(data.url);
                 setFile(null);
             } else {
-                setError(data.error || "Upload failed");
+                setError(data.error || `Upload failed with status: ${res.status}`);
             }
-        } catch (err) {
-            setError("An error occurred");
+        } catch (err: any) {
+            console.error("Upload error:", err);
+            setError(`Network/Client Error: ${err.message}`);
         } finally {
             setUploading(false);
         }
