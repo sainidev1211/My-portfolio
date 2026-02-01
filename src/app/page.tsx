@@ -4,6 +4,8 @@ import Contact from "@/components/home/Contact";
 import Projects from "@/components/home/Projects";
 import Resume from "@/components/home/Resume";
 import Header from "@/components/layout/Header";
+import AiAssistant from "@/components/home/AiAssistant";
+import Certifications from "@/components/home/Certifications";
 
 export default function Home() {
   return (
@@ -26,15 +28,26 @@ export default function Home() {
         <Projects />
       </div>
 
-      {/* Slide 4: Standalone Resume */}
+      {/* Slide 4: Certifications */}
+      <div className="snap-section" id="certifications">
+        <Certifications />
+      </div>
+
+      {/* Slide 5: AI Assistant */}
+      <div className="snap-section" id="ai-assistant">
+        <AiAssistant />
+      </div>
+
+      {/* Slide 5: Standalone Resume */}
       <div className="snap-section" id="resume-slide">
         <Resume />
       </div>
 
-      {/* Slide 5: Contact (with Socials & Footer) */}
+      {/* Slide 6: Contact (with Socials & Footer) */}
       <div className="snap-section" id="contact">
         <Contact />
       </div>
     </main>
   );
 }
+

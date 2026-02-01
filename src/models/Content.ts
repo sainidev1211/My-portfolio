@@ -6,6 +6,7 @@ const ContentSchema: Schema = new Schema({
     about: { type: Schema.Types.Mixed, default: {} },
     projects: { type: [Schema.Types.Mixed], default: [] },
     resume: { type: Schema.Types.Mixed, default: {} },
+    certifications: { type: [Schema.Types.Mixed], default: [] },
     socials: { type: [Schema.Types.Mixed], default: [] },
     updatedAt: { type: Date, default: Date.now }
 }, { strict: false });
@@ -15,6 +16,7 @@ export interface IContent extends Document {
     about: any;
     projects: any[];
     resume: any;
+    certifications: any[];
     socials: any[];
     updatedAt: Date;
 }
