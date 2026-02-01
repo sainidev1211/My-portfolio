@@ -197,7 +197,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .section {
         height: auto;
         padding: 6rem 1.5rem;
