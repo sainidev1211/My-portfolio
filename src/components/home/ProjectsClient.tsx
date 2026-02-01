@@ -19,7 +19,7 @@ const ProjectsClient: React.FC<ProjectsProps> = ({ projects }) => {
                 <motion.h2
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
                     className={`${styles.title} text-gradient`}
                 >
                     Selected Works

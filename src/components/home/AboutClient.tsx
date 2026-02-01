@@ -17,7 +17,7 @@ const AboutClient: React.FC<AboutProps> = ({ data }) => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.15,
+                staggerChildren: 0.3,
                 delayChildren: 0.2
             }
         }
@@ -25,7 +25,7 @@ const AboutClient: React.FC<AboutProps> = ({ data }) => {
 
     const itemVariants = {
         hidden: { opacity: 0, x: -30 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
+        visible: { opacity: 1, x: 0, transition: { duration: 1.2, ease: "easeInOut" } }
     };
 
     const imageVariants = {
@@ -34,7 +34,7 @@ const AboutClient: React.FC<AboutProps> = ({ data }) => {
             opacity: 1,
             scale: 1,
             rotate: 0,
-            transition: { duration: 1, ease: "easeOut" }
+            transition: { duration: 1.2, ease: "easeInOut" }
         }
     };
 
