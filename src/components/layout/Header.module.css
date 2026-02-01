@@ -139,11 +139,11 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
     .desktopNav {
-        display: none;
+        display: none !important;
     }
 
     .hamburger {
-        display: flex;
+        display: flex !important;
     }
 
     /* Animation classes for hamburger */
