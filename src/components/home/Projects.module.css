@@ -182,29 +182,39 @@
 }
 
 @media (max-width: 1024px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+    }
+
     .card {
-        width: 350px;
+        width: 100%;
+        max-width: 350px;
     }
 }
 
 @media (max-width: 768px) {
     .section {
         height: auto;
-        padding: 6rem 5%;
+        padding: 6rem 1.5rem;
+        /* More breathing room */
         min-height: 100vh;
     }
 
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
     .card {
-        width: 300px;
+        width: 100%;
+        max-width: 400px;
     }
 
     .title {
         font-size: 2.2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .card {
-        width: 280px;
     }
 }

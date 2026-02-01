@@ -1,17 +1,27 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Header.module.css';
 
 const Header = () => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const scrollToSection = (id: string) => {
+        setIsMobileMenuOpen(false); // Close on click
         const element = document.getElementById(id);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
+    const navItems = [
+        { label: 'About', id: 'about' },
+        { label: 'Projects', id: 'projects' },
+        { label: 'Certificates', id: 'certifications' },
+        { label: 'AI Assistant', id: 'ai-assistant' },
+        { label: 'Contact', id: 'contact' }
+    ];
 
     return (
         <>
@@ -21,67 +31,73 @@ const Header = () => {
                 transition={{ delay: 0.5, duration: 0.5 }}
                 className={styles.header}
             >
-                {/* Left: Logo */}
+                {/* Logo */}
                 <div
-                    style={{
-                        fontSize: '1.5rem',
-                        fontWeight: 800,
-                        letterSpacing: '-1px',
-                        cursor: 'pointer'
-                    }}
+                    className={styles.logo}
                     onClick={() => scrollToSection('hero')}
                 >
                     DevSaini
                 </div>
 
-                {/* Right: Navigation */}
-                <nav style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                    {[
-                        { label: 'About', id: 'about' },
-                        { label: 'Projects', id: 'projects' },
-                        { label: 'Certificates', id: 'certifications' },
-                        { label: 'AI Assistant', id: 'ai-assistant' },
-                        { label: 'Contact', id: 'contact' }
-                    ].map((item) => (
+                {/* Desktop Navigation */}
+                <nav className={styles.desktopNav}>
+                    {navItems.map((item) => (
                         <button
                             key={item.label}
                             onClick={() => scrollToSection(item.id)}
-                            style={{
-                                background: 'none',
-                                border: 'none',
-                                color: 'rgba(255,255,255,0.8)',
-                                fontSize: '1rem',
-                                fontWeight: 500,
-                                cursor: 'pointer',
-                                transition: 'color 0.2s'
-                            }}
-                            onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
-                            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'}
+                            className={styles.navLink}
                         >
                             {item.label}
                         </button>
                     ))}
-
-                    {/* Resume Button */}
                     <button
                         onClick={() => scrollToSection('resume-slide')}
-                        style={{
-                            padding: '0.6rem 1.5rem',
-                            background: 'rgba(255,255,255,0.05)',
-                            border: '1px solid rgba(255,255,255,0.2)',
-                            borderRadius: '50px',
-                            color: 'white',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            transition: 'all 0.3s',
-                            boxShadow: '0 0 15px rgba(139, 92, 246, 0.3)',
-                            borderColor: 'var(--primary)'
-                        }}
+                        className={styles.resumeButton}
                     >
                         Resume
                     </button>
                 </nav>
+
+                {/* Mobile Hamburger */}
+                <button
+                    className={styles.hamburger}
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                    <span className={`${styles.bar} ${isMobileMenuOpen ? styles.barOpenTop : ''}`} />
+                    <span className={`${styles.bar} ${isMobileMenuOpen ? styles.barOpenBottom : ''}`} />
+                </button>
             </motion.header>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, x: '100%' }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: '100%' }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className={styles.mobileMenu}
+                    >
+                        <nav className={styles.mobileNav}>
+                            {navItems.map((item) => (
+                                <button
+                                    key={item.label}
+                                    onClick={() => scrollToSection(item.id)}
+                                    className={styles.mobileNavLink}
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
+                            <button
+                                onClick={() => scrollToSection('resume-slide')}
+                                className={styles.mobileResumeButton}
+                            >
+                                Resume
+                            </button>
+                        </nav>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };
