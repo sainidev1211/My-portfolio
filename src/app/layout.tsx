@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI-Powered Portfolio",
+  title: "Dev saini Portfolio",
   description: "A showcase of my work and skills, powered by AI.",
 };
 
