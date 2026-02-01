@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../editor.module.css';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 export default function AboutEditor() {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
-    const [uploading, setUploading] = useState(false);
+    // const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         fetch('/api/content')
@@ -19,26 +20,6 @@ export default function AboutEditor() {
             });
     }, []);
 
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files?.[0]) return;
-        setUploading(true);
-
-        const formData = new FormData();
-        formData.append('file', e.target.files[0]);
-
-        try {
-            const res = await fetch('/api/upload', { method: 'POST', body: formData });
-            const uploadData = await res.json();
-
-            if (uploadData.success) {
-                setData((prev: any) => ({ ...prev, image: uploadData.url }));
-            }
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setUploading(false);
-        }
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -70,12 +51,10 @@ export default function AboutEditor() {
 
             <div className={styles.form} style={{ marginBottom: '2rem' }}>
                 <h3>Profile Image</h3>
-                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                    <div style={{ width: '100px', height: '100px', borderRadius: '50%', overflow: 'hidden', background: '#333' }}>
-                        {data.image && <img src={data.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-                    </div>
-                    <input type="file" onChange={handleImageUpload} disabled={uploading} />
-                </div>
+                <ImageUpload
+                    value={data.image}
+                    onChange={(url) => setData({ ...data, image: url })}
+                />
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>

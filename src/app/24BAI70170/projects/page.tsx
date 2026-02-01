@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../editor.module.css';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 export default function ProjectsManager() {
     const [projects, setProjects] = useState<any[]>([]);
@@ -143,10 +144,12 @@ export default function ProjectsManager() {
                         <label className={styles.label}>Link</label>
                         <input className={styles.input} value={editForm.link} onChange={e => setEditForm({ ...editForm, link: e.target.value })} />
                     </div>
-                    <div className={styles.group}>
-                        <label className={styles.label}>Image URL (Use File Uploads page to get path)</label>
-                        <input className={styles.input} value={editForm.image} onChange={e => setEditForm({ ...editForm, image: e.target.value })} />
-                    </div>
+
+                    <ImageUpload
+                        label="Project Image"
+                        value={editForm.image}
+                        onChange={(url) => setEditForm({ ...editForm, image: url })}
+                    />
 
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <button type="submit" className={styles.button} disabled={saving}>{saving ? 'Saving...' : (editingId ? 'Update' : 'Create')}</button>
