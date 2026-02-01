@@ -12,6 +12,52 @@ const groq = new Groq({
     apiKey: API_KEY
 });
 
+// Fallback: Local Keyword Search
+function localSearch(query: string, data: any): string {
+    const lowerQuery = query.toLowerCase();
+    const matches: string[] = [];
+
+    // Search Projects
+    if (data.projects) {
+        data.projects.forEach((p: any) => {
+            if (p.title.toLowerCase().includes(lowerQuery) || p.tags.some((t: string) => t.toLowerCase().includes(lowerQuery))) {
+                matches.push(`Project: ${p.title} - ${p.description}`);
+            }
+        });
+    }
+
+    // Search Skills/About
+    if (data.about) {
+        if (data.about.text1 && data.about.text1.toLowerCase().includes(lowerQuery)) matches.push(`About: ${data.about.text1}`);
+        if (data.about.skills && data.about.skills.some((s: string) => s.toLowerCase().includes(lowerQuery))) matches.push(`Skill: ${data.about.skills.join(', ')}`);
+    }
+
+    // Search Certifications
+    if (data.certifications) {
+        data.certifications.forEach((c: any) => {
+            if (c.title.toLowerCase().includes(lowerQuery) || c.issuer.toLowerCase().includes(lowerQuery)) {
+                matches.push(`Certification: ${c.title} from ${c.issuer}`);
+            }
+        });
+    }
+
+    // Search Knowledge
+    if (data.knowledgeFiles) {
+        data.knowledgeFiles.forEach((k: any) => {
+            if (k.type === 'text' && k.content.toLowerCase().includes(lowerQuery)) {
+                matches.push(`Note: ${k.content}`);
+            }
+        });
+    }
+
+    if (matches.length > 0) {
+        return `I found some relevant info in my records:\n\n${matches.slice(0, 3).join('\n\n')}\n\nI can tell you more if you specify exactly what you're looking for!`;
+    }
+
+    // Generic safe fallback
+    return "I'm currently updating my live connection, but I can tell you that I am a Full Stack Developer specializing in Next.js and AI. Feel free to ask about my projects or check out my Resume slide!";
+}
+
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
@@ -20,10 +66,8 @@ export async function POST(req: NextRequest) {
         let contentData;
 
         try {
-            // Attempt to fetch from MongoDB first for latest data
             await connectDB();
             const dbContent = await Content.findOne().sort({ updatedAt: -1 }).lean();
-
             if (dbContent) {
                 contentData = dbContent;
             } else {
@@ -31,61 +75,72 @@ export async function POST(req: NextRequest) {
             }
         } catch (dbError) {
             console.warn("MongoDB Fetch Failed, falling back to local file:", dbError);
-            // Fallback to local file
             const contentPath = path.join(process.cwd(), 'src/data/content.json');
             contentData = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
         }
 
-        // Construct Enhanced System Prompt
+        // 1. Check API Key presence for immediate fallback
+        if (!API_KEY || API_KEY.includes("insert") || API_KEY.length < 10) {
+            console.warn("Invalid API Key, using local fallback.");
+            return NextResponse.json({ response: localSearch(message, contentData) });
+        }
+
+        // 2. Construct System Prompt with Knowledge
+        const knowledgeText = contentData.knowledgeFiles
+            ? contentData.knowledgeFiles.map((k: any) => k.type === 'text' ? `[Note: ${k.title}] ${k.content}` : `[File: ${k.title}] (${k.url})`).join('\n')
+            : "No extra knowledge notes.";
+
         const systemPrompt = `
-You are **Dev Saini’s Portfolio AI Assistant**. You are the digital voice of Dev Saini.
+You are **Dev Saini’s Portfolio AI Assistant**.
+**Goal**: Impress recruiters with accurate, professional answers about Dev Saini.
 
-**Your Goal**: Impress recruiters, hiring managers, and visitors by professionally effectively showcasing Dev's skills, projects, and certifications.
+**PRIORITY KNOWLEDGE**:
+${knowledgeText}
 
-**Tone & Persona**:
-- **Confident & Professional**: Speak clearly and directly.
-- **Friendly & Approachable**: Be welcoming but maintain a professional demeanor.
-- **Recruiter-Friendly**: Focus on value, impact, and technical proficiency.
-- **First-Person**: Always use "I", "me", "my" (e.g., "I have worked on...", "My certifications include...").
+**PORTFOLIO DATA**:
+${JSON.stringify({ ...contentData, knowledgeFiles: undefined })}
 
-**Instructions**:
-1. **Certifications**: When asked about skills, learning, or expertise, ALWAYS reference relevant **Certifications** from the context if available.
-2. **Projects**: Highlight the tech stack and the *problem solved* by the project.
-3. **Concise**: Keep answers short (2-3 sentences) unless asked for elaborate details.
-4. **Boundaries**: If asked about something strictly personal (address, private number) or outside your professional scope, politely pivot back to your work (e.g., "I keep my private life separate, but I'd love to discuss my latest full-stack project!").
-5. **No AI Meta-Talk**: Do not mention you are an AI, a model, Groq, or a bot. You ARE Dev Saini (digitally).
+**INSTRUCTIONS**:
+1. **First Person**: Always speak as Dev ("I", "my").
+2. **Priority**: specific "Knowledge Notes" > Resume > General Data.
+3. **Tone**: Confident, Professional, Friendly.
+4. **Fallback**: If you don't know, politely suggest checking the Resume slide.
+5. **No Meta**: Never say "I am an AI" or "According to the data".
 
-**Context Data (My Portfolio)**:
-${JSON.stringify(contentData)}
-
-**Current User Question**: "${message}"
+**User Question**: "${message}"
 `;
 
-        const messages: any[] = [
-            { role: 'system', content: systemPrompt },
-            ...(previousMessages || []).map((msg: any) => ({
-                role: msg.sender === 'user' ? 'user' : 'assistant',
-                content: msg.text
-            })),
-            { role: 'user', content: message }
-        ];
+        try {
+            const messages: any[] = [
+                { role: 'system', content: systemPrompt },
+                ...(previousMessages || []).map((msg: any) => ({
+                    role: msg.sender === 'user' ? 'user' : 'assistant',
+                    content: msg.text
+                })),
+                { role: 'user', content: message }
+            ];
 
-        const chatCompletion = await groq.chat.completions.create({
-            messages: messages,
-            model: "llama-3.3-70b-versatile",
-            temperature: 0.6, // Slightly lower temp for more professional/consistent answers
-            max_tokens: 350,
-        });
+            const chatCompletion = await groq.chat.completions.create({
+                messages: messages,
+                model: "llama-3.3-70b-versatile",
+                temperature: 0.6,
+                max_tokens: 350,
+            });
 
-        const responseText = chatCompletion.choices[0]?.message?.content || "I'd be happy to discuss my work. Could you ask that in a different way?";
+            const responseText = chatCompletion.choices[0]?.message?.content || "I'd be happy to discuss my work. Could you ask that in a different way?";
+            return NextResponse.json({ response: responseText });
 
-        return NextResponse.json({ response: responseText });
+        } catch (apiError) {
+            console.error("Groq API Failed:", apiError);
+            // 3. Fallback on API failure
+            return NextResponse.json({ response: localSearch(message, contentData) });
+        }
 
     } catch (error) {
-        console.error("AI API Error:", error);
+        console.error("Critical AI Error:", error);
         return NextResponse.json(
-            { error: "Failed to process request." },
-            { status: 500 }
+            { response: "I'm focusing on my code right now! Check out my projects below." },
+            { status: 200 } // Return 200 to frontend so it doesn't show red error
         );
     }
 }

@@ -44,6 +44,9 @@ export default function AdminLayout({
                     <Link href="/24BAI70170/uploads" className={`${styles.navLink} ${pathname === '/24BAI70170/uploads' ? styles.active : ''}`}>
                         File Uploads
                     </Link>
+                    <Link href="/24BAI70170/ai-knowledge" className={`${styles.navLink} ${pathname === '/24BAI70170/ai-knowledge' ? styles.active : ''}`}>
+                        AI Knowledge
+                    </Link>
                     <Link href="/24BAI70170/certifications" className={`${styles.navLink} ${pathname === '/24BAI70170/certifications' ? styles.active : ''}`}>
                         Certificates
                     </Link>

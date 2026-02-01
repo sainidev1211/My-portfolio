@@ -11,7 +11,7 @@ export default function CertificationsManager() {
     // Edit mode state
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editForm, setEditForm] = useState<any>({
-        title: '', issuer: '', date: '', category: 'All', link: '', image: ''
+        title: '', issuer: '', date: '', link: '', image: ''
     });
 
     useEffect(() => {
@@ -142,22 +142,6 @@ export default function CertificationsManager() {
                             <label className={styles.label}>Year / Date</label>
                             <input className={styles.input} value={editForm.date} onChange={e => setEditForm({ ...editForm, date: e.target.value })} required placeholder="2025" />
                         </div>
-                    </div>
-
-                    <div className={styles.group}>
-                        <label className={styles.label}>Category</label>
-                        <select
-                            className={styles.input}
-                            value={editForm.category}
-                            onChange={e => setEditForm({ ...editForm, category: e.target.value })}
-                            style={{ background: '#111', color: 'white' }}
-                        >
-                            <option value="All">All</option>
-                            <option value="AI">AI/ML</option>
-                            <option value="Web">Web Dev</option>
-                            <option value="Cloud">Cloud</option>
-                            <option value="Other">Other</option>
-                        </select>
                     </div>
 
                     <div className={styles.group}>

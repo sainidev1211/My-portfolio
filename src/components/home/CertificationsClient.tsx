@@ -9,8 +9,6 @@ const categories = ["All", "AI", "Web", "Cloud", "Other"];
 
 const CertificationsClient = () => {
     const [certs, setCerts] = useState<any[]>([]);
-    const [filteredCerts, setFilteredCerts] = useState<any[]>([]);
-    const [activeFilter, setActiveFilter] = useState("All");
     const [selectedCert, setSelectedCert] = useState<any>(null);
 
     useEffect(() => {
@@ -20,19 +18,9 @@ const CertificationsClient = () => {
             .then(data => {
                 const certificates = data.certifications || [];
                 setCerts(certificates);
-                setFilteredCerts(certificates);
             })
             .catch(err => console.error("Failed to load certifications", err));
     }, []);
-
-    const handleFilter = (category: string) => {
-        setActiveFilter(category);
-        if (category === "All") {
-            setFilteredCerts(certs);
-        } else {
-            setFilteredCerts(certs.filter(c => c.category === category));
-        }
-    };
 
     return (
         <section className={styles.section} id="certifications">
@@ -46,28 +34,12 @@ const CertificationsClient = () => {
                 <p className={styles.subtitle}>Recognitions that validate my expertise and dedication to learning.</p>
             </motion.div>
 
-            {/* Filter Tabs */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className={styles.filterContainer}
-            >
-                {categories.map(cat => (
-                    <button
-                        key={cat}
-                        className={`${styles.filterButton} ${activeFilter === cat ? styles.activeFilter : ''}`}
-                        onClick={() => handleFilter(cat)}
-                    >
-                        {cat}
-                    </button>
-                ))}
-            </motion.div>
+
 
             {/* Grid */}
             <div className={styles.grid}>
                 <AnimatePresence mode="popLayout">
-                    {filteredCerts.map((cert) => (
+                    {certs.map((cert) => (
                         <motion.div
                             key={cert.id}
                             layout
