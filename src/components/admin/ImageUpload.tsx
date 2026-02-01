@@ -9,11 +9,13 @@ interface ImageUploadProps {
 export default function ImageUpload({ value, onChange, label = "Upload Image" }: ImageUploadProps) {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState(false);
 
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files?.[0]) return;
         setUploading(true);
         setError(null);
+        setSuccess(false);
 
         const formData = new FormData();
         formData.append('file', e.target.files[0]);
@@ -28,6 +30,8 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
 
             if (data.success) {
                 onChange(data.url);
+                setSuccess(true);
+                setTimeout(() => setSuccess(false), 3000); // Hide success after 3s
             } else {
                 setError(data.error || 'Upload failed');
             }
@@ -44,15 +48,16 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
             <label style={{ display: 'block', marginBottom: '0.5rem', opacity: 0.8 }}>{label}</label>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{
-                    width: '80px',
-                    height: '80px',
+                    width: '100px',
+                    height: '100px',
                     background: 'rgba(255,255,255,0.05)',
                     borderRadius: '8px',
                     overflow: 'hidden',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    position: 'relative'
                 }}>
                     {value ? (
                         <img src={value} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -73,11 +78,13 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
                             borderRadius: '4px',
                             border: '1px solid rgba(255,255,255,0.1)',
                             width: '100%',
-                            color: 'white'
+                            color: 'white',
+                            cursor: 'pointer'
                         }}
                     />
-                    {uploading && <p style={{ fontSize: '0.8rem', color: '#60a5fa', marginTop: '0.25rem' }}>Uploading...</p>}
-                    {error && <p style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '0.25rem' }}>{error}</p>}
+                    {uploading && <p style={{ fontSize: '0.9rem', color: '#60a5fa', marginTop: '0.5rem' }}>Uploading...</p>}
+                    {success && <p style={{ fontSize: '0.9rem', color: '#4ade80', marginTop: '0.5rem', fontWeight: 'bold' }}>✓ Upload Successful!</p>}
+                    {error && <p style={{ fontSize: '0.9rem', color: '#ef4444', marginTop: '0.5rem' }}>{error}</p>}
                 </div>
             </div>
         </div>
