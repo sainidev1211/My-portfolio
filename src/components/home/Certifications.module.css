@@ -283,28 +283,26 @@
         grid-template-columns: 1fr;
     }
 
-    /* CSS Toggle for Mobile: Disable Slider, Show Grid */
+    /* CSS Toggle for Mobile: Enable Slider, Hide Grid */
     .desktopSlider {
-        display: none !important;
+        display: block !important;
     }
 
     .mobileGrid {
-        display: grid !important;
-        grid-template-columns: 1fr;
-        /* 1 card per row */
-        display: flex !important;
-        flex-direction: column;
-        align-items: center;
+        display: none !important;
     }
 
     .card {
-        width: 100%;
-        max-width: 400px;
-        height: auto;
+        width: 300px;
+        /* Reduced width for mobile */
+        max-width: 85vw;
+        height: 380px;
+        /* Restore fixed height for slider consistency */
         min-height: auto;
     }
 
     .sliderContainer {
-        padding: 0;
+        padding: 1rem 0;
+        /* Slight padding adjustment */
     }
 }
