@@ -168,12 +168,12 @@ const Contact = () => {
             </div>
 
             <div style={{
-                marginTop: '5rem',
-                padding: '2rem 0',
+                marginTop: '1.5rem',
+                padding: '1rem 0',
                 width: '100%',
                 textAlign: 'center',
                 opacity: 0.6,
-                fontSize: '0.9rem',
+                fontSize: '0.85rem',
                 borderTop: '1px solid rgba(255,255,255,0.08)'
             }}>
                 &copy; {new Date().getFullYear()} Dev Saini. All rights reserved.
