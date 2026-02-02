@@ -50,8 +50,8 @@ const CertificationsClient = () => {
                         onMouseEnter={() => { /* Handled by CSS */ }}
                         onMouseLeave={() => { /* Handled by CSS */ }}
                     >
-                        {/* Duplicate 4x for smooth infinite loop */}
-                        {[...certs, ...certs, ...certs, ...certs].map((cert, index) => (
+                        {/* Duplicate 6x for smooth infinite loop on ultra-wide screens */}
+                        {[...certs, ...certs, ...certs, ...certs, ...certs, ...certs].map((cert, index) => (
                             <div
                                 key={`${cert.id}-slider-${index}`}
                                 className={styles.card}
