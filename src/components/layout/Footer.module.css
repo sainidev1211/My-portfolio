@@ -3,6 +3,9 @@
     background: black;
     border-top: 1px solid var(--glass-border);
     text-align: center;
+    position: relative;
+    z-index: 10;
+    width: 100%;
 }
 
 .container {
@@ -51,4 +54,12 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 2rem;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding-bottom: 100px;
+        /* Extra padding for mobile bottom bars if needed */
+        padding-top: 3rem;
+    }
 }

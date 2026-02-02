@@ -32,40 +32,61 @@ const CertificationsClient = () => {
                 <p className={styles.subtitle}>Recognitions that validate my expertise and dedication to learning.</p>
             </motion.div>
 
-            {/* Infinite Slider */}
+            {/* Infinite Slider (Desktop) & Grid (Mobile) */}
             <div className={styles.sliderContainer}>
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100px',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, #000 0%, transparent 100%)',
-                    zIndex: 2,
-                    pointerEvents: 'none'
-                }} />
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    width: '100px',
-                    height: '100%',
-                    background: 'linear-gradient(270deg, #000 0%, transparent 100%)',
-                    zIndex: 2,
-                    pointerEvents: 'none'
-                }} />
+                {/* Desktop Slider View */}
+                <div className={styles.desktopSlider}>
+                    <div style={{
+                        position: 'absolute', top: 0, left: 0, width: '100px', height: '100%',
+                        background: 'linear-gradient(90deg, #000 0%, transparent 100%)', zIndex: 2, pointerEvents: 'none'
+                    }} />
+                    <div style={{
+                        position: 'absolute', top: 0, right: 0, width: '100px', height: '100%',
+                        background: 'linear-gradient(270deg, #000 0%, transparent 100%)', zIndex: 2, pointerEvents: 'none'
+                    }} />
 
-                <div
-                    className={styles.track}
-                    onMouseEnter={() => { /* Handled by CSS */ }}
-                    onMouseLeave={() => { /* Handled by CSS */ }}
-                >
-                    {/* Duplicate 4x for smooth infinite loop */}
-                    {[...certs, ...certs, ...certs, ...certs].map((cert, index) => (
+                    <div
+                        className={styles.track}
+                        onMouseEnter={() => { /* Handled by CSS */ }}
+                        onMouseLeave={() => { /* Handled by CSS */ }}
+                    >
+                        {/* Duplicate 4x for smooth infinite loop */}
+                        {[...certs, ...certs, ...certs, ...certs].map((cert, index) => (
+                            <div
+                                key={`${cert.id}-slider-${index}`}
+                                className={styles.card}
+                                onClick={() => setSelectedCert(cert)}
+                            >
+                                <div className={styles.image}>
+                                    {cert.image ? (
+                                        <img src={cert.image} alt={cert.title} />
+                                    ) : (
+                                        <div style={{ width: '100%', height: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <FaAward size={40} color="#555" />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className={styles.content}>
+                                    <div>
+                                        <h3 className={styles.cardTitle}>{cert.title}</h3>
+                                        <div className={styles.issuer}>{cert.issuer}</div>
+                                        <div className={styles.date}>{cert.date}</div>
+                                    </div>
+                                    <button className={styles.viewButton}>View Details</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Mobile Grid View */}
+                <div className={styles.mobileGrid}>
+                    {certs.map((cert, index) => (
                         <div
-                            key={`${cert.id}-${index}`}
+                            key={`${cert.id}-mobile-${index}`}
                             className={styles.card}
                             onClick={() => setSelectedCert(cert)}
+                            style={{ width: '100%', maxWidth: '400px' }} // Ensure full width
                         >
                             <div className={styles.image}>
                                 {cert.image ? (

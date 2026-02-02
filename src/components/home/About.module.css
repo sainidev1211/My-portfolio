@@ -1,12 +1,25 @@
 .section {
-    padding: 0 5%;
-    width: 100vw;
+    padding: 80px 5% 50px;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     /* Clean dark background */
+}
+
+.backgroundGlow {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: var(--primary-glow);
+    filter: blur(150px);
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .container {
@@ -16,6 +29,8 @@
     grid-template-columns: 1.1fr 0.9fr;
     gap: 5rem;
     align-items: center;
+    z-index: 2;
+    position: relative;
 }
 
 .content {
@@ -35,7 +50,7 @@
     line-height: 1.8;
     color: var(--foreground);
     opacity: 0.85;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     font-weight: 300;
 }
 
@@ -43,7 +58,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.8rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .techItem {
@@ -67,28 +82,39 @@
 .imageWrapper {
     position: relative;
     width: 100%;
+    height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    /* Reserve space */
+}
+
+.profileCard {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
 .imageContainer {
     position: relative;
-    width: 450px;
-    height: 550px;
-    border-radius: 30px;
-    /* Gradient Ring */
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
     padding: 3px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    box-shadow: 0 20px 50px -20px var(--primary-glow);
-    animation: float 8s ease-in-out infinite;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
 }
 
 .innerImage {
     width: 100%;
     height: 100%;
     background: var(--background);
-    border-radius: 28px;
+    border-radius: 50%;
     overflow: hidden;
     position: relative;
 }
@@ -114,6 +140,79 @@
     color: rgba(255, 255, 255, 0.2);
 }
 
+.viewResumeBtn {
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 10px 30px var(--primary-glow);
+    transition: transform 0.2s;
+}
+
+.viewResumeBtn:hover {
+    transform: translateY(-2px);
+}
+
+/* Resume Modal Styles */
+.resumeContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+
+.resumeFrame {
+    flex: 1;
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #111;
+    min-height: 400px;
+}
+
+.resumeActions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.closeResumeBtn {
+    padding: 0.8rem 2rem;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.closeResumeBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.downloadResumeBtn {
+    padding: 0.8rem 2rem;
+    background: white;
+    border: none;
+    color: black;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.downloadResumeBtn:hover {
+    transform: translateY(-2px);
+}
+
+/* Animations */
 @keyframes float {
 
     0%,
@@ -126,30 +225,34 @@
     }
 }
 
+/* Responsive Styles */
 @media (max-width: 1024px) {
     .container {
         grid-template-columns: 1fr;
+        /* Stack vertically */
         gap: 3rem;
         text-align: center;
-        padding: 0 2rem;
+    }
+
+    .content {
+        order: 1;
+        /* Text first? User asked for Text first. Default order is fine if text is first div. */
+    }
+
+    .imageWrapper {
+        order: 2;
+        /* Image below text */
     }
 
     .techStack {
         justify-content: center;
     }
-
-    .imageContainer {
-        width: 350px;
-        height: 450px;
-        margin: 0 auto;
-    }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .section {
-        height: auto;
-        padding: 8rem 1.5rem;
-        min-height: 100vh;
+        padding: 6rem 1.5rem 4rem;
+        /* More padding top for nav */
     }
 
     .title {
@@ -161,8 +264,18 @@
     }
 
     .imageContainer {
-        width: 100%;
-        max-width: 320px;
-        height: 400px;
+        width: 280px;
+        height: 280px;
+    }
+
+    .backgroundGlow {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Resume Mobile Fixes */
+    .resumeFrame {
+        min-height: 300px;
+        /* Smaller min height for phone */
     }
 }

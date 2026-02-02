@@ -1,7 +1,7 @@
 /* Certifications.module.css */
 .section {
-    padding: 0 5%;
-    width: 100vw;
+    padding: 80px 5% 50px;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -69,6 +69,7 @@
     backdrop-filter: blur(10px);
     width: 350px;
     height: 380px;
+    /* Fixed height for consistent cards */
     border-radius: 20px;
     overflow: hidden;
     flex-shrink: 0;
@@ -90,6 +91,7 @@
     height: 200px;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .image img {
@@ -150,6 +152,20 @@
 .viewButton:hover {
     background: var(--primary);
     color: white;
+}
+
+/* Visibility Control Classes */
+.desktopSlider {
+    display: block;
+}
+
+.mobileGrid {
+    display: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    justify-items: center;
 }
 
 /* Modal Styles */
@@ -236,26 +252,56 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
+
+    /* Tablet */
+    .mobileGrid {
+        display: none;
+        /* Keep slider for tablet if fits, or switch? Let's check size. */
+        /* If user said 2 cards per row for tablet, they might want grid. 
+           But projects had 2 cards/row. Here slider works fine on tablet usually.
+           Let's stick to slider for tablet unless user explicit. 
+           User said: "Projects/Certificates... On tablet: 2 cards per row."
+           So yes, we should probably switch to grid on tablet too if simpler?
+           Or just ensure slider fits.
+           Let's restrict .mobileGrid to tablet+mobile if we want 2 cards per row behaviour.
+        */
+    }
+}
+
+@media (max-width: 768px) {
     .section {
         height: auto;
         padding: 6rem 1.5rem;
-        min-height: 100vh;
+        min-height: auto;
     }
 
     .modalBody {
         grid-template-columns: 1fr;
     }
-}
 
-@media (max-width: 480px) {
-    .card {
-        width: 90vw;
-        height: auto;
-        min-height: 380px;
+    /* CSS Toggle for Mobile: Disable Slider, Show Grid */
+    .desktopSlider {
+        display: none !important;
     }
 
-    .section {
-        padding: 4rem 1rem;
+    .mobileGrid {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        /* 1 card per row */
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        min-height: auto;
+    }
+
+    .sliderContainer {
+        padding: 0;
     }
 }

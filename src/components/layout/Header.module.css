@@ -138,6 +138,11 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+    .header {
+        padding: 0 1.5rem;
+        height: 80px;
+    }
+
     .desktopNav {
         display: none !important;
     }
@@ -155,6 +160,18 @@
         transform: rotate(-45deg);
         position: relative;
         top: -1px;
-        /* Adjust visual alignment */
+    }
+
+    /* Mobile Menu Full Screen Fix */
+    .mobileMenu {
+        top: 80px;
+        height: calc(100vh - 80px);
+        /* Height minus header */
+        background: rgba(5, 5, 5, 0.98);
+        overflow-y: auto;
+        padding-bottom: 2rem;
+        align-items: flex-start;
+        /* Align top for safer scrolling */
+        padding-top: 2rem;
     }
 }

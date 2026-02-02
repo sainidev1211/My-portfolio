@@ -12,37 +12,37 @@ export default function Home() {
     <main className="snap-container">
       <Header />
 
-      {/* Slide 1: Hero */}
+      {/* Hero Section */}
       <div className="snap-section" id="hero">
         <Hero />
       </div>
 
-      {/* Slide 2: About & Resume */}
+      {/* About & Resume Section */}
       <div className="snap-section" id="about" style={{ scrollMarginTop: '100px' }}>
         <AboutResume />
       </div>
 
-      {/* Slide 3: Projects */}
+      {/* Projects Section */}
       <div className="snap-section" id="projects" style={{ scrollMarginTop: '100px' }}>
         <Projects />
       </div>
 
-      {/* Slide 4: Certifications */}
+      {/* Certifications Section */}
       <div className="snap-section" id="certifications" style={{ scrollMarginTop: '100px' }}>
         <Certifications />
       </div>
 
-      {/* Slide 5: AI Assistant */}
+      {/* AI Assistant Section */}
       <div className="snap-section" id="ai-assistant" style={{ scrollMarginTop: '100px' }}>
         <AiAssistant />
       </div>
 
-      {/* Slide 6: Resume PDF View */}
+      {/* Resume PDF View */}
       <div className="snap-section" id="resume-slide" style={{ scrollMarginTop: '100px' }}>
         <Resume />
       </div>
 
-      {/* Slide 7: Contact */}
+      {/* Contact Section */}
       <div className="snap-section" id="contact" style={{ scrollMarginTop: '100px' }}>
         <Contact />
       </div>
