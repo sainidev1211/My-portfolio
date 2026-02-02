@@ -220,6 +220,7 @@
         /* More breathing room */
         min-height: auto;
         /* Remove min height on mobile to fit content */
+        overflow: visible;
     }
 
     .grid {

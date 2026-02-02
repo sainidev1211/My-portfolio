@@ -132,4 +132,11 @@
         width: 100%;
         max-width: 300px;
     }
+
+    .hero {
+        min-height: auto;
+        height: auto;
+        padding-top: 120px;
+        padding-bottom: 60px;
+    }
 }

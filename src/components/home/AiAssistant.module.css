@@ -238,6 +238,8 @@
 @media (max-width: 768px) {
     .section {
         padding: 6rem 1.5rem;
+        min-height: auto;
+        height: auto;
     }
 
     .container {

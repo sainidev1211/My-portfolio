@@ -276,6 +276,7 @@
         height: auto;
         padding: 6rem 1.5rem;
         min-height: auto;
+        overflow: visible;
     }
 
     .modalBody {

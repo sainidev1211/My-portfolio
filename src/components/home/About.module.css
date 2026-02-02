@@ -253,6 +253,8 @@
     .section {
         padding: 6rem 1.5rem 4rem;
         /* More padding top for nav */
+        min-height: auto;
+        height: auto;
     }
 
     .title {
