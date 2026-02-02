@@ -46,7 +46,7 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className={styles.section} style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', position: 'relative' }}>
+        <section id="contact" className={styles.section} style={{ display: 'flex', flexDirection: 'column', minHeight: 'auto', position: 'relative', paddingBottom: 0 }}>
             {/* Decorative Elements */}
             <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '500px', height: '500px', background: 'var(--secondary-glow)', filter: 'blur(150px)', borderRadius: '50%', zIndex: 0 }} />
 
@@ -167,7 +167,15 @@ const Contact = () => {
                 </ScrollReveal>
             </div>
 
-            <div style={{ position: 'absolute', bottom: '1rem', width: '100%', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
+            <div style={{
+                marginTop: '5rem',
+                padding: '2rem 0',
+                width: '100%',
+                textAlign: 'center',
+                opacity: 0.6,
+                fontSize: '0.9rem',
+                borderTop: '1px solid rgba(255,255,255,0.08)'
+            }}>
                 &copy; {new Date().getFullYear()} Dev Saini. All rights reserved.
             </div>
         </section>
