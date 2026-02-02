@@ -24,39 +24,58 @@ export default function AdminLayout({
         router.push('/24BAI70170/login');
     };
 
+    const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+
+    const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+    const closeSidebar = () => setSidebarOpen(false);
+
     return (
         <div className={styles.container}>
-            <aside className={styles.sidebar}>
-                <div className={styles.brand}>Secure Panel</div>
+            {/* Mobile Header */}
+            <header className={styles.mobileHeader}>
+                <div className={styles.brandMobile}>Secure Panel</div>
+                <button onClick={toggleSidebar} className={styles.mobileToggle}>
+                    <span style={{ fontSize: '1.5rem' }}>☰</span>
+                </button>
+            </header>
+
+            {/* Sidebar Overlay for Mobile */}
+            {isSidebarOpen && <div className={styles.overlay} onClick={closeSidebar}></div>}
+
+            <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
+                <div className={styles.sidebarHeader}>
+                    <div className={styles.brand}>Secure Panel</div>
+                    <button onClick={closeSidebar} className={styles.closeBtnMobile}>✕</button>
+                </div>
                 <nav>
-                    <Link href="/24BAI70170" className={`${styles.navLink} ${pathname === '/24BAI70170' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170' ? styles.active : ''}`}>
                         Dashboard
                     </Link>
-                    <Link href="/24BAI70170/hero" className={`${styles.navLink} ${pathname === '/24BAI70170/hero' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/hero" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/hero' ? styles.active : ''}`}>
                         Edit Hero
                     </Link>
-                    <Link href="/24BAI70170/about" className={`${styles.navLink} ${pathname === '/24BAI70170/about' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/about" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/about' ? styles.active : ''}`}>
                         Edit About
                     </Link>
-                    <Link href="/24BAI70170/projects" className={`${styles.navLink} ${pathname === '/24BAI70170/projects' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/projects" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/projects' ? styles.active : ''}`}>
                         Manage Projects
                     </Link>
-                    <Link href="/24BAI70170/uploads" className={`${styles.navLink} ${pathname === '/24BAI70170/uploads' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/uploads" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/uploads' ? styles.active : ''}`}>
                         File Uploads
                     </Link>
-                    <Link href="/24BAI70170/ai-knowledge" className={`${styles.navLink} ${pathname === '/24BAI70170/ai-knowledge' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/ai-knowledge" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/ai-knowledge' ? styles.active : ''}`}>
                         AI Knowledge
                     </Link>
-                    <Link href="/24BAI70170/certifications" className={`${styles.navLink} ${pathname === '/24BAI70170/certifications' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/certifications" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/certifications' ? styles.active : ''}`}>
                         Certificates
                     </Link>
-                    <Link href="/24BAI70170/resume" className={`${styles.navLink} ${pathname === '/24BAI70170/resume' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/resume" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/resume' ? styles.active : ''}`}>
                         Resume
                     </Link>
-                    <Link href="/24BAI70170/socials" className={`${styles.navLink} ${pathname === '/24BAI70170/socials' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/socials" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/socials' ? styles.active : ''}`}>
                         Socials
                     </Link>
-                    <Link href="/24BAI70170/contacts" className={`${styles.navLink} ${pathname === '/24BAI70170/contacts' ? styles.active : ''}`}>
+                    <Link href="/24BAI70170/contacts" onClick={closeSidebar} className={`${styles.navLink} ${pathname === '/24BAI70170/contacts' ? styles.active : ''}`}>
                         Contacts
                     </Link>
                 </nav>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../editor.module.css';
+import adminStyles from '../admin.module.css';
 import ImageUpload from '@/components/admin/ImageUpload';
 
 export default function ProjectsManager() {
@@ -94,28 +95,21 @@ export default function ProjectsManager() {
             {/* List */}
             <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
                 {projects.map(p => (
-                    <div key={p.id} style={{
-                        padding: '1rem',
-                        background: 'rgba(255,255,255,0.05)',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <div>
-                            <h3 style={{ fontWeight: 'bold' }}>{p.title}</h3>
-                            <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>{p.description.substring(0, 50)}...</p>
+                    <div key={p.id} className={adminStyles.cardItem}>
+                        <div className={adminStyles.cardContent}>
+                            <h3>{p.title}</h3>
+                            <p>{p.description.substring(0, 50)}...</p>
                         </div>
-                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <div className={adminStyles.cardActions}>
                             <button
                                 onClick={() => handleEdit(p)}
-                                style={{ padding: '0.5rem 1rem', background: '#3b82f6', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white' }}
+                                className={`${adminStyles.actionButton} ${adminStyles.btnEdit}`}
                             >
                                 Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(p.id)}
-                                style={{ padding: '0.5rem 1rem', background: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white' }}
+                                className={`${adminStyles.actionButton} ${adminStyles.btnDelete}`}
                             >
                                 Delete
                             </button>

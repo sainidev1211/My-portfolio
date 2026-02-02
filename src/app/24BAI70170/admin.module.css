@@ -1,10 +1,133 @@
+/* Shared Card Styles for Lists (Projects, Certs, etc.) */
+.cardItem {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--glass-border);
+    transition: background 0.2s;
+}
+
+.cardItem:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.cardContent h3 {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.cardContent p {
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+.cardActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.actionButton {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.btnEdit {
+    background: #3b82f6;
+}
+
+.btnDelete {
+    background: #ef4444;
+}
+
+@media (max-width: 768px) {
+    .cardItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .cardContent {
+        width: 100%;
+    }
+
+    .cardActions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .actionButton {
+        width: 100%;
+        text-align: center;
+        padding: 0.8rem;
+    }
+}
+
+
 .container {
     min-height: 100vh;
     display: flex;
 }
 
+/* Mobile Header Hidden on Desktop */
+.mobileHeader {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #000;
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+}
+
+.brandMobile {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.mobileToggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.closeBtnMobile {
+    display: none;
+    /* Hidden on desktop */
+}
+
+.overlay {
+    display: none;
+}
+
+.sidebarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.sidebarHeader .brand {
+    margin-bottom: 0;
+}
+
 .sidebar {
     width: 250px;
+    background: black;
     background: black;
     border-right: 1px solid var(--glass-border);
     padding: 2rem;
@@ -48,4 +171,68 @@
     color: #ef4444;
     cursor: pointer;
     border-radius: 8px;
+}
+/* Response Breakpoint */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .mobileHeader {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -110%; /* Fully hide */
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        z-index: 100;
+        transition: left 0.3s ease-in-out;
+        border-right: 1px solid #333;
+        box-shadow: 10px 0 20px rgba(0,0,0,0.5);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .brand {
+        display: none; /* Hide original brand in sidebar if needed, or keep for header */
+    }
+
+    .closeBtnMobile {
+        display: block;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        backdrop-filter: blur(2px);
+        z-index: 90;
+        animation: fadeIn 0.3s;
+    }
+
+    .content {
+        padding: 1rem;
+        width: 100%;
+        overflow-x: hidden;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
