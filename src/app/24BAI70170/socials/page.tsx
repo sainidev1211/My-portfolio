@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../editor.module.css';
+import adminStyles from '../admin.module.css';
 
 export default function SocialsManager() {
     const [socials, setSocials] = useState<any[]>([]);
@@ -65,23 +66,21 @@ export default function SocialsManager() {
 
             <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
                 {socials.map(s => (
-                    <div key={s.id} style={{
-                        padding: '1rem',
-                        background: 'rgba(255,255,255,0.05)',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <div>
-                            <strong>{s.platform}</strong>: <a href={s.url} target="_blank" className="text-blue-400">{s.url}</a>
+                    <div key={s.id} className={adminStyles.cardItem}>
+                        <div className={adminStyles.cardContent} style={{ overflow: 'hidden' }}>
+                            <strong>{s.platform}</strong>
+                            <div style={{ fontSize: '0.85rem', opacity: 0.7, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                <a href={s.url} target="_blank" className="text-blue-400">{s.url}</a>
+                            </div>
                         </div>
-                        <button
-                            onClick={() => handleDelete(s.id)}
-                            style={{ padding: '0.5rem 1rem', background: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white' }}
-                        >
-                            Delete
-                        </button>
+                        <div className={adminStyles.cardActions}>
+                            <button
+                                onClick={() => handleDelete(s.id)}
+                                className={`${adminStyles.actionButton} ${adminStyles.btnDelete}`}
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>

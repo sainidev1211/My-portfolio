@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../editor.module.css';
+import adminStyles from '../admin.module.css';
 import ImageUpload from '@/components/admin/ImageUpload';
 
 export default function CertificationsManager() {
@@ -92,31 +93,24 @@ export default function CertificationsManager() {
             <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
                 {certs.length === 0 && <p style={{ opacity: 0.5 }}>No certificates found.</p>}
                 {certs.map(c => (
-                    <div key={c.id} style={{
-                        padding: '1rem',
-                        background: 'rgba(255,255,255,0.05)',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            {c.image && <img src={c.image} alt={c.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />}
-                            <div>
-                                <h3 style={{ fontWeight: 'bold' }}>{c.title}</h3>
-                                <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>{c.issuer} • {c.date}</p>
+                    <div key={c.id} className={adminStyles.cardItem}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', overflow: 'hidden' }}>
+                            {c.image && <img src={c.image} alt={c.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px', flexShrink: 0 }} />}
+                            <div className={adminStyles.cardContent}>
+                                <h3>{c.title}</h3>
+                                <p>{c.issuer} • {c.date}</p>
                             </div>
                         </div>
-                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <div className={adminStyles.cardActions}>
                             <button
                                 onClick={() => handleEdit(c)}
-                                style={{ padding: '0.5rem 1rem', background: '#3b82f6', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white' }}
+                                className={`${adminStyles.actionButton} ${adminStyles.btnEdit}`}
                             >
                                 Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(c.id)}
-                                style={{ padding: '0.5rem 1rem', background: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer', color: 'white' }}
+                                className={`${adminStyles.actionButton} ${adminStyles.btnDelete}`}
                             >
                                 Delete
                             </button>
