@@ -3,37 +3,38 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Certifications.module.css';
-import { FaAward, FaExternalLinkAlt, FaTimes, FaChevronDown, FaCheckCircle } from 'react-icons/fa';
+import { FaAward, FaExternalLinkAlt, FaTimes, FaArrowLeft, FaLayerGroup, FaRobot, FaChartLine, FaTools } from 'react-icons/fa';
 
-// Helper to get description based on category
+// Helper to get description and icon based on category
 const getCategoryInfo = (category: string) => {
-    const map: Record<string, { desc: string, keywords: string[] }> = {
+    const map: Record<string, { desc: string, icon: any }> = {
         'Data Analysis': {
-            desc: "Transforming raw data into actionable insights through statistical analysis and visualization.",
-            keywords: ["Python", "Pandas", "SQL", "Tableau", "Excel"]
+            desc: "Unlocking insights from raw data through statistical modeling and visualization.",
+            icon: FaChartLine
         },
         'Machine Learning': {
-            desc: "Building predictive models and intelligent systems using advanced algorithms.",
-            keywords: ["TensorFlow", "Scikit-Learn", "Deep Learning", "NLP"]
+            desc: "Designing intelligent systems with advanced predictive algorithms and deep learning.",
+            icon: FaRobot
         },
         'Productivity Tools': {
-            desc: "Mastering tools and methodologies to enhance workflow efficiency and collaboration.",
-            keywords: ["Agile", "Jira", "Office 365", "Notion"]
+            desc: "Mastering modern workflows and collaboration platforms for peak efficiency.",
+            icon: FaTools
         },
         'General': {
-            desc: "Foundational certifications demonstrating a commitment to continuous learning.",
-            keywords: ["Professional Development", "Soft Skills"]
+            desc: "Broadening professional horizons with foundational skills and continuous learning.",
+            icon: FaLayerGroup
         }
     };
     return map[category] || {
-        desc: "Specialized certifications validating expertise in this domain.",
-        keywords: [category]
+        desc: "Specialized expertise verified by industry leaders.",
+        icon: FaAward
     };
 };
 
 const CertificationsClient = () => {
     const [certs, setCerts] = useState<any[]>([]);
-    const [expandedCard, setExpandedCard] = useState<string | null>(null);
+    const [activeCategory, setActiveCategory] = useState<string | null>(null);
+    const [selectedCert, setSelectedCert] = useState<any>(null);
 
     useEffect(() => {
         // Fetch public content
@@ -56,95 +57,151 @@ const CertificationsClient = () => {
             groups[cat].push(cert);
         });
 
-        // Ensure we have some order, maybe priorities predefined
-        return Object.entries(groups).sort((a, b) => {
+        // Ensure defined order
+        const sortedKeys = Object.keys(groups).sort((a, b) => {
             const prio = ['Data Analysis', 'Machine Learning', 'Productivity Tools', 'General'];
-            const idxA = prio.indexOf(a[0]);
-            const idxB = prio.indexOf(b[0]);
-            // If both in list, sort by index. If one not in list, put it before General (last).
+            const idxA = prio.indexOf(a);
+            const idxB = prio.indexOf(b);
             if (idxA !== -1 && idxB !== -1) return idxA - idxB;
             if (idxA !== -1) return -1;
             if (idxB !== -1) return 1;
-            return a[0].localeCompare(b[0]);
+            return a.localeCompare(b);
         });
+
+        const sortedGroups: Record<string, any[]> = {};
+        sortedKeys.forEach(k => sortedGroups[k] = groups[k]);
+        return sortedGroups;
     }, [certs]);
 
-    const toggleExpand = (category: string) => {
-        setExpandedCard(expandedCard === category ? null : category);
-    };
+    // Derived state for active view
+    const activeCertificates = activeCategory ? groupedCerts[activeCategory] : [];
+    const activeInfo = activeCategory ? getCategoryInfo(activeCategory) : null;
 
     return (
         <section className={styles.section} id="certifications">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className={styles.header}
-            >
-                <h2 className={styles.title}>Skills Backed by Industry Certifications</h2>
-                <p className={styles.subtitle}>Each skill is supported by verified learning and hands-on practice.</p>
-            </motion.div>
+            <div className={styles.header}>
+                <h2 className={styles.title}>Skills Backed by Credentials</h2>
+                <p className={styles.subtitle}>Navigate through my expertise to see verified proofs of knowledge.</p>
+            </div>
 
-            <div className={styles.grid}>
-                {groupedCerts.map(([category, items], index) => {
-                    const info = getCategoryInfo(category);
-                    const isExpanded = expandedCard === category;
-
-                    return (
+            <div className={styles.viewContainer}>
+                <AnimatePresence mode="wait">
+                    {!activeCategory ? (
+                        // CATEGORY VIEW
                         <motion.div
-                            key={category}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className={styles.skillCard}
-                            data-expanded={isExpanded}
-                            onClick={() => toggleExpand(category)}
+                            key="categories"
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -50 }}
+                            transition={{ duration: 0.4 }}
+                            className={styles.categoryGrid}
                         >
-                            <div className={styles.cardHeader}>
-                                <div className={styles.categoryTitle}>
-                                    {category}
-                                    <span className={styles.countBadge}>{items.length} certs</span>
-                                </div>
-                                <p className={styles.description}>{info.desc}</p>
-                            </div>
-
-                            <div className={styles.keywords}>
-                                {info.keywords.map(k => (
-                                    <span key={k} className={styles.keyword}>{k}</span>
-                                ))}
-                            </div>
-
-                            <div className={styles.viewCredentials}>
-                                View Credentials <FaChevronDown size={12} style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)' }} />
-                            </div>
-
-                            <div className={styles.certList}>
-                                {items.slice(0, 4).map(cert => (
-                                    <a
-                                        key={cert.id}
-                                        href={cert.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.certItem}
-                                        onClick={(e) => e.stopPropagation()}
+                            {Object.entries(groupedCerts).map(([category, items], index) => {
+                                const info = getCategoryInfo(category);
+                                const Icon = info.icon;
+                                return (
+                                    <motion.div
+                                        key={category}
+                                        className={styles.categoryCard}
+                                        onClick={() => setActiveCategory(category)}
+                                        whileHover={{ y: -5 }}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
                                     >
-                                        <FaCheckCircle className={styles.certIcon} />
-                                        <div>
+                                        <div className={styles.catIcon}><Icon /></div>
+                                        <h3 className={styles.catName}>{category}</h3>
+                                        <p className={styles.catDesc}>{info.desc}</p>
+                                        <div className={styles.catFooter}>
+                                            <span className={styles.catCount}>{items.length} Credentials</span>
+                                            <span className={styles.exploreText}>Explore <FaArrowLeft style={{ transform: 'rotate(180deg)' }} /></span>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
+                        </motion.div>
+                    ) : (
+                        // CERTIFICATES VIEW
+                        <motion.div
+                            key="certificates"
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 50 }}
+                            transition={{ duration: 0.4 }}
+                        >
+                            <div className={styles.certViewHeader}>
+                                <button className={styles.backButton} onClick={() => setActiveCategory(null)}>
+                                    <FaArrowLeft /> Back to Categories
+                                </button>
+                                <div>
+                                    <h3 className={styles.activeCatTitle}>{activeCategory}</h3>
+                                    <p className={styles.activeCatDesc}>{activeInfo?.desc}</p>
+                                </div>
+                            </div>
+
+                            <div className={styles.certGrid}>
+                                {activeCertificates.map((cert) => (
+                                    <motion.div
+                                        key={cert.id}
+                                        className={styles.certCard}
+                                        onClick={() => setSelectedCert(cert)}
+                                        whileHover={{ scale: 1.02 }}
+                                        layoutId={`cert-${cert.id}`}
+                                    >
+                                        <div className={styles.certThumb}>
+                                            {cert.image ? <img src={cert.image} alt={cert.title} /> : <FaAward size={40} color="#555" />}
+                                        </div>
+                                        <div className={styles.certDetails}>
                                             <div className={styles.certTitle}>{cert.title}</div>
                                             <div className={styles.certIssuer}>{cert.issuer}</div>
+                                            <button className={styles.viewBtn}>View Details</button>
                                         </div>
-                                    </a>
+                                    </motion.div>
                                 ))}
-                                {items.length > 4 && (
-                                    <div className={styles.moreCerts}>+ {items.length - 4} more credentials</div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            {/* Modal */}
+            <AnimatePresence>
+                {selectedCert && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className={styles.detailModalOverlay}
+                        onClick={() => setSelectedCert(null)}
+                    >
+                        <motion.div
+                            className={styles.detailCard}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <button className={styles.detailClose} onClick={() => setSelectedCert(null)}><FaTimes /></button>
+
+                            <div style={{ background: '#000', display: 'flex', justifyContent: 'center' }}>
+                                {selectedCert.image ? (
+                                    <img src={selectedCert.image} alt={selectedCert.title} className={styles.detailImage} />
+                                ) : (
+                                    <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FaAward size={80} color="#555" /></div>
+                                )}
+                            </div>
+
+                            <div className={styles.detailContent}>
+                                <h3 className={styles.detailTitle}>{selectedCert.title}</h3>
+                                <div className={styles.detailMeta}>{selectedCert.issuer} • {selectedCert.date}</div>
+
+                                {selectedCert.link && (
+                                    <a href={selectedCert.link} target="_blank" rel="noopener noreferrer" className={styles.verifyButton}>
+                                        Verify Certificate <FaExternalLinkAlt />
+                                    </a>
                                 )}
                             </div>
                         </motion.div>
-                    );
-                })}
-            </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 };
