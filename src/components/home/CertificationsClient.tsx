@@ -139,26 +139,54 @@ const CertificationsClient = () => {
                                 </div>
                             </div>
 
-                            <div className={styles.certGrid}>
-                                {activeCertificates.map((cert) => (
-                                    <motion.div
-                                        key={cert.id}
-                                        className={styles.certCard}
-                                        onClick={() => setSelectedCert(cert)}
-                                        whileHover={{ scale: 1.02 }}
-                                        layoutId={`cert-${cert.id}`}
-                                    >
-                                        <div className={styles.certThumb}>
-                                            {cert.image ? <img src={cert.image} alt={cert.title} /> : <FaAward size={40} color="#555" />}
-                                        </div>
-                                        <div className={styles.certDetails}>
-                                            <div className={styles.certTitle}>{cert.title}</div>
-                                            <div className={styles.certIssuer}>{cert.issuer}</div>
-                                            <button className={styles.viewBtn}>View Details</button>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
+                            {activeCertificates.length >= 4 ? (
+                                /* Infinite Horizontal Scroll for >= 4 items */
+                                <div className={styles.scroller}>
+                                    <div className={styles.scrollerInner}>
+                                        {/* Duplicate list for seamless loop */}
+                                        {[...activeCertificates, ...activeCertificates].map((cert, index) => (
+                                            <motion.div
+                                                key={`${cert.id}-scroll-${index}`}
+                                                className={styles.certCard}
+                                                onClick={() => setSelectedCert(cert)}
+                                                whileHover={{ scale: 1.03, y: -5 }}
+                                                layoutId={`cert-${cert.id}-scroll-${index}`}
+                                            >
+                                                <div className={styles.certThumb}>
+                                                    {cert.image ? <img src={cert.image} alt={cert.title} /> : <FaAward size={40} color="#555" />}
+                                                </div>
+                                                <div className={styles.certDetails}>
+                                                    <div className={styles.certTitle}>{cert.title}</div>
+                                                    <div className={styles.certIssuer}>{cert.issuer}</div>
+                                                    <button className={styles.viewBtn}>View Details</button>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                /* Static Grid for fewer items */
+                                <div className={styles.certGrid}>
+                                    {activeCertificates.map((cert) => (
+                                        <motion.div
+                                            key={cert.id}
+                                            className={styles.certCard}
+                                            onClick={() => setSelectedCert(cert)}
+                                            whileHover={{ scale: 1.02 }}
+                                            layoutId={`cert-${cert.id}`}
+                                        >
+                                            <div className={styles.certThumb}>
+                                                {cert.image ? <img src={cert.image} alt={cert.title} /> : <FaAward size={40} color="#555" />}
+                                            </div>
+                                            <div className={styles.certDetails}>
+                                                <div className={styles.certTitle}>{cert.title}</div>
+                                                <div className={styles.certIssuer}>{cert.issuer}</div>
+                                                <button className={styles.viewBtn}>View Details</button>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
