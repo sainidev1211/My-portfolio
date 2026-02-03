@@ -24,10 +24,14 @@ export default function CertificationsManager() {
     }, []);
 
     const fetchData = () => {
-        fetch('/api/content')
+        fetch('/api/content', { cache: 'no-store' })
             .then(res => res.json())
             .then(res => {
                 setCerts(res.certifications || []);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to load certificates:", err);
                 setLoading(false);
             });
     };
@@ -48,45 +52,67 @@ export default function CertificationsManager() {
     const handleDelete = async (id: number) => {
         if (!confirm("Are you sure?")) return;
 
-        const fullContent = await fetch('/api/content').then(res => res.json());
-        fullContent.certifications = (fullContent.certifications || []).filter((c: any) => c.id !== id);
+        try {
+            const fullContent = await fetch('/api/content', { cache: 'no-store' }).then(res => res.json());
+            fullContent.certifications = (fullContent.certifications || []).filter((c: any) => c.id !== id);
 
-        await fetch('/api/content', {
-            method: 'POST',
-            body: JSON.stringify(fullContent)
-        });
-        fetchData();
+            const res = await fetch('/api/content', {
+                method: 'POST',
+                body: JSON.stringify(fullContent)
+            });
+
+            if (res.ok) {
+                fetchData();
+            } else {
+                alert("Failed to delete.");
+            }
+        } catch (error) {
+            console.error("Delete error:", error);
+            alert("Error deleting certificate.");
+        }
     };
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setSaving(true);
 
-        const fullContent = await fetch('/api/content').then(res => res.json());
+        try {
+            // Fetch fresh data
+            const fullContent = await fetch('/api/content', { cache: 'no-store' }).then(res => res.json());
 
-        const newCert = {
-            ...editForm,
-            id: editingId || Date.now(),
-        };
+            const newCert = {
+                ...editForm,
+                id: editingId || Date.now(),
+            };
 
-        if (!fullContent.certifications) fullContent.certifications = [];
+            if (!fullContent.certifications) fullContent.certifications = [];
 
-        if (editingId) {
-            // Update
-            fullContent.certifications = fullContent.certifications.map((c: any) => c.id === editingId ? newCert : c);
-        } else {
-            // Create
-            fullContent.certifications.push(newCert);
+            if (editingId) {
+                // Update
+                fullContent.certifications = fullContent.certifications.map((c: any) => c.id === editingId ? newCert : c);
+            } else {
+                // Create
+                fullContent.certifications.push(newCert);
+            }
+
+            const res = await fetch('/api/content', {
+                method: 'POST',
+                body: JSON.stringify(fullContent)
+            });
+
+            if (res.ok) {
+                alert("Saved successfully!");
+                resetForm();
+                fetchData();
+            } else {
+                throw new Error("API returned error");
+            }
+        } catch (error) {
+            console.error("Save error:", error);
+            alert("Failed to save changes. Please try again.");
+        } finally {
+            setSaving(false);
         }
-
-        await fetch('/api/content', {
-            method: 'POST',
-            body: JSON.stringify(fullContent)
-        });
-
-        setSaving(false);
-        resetForm();
-        fetchData();
     };
 
     const PREDEFINED_CATEGORIES = ['Data Analysis', 'Machine Learning', 'Productivity Tools'];
