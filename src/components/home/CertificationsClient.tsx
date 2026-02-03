@@ -73,9 +73,20 @@ const CertificationsClient = () => {
         return sortedGroups;
     }, [certs]);
 
-    // Derived state for active view
-    const activeCertificates = activeCategory ? groupedCerts[activeCategory] : [];
+    // SAFETY CHECK: Explicitly filter certificates for the ACTIVE category only
+    // This ensures no unrelated certificates "leak" into the view
+    const activeCertificates = useMemo(() => {
+        if (!activeCategory) return [];
+        return certs.filter(c => {
+            const cat = c.category || 'General';
+            return cat === activeCategory;
+        });
+    }, [activeCategory, certs]);
+
     const activeInfo = activeCategory ? getCategoryInfo(activeCategory) : null;
+
+    // CONDITIONAL LOGIC: Animation enabled ONLY if >= 4 certs in this specific category
+    const shouldAnimate = activeCertificates.length >= 4;
 
     return (
         <section className={styles.section} id="certifications">
@@ -139,11 +150,11 @@ const CertificationsClient = () => {
                                 </div>
                             </div>
 
-                            {activeCertificates.length >= 4 ? (
-                                /* Infinite Horizontal Scroll for >= 4 items */
+                            {/* ANIMATION CONDITION: Render scroller ONLY if this specific category has >= 4 items */}
+                            {shouldAnimate ? (
                                 <div className={styles.scroller}>
                                     <div className={styles.scrollerInner}>
-                                        {/* Duplicate list for seamless loop */}
+                                        {/* Duplicate filtered list for seamless loop */}
                                         {[...activeCertificates, ...activeCertificates].map((cert, index) => (
                                             <motion.div
                                                 key={`${cert.id}-scroll-${index}`}
@@ -165,7 +176,7 @@ const CertificationsClient = () => {
                                     </div>
                                 </div>
                             ) : (
-                                /* Static Grid for fewer items */
+                                /* STATIC GRID: Render if < 4 items exist in this category */
                                 <div className={styles.certGrid}>
                                     {activeCertificates.map((cert) => (
                                         <motion.div
