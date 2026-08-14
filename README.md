@@ -9,7 +9,6 @@ Features a **Secure Admin Panel**, **AI Assistant**, and dynamic content managem
 
 *   **⚡ High Performance**: Built on Next.js 16 (Turbopack) for blazing fast load times.
 *   **🤖 AI Assistant**: Integrated ChatBot that answers FAQs, tells jokes, and handles inquiries.
-*   **🔒 Secure Admin Panel**: Hidden route (`/24BAI70170`) with server-side authentication and middleware protection.
 *   **🎨 Pro UI/UX**: Glassmorphism design, smooth scroll snapping, and framer motion animations.
 *   **📱 Responsive**: Fully optimized for mobile, tablet, and desktop.
 *   **🛠 Dynamic Content**: Manage projects, profile details, and files directly from the admin dashboard.
@@ -27,7 +26,6 @@ Features a **Secure Admin Panel**, **AI Assistant**, and dynamic content managem
 
 The application includes a hidden, high-security admin dashboard for managing content.
 
-*   **Login Route**: `/24BAI70170/login`
 *   **Security**: Middleware protected, HTTP-Only Cookies, Strong Session Management.
 
 > **Note**: Default credentials are configured in the server environment.
@@ -49,8 +47,6 @@ The application includes a hidden, high-security admin dashboard for managing co
     npm run dev
     ```
 
-4.  **Open in browser:**
-    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📄 License
 
