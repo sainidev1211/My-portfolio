@@ -155,7 +155,7 @@ export default function CertificationsManager() {
                     const isGeneral = category === 'General';
 
                     return (
-                        <div key={c.id} className={adminStyles.cardItem} style={{ borderLeft: isGeneral ? '4px solid #666' : '4px solid #0070f3' }}>
+                        <div key={c.id} className={adminStyles.cardItem} style={{ borderLeft: isGeneral ? '4px solid var(--border-hover)' : '4px solid var(--accent)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', overflow: 'hidden', flex: 1 }}>
                                 {c.image && <img src={c.image} alt={c.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px', flexShrink: 0 }} />}
                                 <div className={adminStyles.cardContent} style={{ flex: 1 }}>
@@ -167,8 +167,8 @@ export default function CertificationsManager() {
                                             fontSize: '0.8rem',
                                             padding: '2px 8px',
                                             borderRadius: '12px',
-                                            background: isGeneral ? '#333' : '#0070f3',
-                                            color: 'white',
+                                            background: isGeneral ? 'var(--surface-2)' : 'var(--accent)',
+                                            color: isGeneral ? 'var(--text-muted)' : '#000',
                                             fontWeight: 500
                                         }}>
                                             {category}
@@ -278,7 +278,7 @@ export default function CertificationsManager() {
 
                     <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                         <button type="submit" className={styles.button} disabled={saving}>{saving ? 'Saving...' : (editingId ? 'Update' : 'Create')}</button>
-                        {editingId && <button type="button" onClick={resetForm} style={{ padding: '1rem', background: 'transparent', border: '1px solid white', color: 'white', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>}
+                        {editingId && <button type="button" onClick={resetForm} style={{ padding: '1rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>}
                     </div>
                 </form>
             </div>

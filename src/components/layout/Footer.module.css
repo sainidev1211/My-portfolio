@@ -1,65 +1,64 @@
 .footer {
-    padding: 4rem 5% 2rem;
-    background: black;
-    border-top: 1px solid var(--glass-border);
-    text-align: center;
+    width: 100%;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 32px 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
     position: relative;
     z-index: 10;
-    width: 100%;
 }
 
 .container {
+    width: 100%;
+    max-width: 1100px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
-.brand h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+.left,
+.center {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
 }
 
-.brand p {
-    opacity: 0.6;
-}
-
-.socials {
+.right {
     display: flex;
-    gap: 1.5rem;
+    align-items: center;
+    gap: 16px;
 }
 
-.iconLink {
-    color: rgba(255, 255, 255, 0.6);
-    transition: all 0.2s;
-    padding: 0.8rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    display: flex;
+.socialLink {
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.iconLink:hover {
-    color: white;
-    background: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px var(--primary-glow);
+.socialLink:hover {
+    color: var(--accent);
 }
 
-.copy {
-    opacity: 0.4;
-    font-size: 0.9rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 2rem;
-    width: 100%;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     .footer {
-        padding-bottom: 100px;
-        /* Extra padding for mobile bottom bars if needed */
-        padding-top: 3rem;
+        padding: 32px 1.5rem;
+    }
+
+    .container {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+
+    .right {
+        justify-content: center;
     }
 }

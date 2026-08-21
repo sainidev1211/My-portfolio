@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false, // Security: Hide X-Powered-By
+  turbopack: {
+    root: __dirname,
+  },
   async headers() {
     return [
       {
@@ -38,3 +42,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

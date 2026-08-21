@@ -1,35 +1,63 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './Footer.module.css';
-import SocialLinks from '../ui/SocialLinks';
+import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
 
-const Footer = () => {
-    const [socials, setSocials] = useState<any[]>([]);
-
-    useEffect(() => {
-        fetch('/api/content')
-            .then(res => res.json())
-            .then(res => setSocials(res.socials || []));
-    }, []);
-
+export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
-                <div className={styles.brand}>
-                    <h3>Let's Connect</h3>
-                    <p>Follow me on social media for updates and tech content.</p>
+                {/* Left Side */}
+                <div className={styles.left}>
+                    &copy; {new Date().getFullYear()} <span style={{ color: 'var(--text)', fontWeight: 600 }}>Dev Saini</span>. All rights reserved.
                 </div>
 
-                <div className={styles.socials}>
-                    <SocialLinks socials={socials} iconSize={28} />
+                {/* Center Side */}
+                <div className={styles.center}>
+                    AI &amp; ML Engineer • Software Engineer • Python Dev • Full Stack Dev
                 </div>
-            </div>
-            <div className={styles.copy}>
-                &copy; {new Date().getFullYear()} Dev Saini. All rights reserved.
+
+                {/* Right Side */}
+                <div className={styles.right}>
+                    <a
+                        href="https://github.com/sainidev1211"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="GitHub"
+                        className={styles.socialLink}
+                    >
+                        <FaGithub size={18} />
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/dev-sainii/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="LinkedIn"
+                        className={styles.socialLink}
+                    >
+                        <FaLinkedin size={18} />
+                    </a>
+                    <a
+                        href="https://x.com/saini_dev1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Twitter / X"
+                        className={styles.socialLink}
+                    >
+                        <FaTwitter size={18} />
+                    </a>
+                    <a
+                        href="https://www.instagram.com/dev__sainii/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                        className={styles.socialLink}
+                    >
+                        <FaInstagram size={18} />
+                    </a>
+                </div>
             </div>
         </footer>
     );
-};
-
-export default Footer;
+}

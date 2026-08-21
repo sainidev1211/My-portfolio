@@ -40,17 +40,17 @@ export default function ScrollToTop() {
                         bottom: '2rem',
                         right: '2rem',
                         zIndex: 999,
-                        background: 'var(--primary)',
-                        color: 'white',
+                        background: 'var(--accent)',
+                        color: '#000',
                         border: 'none',
-                        borderRadius: '50%',
-                        width: '50px',
-                        height: '50px',
+                        borderRadius: '6px',
+                        width: '44px',
+                        height: '44px',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 4px 14px rgba(0,0,0,0.4)'
+                        fontWeight: 700
                     }}
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}

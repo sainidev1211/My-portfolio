@@ -1,0 +1,315 @@
+/* ============================================================
+   CAMPUS INVOLVEMENT & EXTRA-CURRICULAR ACTIVITIES
+   Glassmorphism Dark Theme · Blue-Purple Accents
+   ============================================================ */
+
+.section {
+    width: 100%;
+    padding: 0 5%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Ambient Background Glows ── */
+.glowLeft {
+    position: absolute;
+    top: 8%;
+    left: -12%;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+    filter: blur(80px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glowRight {
+    position: absolute;
+    bottom: 10%;
+    right: -10%;
+    width: 460px;
+    height: 460px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+    filter: blur(90px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Section Header ── */
+.header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.eyebrow {
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    color: #818cf8;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 0.65rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    padding: 5px 16px;
+    border-radius: 20px;
+}
+
+.title {
+    font-family: var(--font-sans, sans-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.7rem;
+    line-height: 1.25;
+}
+
+.titleGradient {
+    background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #94a3b8;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.65;
+}
+
+/* ── Activities Grid ── */
+.activitiesGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.activityCard {
+    background: rgba(18, 18, 28, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+}
+
+.activityCard:hover {
+    border-color: rgba(168, 85, 247, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(139, 92, 246, 0.25);
+}
+
+.imageWrapper {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    position: relative;
+    overflow: hidden;
+    background: #0e0e18;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.cardImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.activityCard:hover .cardImg {
+    transform: scale(1.06);
+}
+
+.imgFallback {
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(49, 46, 129, 0.4) 100%);
+}
+
+.cardBadge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.85);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+}
+
+.cardOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    backdrop-filter: blur(3px);
+}
+
+.overlayText {
+    font-family: var(--font-mono, monospace);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.activityCard:hover .cardOverlay {
+    opacity: 1;
+}
+
+.cardContent {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.cardTitle {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.35;
+}
+
+.cardDesc {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* ── Lightbox Modal ── */
+.modalBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.modalCard {
+    background: #0c0c18;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 640px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+    position: relative;
+}
+
+.modalClose {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+}
+
+.modalClose:hover {
+    background: rgba(239, 68, 68, 0.8);
+}
+
+.modalImage {
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    background: #09090f;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    display: block;
+}
+
+.modalBody {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.modalBadge {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.14);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    color: #a5b4fc;
+    width: fit-content;
+}
+
+.modalTitle {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.modalDescText {
+    font-size: 14px;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .activitiesGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .activitiesGrid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,27 +1,37 @@
-/* Shared Card Styles for Lists (Projects, Certs, etc.) */
+/* ============================================================
+   ADMIN LAYOUT & SHARED COMPONENT STYLES
+   ============================================================ */
+
+/* Shared Card Items for Lists (Projects, Certifications, etc.) */
 .cardItem {
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface);
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid var(--glass-border);
-    transition: background 0.2s;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, background 0.2s;
 }
 
 .cardItem:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--surface-2);
+    border-color: var(--border-hover);
 }
 
 .cardContent h3 {
-    font-weight: bold;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
     margin-bottom: 0.25rem;
 }
 
 .cardContent p {
-    opacity: 0.7;
-    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .cardActions {
@@ -30,23 +40,215 @@
 }
 
 .actionButton {
-    padding: 0.5rem 1rem;
+    padding: 6px 14px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    color: white;
-    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.actionButton:hover {
+    opacity: 0.85;
 }
 
 .btnEdit {
-    background: #3b82f6;
+    background: var(--accent);
+    color: #000;
+    font-weight: 600;
 }
 
 .btnDelete {
     background: #ef4444;
+    color: #fff;
 }
 
+/* Container Split */
+.container {
+    min-height: 100vh;
+    display: flex;
+    background: var(--bg);
+}
+
+/* Mobile Header (Hidden on Desktop) */
+.mobileHeader {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+}
+
+.brandMobile {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.mobileToggle {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.closeBtnMobile {
+    display: none;
+}
+
+.overlay {
+    display: none;
+}
+
+/* Sidebar Layout */
+.sidebarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+.sidebarHeader .brand {
+    margin-bottom: 0;
+}
+
+.sidebar {
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.content {
+    flex: 1;
+    padding: 2.5rem;
+    background: var(--bg);
+    overflow-y: auto;
+}
+
+.brand {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Navigation Links */
+.navLink {
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    display: block;
+}
+
+.navLink:hover {
+    color: var(--text);
+    background: var(--surface-2);
+}
+
+.active {
+    background: var(--accent-dim) !important;
+    color: var(--accent) !important;
+    border: 1px solid var(--accent);
+}
+
+/* Logout button */
+.logout {
+    margin-top: auto;
+    padding: 8px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: #ef4444;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border-radius: 6px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.logout:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: #ef4444;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .mobileHeader {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -110%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        z-index: 100;
+        transition: left 0.3s ease-in-out;
+        border-right: 1px solid var(--border);
+        box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+        background: var(--surface);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .brand {
+        display: none;
+    }
+
+    .closeBtnMobile {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    .overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+        z-index: 90;
+        animation: fadeIn 0.3s;
+    }
+
+    .content {
+        padding: 1.5rem;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
     .cardItem {
         flex-direction: column;
         align-items: flex-start;
@@ -68,167 +270,6 @@
         width: 100%;
         text-align: center;
         padding: 0.8rem;
-    }
-}
-
-
-.container {
-    min-height: 100vh;
-    display: flex;
-}
-
-/* Mobile Header Hidden on Desktop */
-.mobileHeader {
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    background: #000;
-    border-bottom: 1px solid var(--glass-border);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    width: 100%;
-}
-
-.brandMobile {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: white;
-}
-
-.mobileToggle {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 0.5rem;
-}
-
-.closeBtnMobile {
-    display: none;
-    /* Hidden on desktop */
-}
-
-.overlay {
-    display: none;
-}
-
-.sidebarHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.sidebarHeader .brand {
-    margin-bottom: 0;
-}
-
-.sidebar {
-    width: 250px;
-    background: black;
-    background: black;
-    border-right: 1px solid var(--glass-border);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.content {
-    flex: 1;
-    padding: 2rem;
-    background: var(--background);
-}
-
-.brand {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    color: white;
-}
-
-.navLink {
-    padding: 0.8rem 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    border-radius: 8px;
-    transition: all 0.2s;
-    display: block;
-}
-
-.navLink:hover,
-.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-.logout {
-    margin-top: auto;
-    padding: 0.8rem 1rem;
-    background: none;
-    border: 1px solid var(--glass-border);
-    color: #ef4444;
-    cursor: pointer;
-    border-radius: 8px;
-}
-/* Response Breakpoint */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .mobileHeader {
-        display: flex;
-    }
-
-    .sidebar {
-        position: fixed;
-        left: -110%; /* Fully hide */
-        top: 0;
-        bottom: 0;
-        width: 80%;
-        max-width: 300px;
-        z-index: 100;
-        transition: left 0.3s ease-in-out;
-        border-right: 1px solid #333;
-        box-shadow: 10px 0 20px rgba(0,0,0,0.5);
-    }
-
-    .sidebar.open {
-        left: 0;
-    }
-
-    .brand {
-        display: none; /* Hide original brand in sidebar if needed, or keep for header */
-    }
-
-    .closeBtnMobile {
-        display: block;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-
-    .overlay {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.7);
-        backdrop-filter: blur(2px);
-        z-index: 90;
-        animation: fadeIn 0.3s;
-    }
-
-    .content {
-        padding: 1rem;
-        width: 100%;
-        overflow-x: hidden;
     }
 }
 

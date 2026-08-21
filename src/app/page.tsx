@@ -1,11 +1,14 @@
 import Hero from "@/components/home/Hero";
 import AboutResume from "@/components/home/AboutResume";
+import CampusInvolvement from "@/components/home/CampusInvolvement";
 import Contact from "@/components/home/Contact";
 import Projects from "@/components/home/Projects";
 import Resume from "@/components/home/Resume";
 import Header from "@/components/layout/Header";
 import Certifications from '@/components/home/Certifications';
+import AcademicJourneyClient from '@/components/home/AcademicJourneyClient';
 import AiAssistant from '@/components/home/AiAssistant';
+import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
@@ -17,35 +20,47 @@ export default function Home() {
         <Hero />
       </div>
 
-      {/* About & Resume Section */}
-      <div className="section-wrapper" id="about" style={{ scrollMarginTop: '100px' }}>
+      {/* About Section */}
+      <div className="section-wrapper" id="about" style={{ scrollMarginTop: '80px' }}>
         <AboutResume />
       </div>
 
       {/* Projects Section */}
-      <div className="section-wrapper" id="projects" style={{ scrollMarginTop: '100px' }}>
+      <div className="section-wrapper" id="projects" style={{ scrollMarginTop: '80px' }}>
         <Projects />
       </div>
 
       {/* Certifications Section */}
-      <div className="section-wrapper" id="certifications" style={{ scrollMarginTop: '100px' }}>
+      <div className="section-wrapper" id="certifications" style={{ scrollMarginTop: '80px' }}>
         <Certifications />
       </div>
 
+      {/* Academic Journey Section */}
+      <div className="section-wrapper" id="academic-journey" style={{ scrollMarginTop: '80px' }}>
+        <AcademicJourneyClient />
+      </div>
+
+      {/* Campus Involvement & Extra-Curricular Activities */}
+      <div className="section-wrapper" id="campus-activities" style={{ scrollMarginTop: '80px' }}>
+        <CampusInvolvement />
+      </div>
+
       {/* AI Assistant Section */}
-      <div className="section-wrapper" id="ai-assistant" style={{ scrollMarginTop: '100px' }}>
+      <div className="section-wrapper" id="ai-assistant" style={{ scrollMarginTop: '80px' }}>
         <AiAssistant />
       </div>
 
-      {/* Resume PDF View */}
-      <div className="section-wrapper" id="resume-slide" style={{ scrollMarginTop: '100px' }}>
+      {/* Resume Section */}
+      <div className="section-wrapper" id="resume-slide" style={{ scrollMarginTop: '80px' }}>
         <Resume />
       </div>
 
       {/* Contact Section */}
-      <div className="section-wrapper" id="contact" style={{ scrollMarginTop: '100px' }}>
+      <div className="section-wrapper" id="contact" style={{ scrollMarginTop: '80px' }}>
         <Contact />
       </div>
+
+      <Footer />
     </main>
   );
 }

@@ -2,149 +2,277 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './Hero.module.css';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaTerminal, FaCode, FaRocket, FaArrowRight, FaCommentDots } from 'react-icons/fa';
 
 interface HeroProps {
-    data: any;
+    data?: any;
 }
 
-const QUOTES = [
-    { text: "Software is a great combination between artistry and engineering.", author: "Bill Gates" },
-    { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
-    { text: "Simplicity is the soul of efficiency.", author: "Austin Freeman" },
-    { text: "Code is like humor. When you have to explain it, it’s bad.", author: "Cory House" },
-    { text: "The best way to predict the future is to invent it.", author: "Alan Kay" }
+const DEFAULT_ROLES = [
+    "AI & ML Engineer_",
+    "Software Engineer_",
+    "Machine Learning Specialist_",
+    "Python Developer_",
+    "Full Stack Developer_"
 ];
 
-const HeroClient: React.FC<HeroProps> = ({ data }) => {
-    const [quote, setQuote] = useState(QUOTES[0]);
+const TERMINAL_TABS = [
+    {
+        id: 'whoami',
+        name: 'whoami.sh',
+        lines: [
+            "$ whoami --full-profile",
+            "Name: Dev Saini",
+            "Domain: AI & ML Engineer • Software Engineer",
+            "Degree: B.E. Computer Science & Engineering (Artificial Intelligence & Machine Learning)",
+            "University: Chandigarh University (2024–2028)",
+            "Status: Open to high-impact roles & engineering internships",
+            "",
+            "$ echo $MISSION",
+            "\"Building intelligent AI systems, robust software architectures, and high-velocity applications.\""
+        ]
+    },
+    {
+        id: 'skills',
+        name: 'stack.json',
+        lines: [
+            "$ cat ~/skills/core.json",
+            "{",
+            "  \"core\": [\"AI & ML Engineering\", \"Software Engineering\", \"Machine Learning Concepts\"],",
+            "  \"languages\": [\"Python\", \"TypeScript\", \"JavaScript\", \"C++\", \"SQL\"],",
+            "  \"frameworks\": [\"TensorFlow\", \"PyTorch\", \"Next.js\", \"React.js\", \"Node.js\"],",
+            "  \"databases\": [\"MongoDB\", \"PostgreSQL\", \"MySQL\", \"Docker\", \"Git\"]",
+            "}"
+        ]
+    },
+    {
+        id: 'projects',
+        name: 'projects.log',
+        lines: [
+            "$ ls -la ~/projects/featured",
+            "drwx-r-x Suroor         [Full-Stack Music Streaming Platform]",
+            "drwx-r-x Swasthya       [Smart Healthcare & Wellness Ecosystem]",
+            "drwx-r-x Truthify-AI    [Intelligent AI Fact-Checking System]",
+            "",
+            "$ git log -1 --pretty=format:\"%h - %s (%cr)\"",
+            "c9f4d1a - Ship upgraded AI portfolio v2.0 (just now)"
+        ]
+    }
+];
 
+export default function HeroClient({ data = {} }: HeroProps) {
+    const roles = (data.roles && data.roles.length) ? data.roles : DEFAULT_ROLES;
+
+    // Typewriter state
+    const [roleIndex, setRoleIndex] = useState(0);
+    const [currentText, setCurrentText] = useState("");
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    // Terminal active tab state
+    const [activeTab, setActiveTab] = useState(0);
+    const [visibleLineCount, setVisibleLineCount] = useState(0);
+
+    // Typewriter effect
     useEffect(() => {
-        setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
+        let timer: NodeJS.Timeout;
+        const fullText = roles[roleIndex % roles.length];
+
+        if (!isDeleting) {
+            if (currentText !== fullText) {
+                timer = setTimeout(() => {
+                    setCurrentText(fullText.slice(0, currentText.length + 1));
+                }, 70);
+            } else {
+                timer = setTimeout(() => {
+                    setIsDeleting(true);
+                }, 2200);
+            }
+        } else {
+            if (currentText !== "") {
+                timer = setTimeout(() => {
+                    setCurrentText(fullText.slice(0, currentText.length - 1));
+                }, 35);
+            } else {
+                setIsDeleting(false);
+                setRoleIndex((prev) => (prev + 1) % roles.length);
+            }
+        }
+
+        return () => clearTimeout(timer);
+    }, [currentText, isDeleting, roleIndex, roles]);
+
+    // Terminal tab animation
+    useEffect(() => {
+        setVisibleLineCount(0);
+        const total = TERMINAL_TABS[activeTab].lines.length;
+        let current = 0;
+
+        const interval = setInterval(() => {
+            current += 1;
+            setVisibleLineCount(current);
+            if (current >= total) {
+                clearInterval(interval);
+            }
+        }, 120);
+
+        return () => clearInterval(interval);
+    }, [activeTab]);
+
+    // IntersectionObserver scroll animations hook
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05, rootMargin: "0px 0px -30px 0px" });
+
+        const anims = document.querySelectorAll('#hero .animate-on-scroll');
+        anims.forEach(el => observer.observe(el));
+
+        return () => {
+            anims.forEach(el => observer.unobserve(el));
+        };
     }, []);
 
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeInOut" as const } }
-    };
-
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
+    // Scroll helper
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
     return (
         <section id="hero" className={styles.hero}>
+            {/* Background Glows */}
             <div className={styles.bgGlow} />
             <div className={styles.bgGlow2} />
 
-            {/* Engineer Quote */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.6 }}
-                transition={{ delay: 1.5, duration: 1 }}
-                style={{
-                    position: 'absolute',
-                    top: '15vh',
-                    maxWidth: '500px',
-                    padding: '0 1rem',
-                    fontStyle: 'italic',
-                    fontSize: '0.85rem',
-                    color: 'var(--foreground)',
-                    textAlign: 'center'
-                }}
-            >
-                "{quote.text}" — <span style={{ color: 'var(--primary)' }}>{quote.author}</span>
-            </motion.div>
+            {/* Top Left Status Badge */}
+            <div className={styles.statusBadge}>
+                <span className={styles.pulseDot} />
+                <span>{data.status || "Available for Engineering & AI Roles"}</span>
+            </div>
 
-            {/* Main Content */}
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-            >
-                <motion.h1
-                    variants={fadeInUp}
-                    style={{
-                        fontSize: 'clamp(3rem, 5vw, 5rem)',
-                        fontWeight: 800,
-                        lineHeight: 1.1,
-                        marginBottom: '1.5rem',
-                        maxWidth: '900px',
-                    }}
-                    className="text-gradient"
-                >
-                    Building Smart Solutions with <span className="text-gradient-primary">AI & Code</span>
-                </motion.h1>
+            <div className={styles.layoutContainer}>
+                {/* Left Side: Main content */}
+                <div className={`${styles.mainContent} animate-on-scroll`}>
+                    <div className={styles.badgeWrapper}>
+                        <span className={styles.eyebrow}>Hi, I'm</span>
+                    </div>
+                    
+                    <h1 className={styles.name}>Dev Saini</h1>
+                    
+                    {/* Role / Typewriter */}
+                    <div className={styles.roleContainer}>
+                        <span className={styles.roleText}>{currentText}</span>
+                        <span className={styles.cursor}>|</span>
+                    </div>
 
-                <motion.p
-                    variants={fadeInUp}
-                    style={{
-                        fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-                        marginBottom: '3rem',
-                        maxWidth: '600px',
-                        opacity: 0.8,
-                        lineHeight: 1.6
-                    }}
-                >
-                    Full Stack Developer • AI Engineer • Problem Solver
-                </motion.p>
+                    <p className={styles.bio}>
+                        {data.subtitle || "Computer Science student specializing in Artificial Intelligence and Machine Learning at Chandigarh University. Passionate about AI & ML engineering, software development, Python architectures, and scalable full-stack applications."}
+                    </p>
 
-                <motion.div variants={fadeInUp} className={styles.ctaGroup}>
-                    <a href="#projects" className={styles.primaryButton}>View Projects</a>
-                    <a href="#contact" className={styles.secondaryButton}>Contact Me</a>
-                </motion.div>
-            </motion.div>
+                    <div className={styles.ctaGroup}>
+                        <motion.button 
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => scrollToSection('projects')} 
+                            className={styles.primaryButton}
+                        >
+                            <FaRocket /> {data.primaryCta || "View Selected Work"}
+                        </motion.button>
+                        
+                        <motion.button 
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => scrollToSection('ai-assistant')} 
+                            className={styles.secondaryButton}
+                        >
+                            <FaCommentDots /> {data.secondaryCta || "Ask Dev AI"}
+                        </motion.button>
+
+                        <motion.button 
+                            whileHover={{ x: 4 }}
+                            onClick={() => scrollToSection('contact')} 
+                            className={styles.ghostButton}
+                        >
+                            <span>{data.tertiaryCta || "Let's Connect"}</span>
+                            <FaArrowRight className={styles.arrow} />
+                        </motion.button>
+                    </div>
+                </div>
+
+                {/* Right Side: Interactive Terminal with Tabs */}
+                <div className={`${styles.terminalSide} animate-on-scroll`} style={{ transitionDelay: '150ms' }}>
+                    <div className={styles.terminalWindow}>
+                        <div className={styles.terminalTitleBar}>
+                            <div className={styles.dots}>
+                                <span className={styles.redDot} />
+                                <span className={styles.yellowDot} />
+                                <span className={styles.greenDot} />
+                            </div>
+                            <div className={styles.tabContainer}>
+                                {TERMINAL_TABS.map((tab, idx) => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(idx)}
+                                        className={`${styles.tabButton} ${activeTab === idx ? styles.tabButtonActive : ''}`}
+                                    >
+                                        <FaTerminal size={10} style={{ opacity: activeTab === idx ? 1 : 0.6 }} />
+                                        <span>{tab.name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className={styles.terminalBody}>
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.15 }}
+                                >
+                                    {TERMINAL_TABS[activeTab].lines.slice(0, visibleLineCount).map((line, idx) => (
+                                        <div 
+                                            key={idx} 
+                                            className={`${styles.terminalLine} ${line.startsWith('$') ? styles.cmdLine : line.startsWith('{') || line.startsWith('}') ? styles.jsonLine : ''}`}
+                                        >
+                                            {line || "\u00A0"}
+                                        </div>
+                                    ))}
+                                    {visibleLineCount >= TERMINAL_TABS[activeTab].lines.length && (
+                                        <div className={styles.terminalLine}>
+                                            <span style={{ color: 'var(--accent)' }}>$</span> <span className={styles.blockCursor}>█</span>
+                                        </div>
+                                    )}
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* Scroll Indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, y: [0, 10, 0] }}
-                transition={{ delay: 2, duration: 2, repeat: Infinity }}
-                style={{
-                    position: 'absolute',
-                    bottom: '3rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    opacity: 0.4,
-                    cursor: 'pointer'
-                }}
-                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+            <div 
+                className={styles.scrollIndicator}
+                onClick={() => scrollToSection('about')}
             >
-                <span style={{ fontSize: '0.8rem', letterSpacing: '2px' }}>SCROLL</span>
-                <div style={{
-                    width: '30px',
-                    height: '50px',
-                    border: '2px solid rgba(255,255,255,0.3)',
-                    borderRadius: '15px',
-                    position: 'relative',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    paddingTop: '10px'
-                }}>
-                    <motion.div
-                        animate={{ y: [0, 15, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        style={{
-                            width: '4px',
-                            height: '4px',
-                            background: 'white',
-                            borderRadius: '50%'
-                        }}
-                    />
-                </div>
-            </motion.div>
+                <span className={styles.scrollText}>scroll down</span>
+                <motion.div 
+                    animate={{ y: [0, 6, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className={styles.scrollArrow}
+                >
+                    ↓
+                </motion.div>
+            </div>
         </section>
     );
-};
-
-export default HeroClient;
+}

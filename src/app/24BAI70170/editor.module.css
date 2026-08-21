@@ -1,12 +1,16 @@
+/* ============================================================
+   ADMIN FORM & EDITOR COMPONENT STYLES
+   ============================================================ */
+
 .form {
     max-width: 800px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--surface);
     padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    border: 1px solid var(--border);
 }
 
 .group {
@@ -16,39 +20,63 @@
 }
 
 .label {
-    font-weight: 600;
-    opacity: 0.9;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
 }
 
 .input,
 .textarea {
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-    color: white;
-    font-family: inherit;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
     width: 100%;
+    transition: border-color 0.2s;
+}
+
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--text-muted);
 }
 
 .textarea {
-    min-height: 100px;
+    min-height: 120px;
     resize: vertical;
+    line-height: 1.6;
 }
 
 .button {
-    padding: 1rem 2rem;
-    background: var(--primary);
-    color: white;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #000;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
     align-self: flex-start;
+    transition: opacity 0.2s;
+}
+
+.button:hover {
+    opacity: 0.9;
 }
 
 .button:disabled {
     opacity: 0.5;
+    cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
@@ -62,6 +90,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 14px;
     }
 
     .group {
@@ -71,8 +100,11 @@
 
 .message {
     margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background: rgba(0, 255, 0, 0.1);
-    color: #4ade80;
+    padding: 12px;
+    border-radius: 6px;
+    background: rgba(57, 211, 83, 0.05);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 13px;
 }

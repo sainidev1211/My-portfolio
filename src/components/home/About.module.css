@@ -1,12 +1,15 @@
+/* ============================================================
+   ABOUT ME SECTION
+   ============================================================ */
 .section {
-    padding: 80px 5% 50px;
+    padding: 0 5%;
     width: 100%;
-    min-height: 100vh;
+    min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    /* Clean dark background */
+    background: transparent;
 }
 
 .backgroundGlow {
@@ -15,9 +18,9 @@
     right: -10%;
     width: 500px;
     height: 500px;
-    background: var(--primary-glow);
-    filter: blur(150px);
-    opacity: 0.5;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    filter: blur(90px);
+    opacity: 0.6;
     z-index: 0;
     pointer-events: none;
 }
@@ -25,97 +28,262 @@
 .container {
     max-width: 1200px;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 5rem;
-    align-items: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 3.5rem;
     z-index: 2;
     position: relative;
 }
 
-.content {
+/* Left Column Layout (58%) */
+.leftColumn {
+    width: 58%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+}
+
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .title {
-    font-size: 3.5rem;
-    margin-bottom: 2rem;
-    font-weight: 800;
+    font-family: var(--font-sans);
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -1.5px;
+    margin-bottom: 1.5rem;
 }
 
-.text {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: var(--foreground);
-    opacity: 0.85;
-    margin-bottom: 0.5rem;
-    font-weight: 300;
-}
-
-.techStack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 1.5rem;
-}
-
-.techItem {
-    padding: 0.6rem 1.2rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--glass-border);
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-.techItem:hover {
-    background: var(--primary-glow);
-    transform: translateY(-3px);
-    border-color: var(--primary);
-    box-shadow: 0 5px 15px -5px var(--primary-glow);
-}
-
-.imageWrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
+.bioContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 14px;
+    margin-bottom: 1.75rem;
+}
+
+.bioText {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.75;
+}
+
+/* Education Card */
+.educationCard {
+    background: rgba(22, 22, 22, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.2s ease;
+}
+
+.educationCard:hover {
+    border-color: rgba(57, 211, 83, 0.3);
+}
+
+.eduHeader {
+    display: flex;
     align-items: center;
-    min-height: 500px;
-    /* Reserve space */
+    gap: 14px;
+    margin-bottom: 10px;
+}
+
+.eduIconWrapper {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(57, 211, 83, 0.1);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(57, 211, 83, 0.2);
+}
+
+.eduDegree {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.eduInstitution {
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.eduMeta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.eduMeta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Currently Card Block */
+.currentlyCard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 2rem;
+}
+
+.currentlyTitle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.currentlyList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.currentlyList li {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Tech Stack Container */
+.techStackContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.techHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.techStackLabel {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.categoryPills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.catBtn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.catBtn:hover {
+    color: var(--text);
+    border-color: var(--border-hover);
+}
+
+.catBtnActive {
+    background: rgba(57, 211, 83, 0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.skillsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.skillItem {
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.skillItem:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(57, 211, 83, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Right Column Layout (42%) */
+.rightColumn {
+    width: 38%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 100px;
 }
 
 .profileCard {
-    text-align: center;
     width: 100%;
+    background: rgba(22, 22, 22, 0.75);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
-.imageContainer {
-    position: relative;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    margin-bottom: 2rem;
-}
-
-.innerImage {
+.photoContainer {
     width: 100%;
-    height: 100%;
-    background: var(--background);
-    border-radius: 50%;
+    aspect-ratio: 4 / 4.5;
+    border-radius: 12px;
+    border: 1px solid var(--border);
     overflow: hidden;
+    background: var(--surface-2);
+    margin-bottom: 1.25rem;
     position: relative;
 }
 
@@ -123,161 +291,267 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    object-position: center top;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.imageContainer:hover .profileImage {
-    transform: scale(1.05);
+.photoContainer:hover .profileImage {
+    transform: scale(1.04);
 }
 
-.placeholderImage {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+.photoNav {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    padding: 4px 8px;
+    border-radius: 20px;
+}
+
+.photoDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.photoDotActive {
+    background: var(--accent);
+    width: 16px;
+    border-radius: 4px;
+}
+
+.profileBadge {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.profileName {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+
+.profileRole {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-family: var(--font-mono);
+}
+
+.statsRow {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.2);
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.statsDivider {
+    color: var(--accent);
+    opacity: 0.6;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
 }
 
 .viewResumeBtn {
-    padding: 1rem 3rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border: none;
-    border-radius: 50px;
-    color: white;
+    width: 100%;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    box-shadow: 0 10px 30px var(--primary-glow);
-    transition: transform 0.2s;
+    transition: all 0.2s ease;
+    text-align: center;
 }
 
 .viewResumeBtn:hover {
+    background: rgba(57, 211, 83, 0.15);
     transform: translateY(-2px);
 }
 
-/* Resume Modal Styles */
-.resumeContainer {
+.downloadBtn {
     width: 100%;
-    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.downloadBtn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(57, 211, 83, 0.3);
+}
+
+/* Modal Overlay & Content */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.modalContent {
+    background: #111113;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 900px;
+    height: 85vh;
     display: flex;
     flex-direction: column;
-    min-height: 500px;
-}
-
-.resumeFrame {
-    flex: 1;
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
     overflow: hidden;
-    background: #111;
-    min-height: 400px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
 }
 
-.resumeActions {
-    margin-top: 1rem;
+.modalHeader {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid var(--border);
+    background: #18181b;
+}
+
+.modalTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.modalSubtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.modalActions {
+    display: flex;
+    align-items: center;
     gap: 1rem;
-    justify-content: center;
 }
 
-.closeResumeBtn {
-    padding: 0.8rem 2rem;
+.closeBtn {
     background: transparent;
-    border: 1px solid white;
-    color: white;
-    border-radius: 50px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
-.closeResumeBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
+.closeBtn:hover {
+    color: var(--text);
+    border-color: var(--border-hover);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.downloadResumeBtn {
-    padding: 0.8rem 2rem;
-    background: white;
-    border: none;
-    color: black;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s;
+.modalBody {
+    flex: 1;
+    overflow: hidden;
+    background: #000;
 }
 
-.downloadResumeBtn:hover {
-    transform: translateY(-2px);
+.placeholderResume {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    padding: 2rem;
+    text-align: center;
 }
 
-/* Animations */
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-15px);
-    }
-}
-
-/* Responsive Styles */
-@media (max-width: 1024px) {
+/* ============================================================
+   RESPONSIVE LAYOUT
+   ============================================================ */
+@media (max-width: 960px) {
     .container {
-        grid-template-columns: 1fr;
-        /* Stack vertically */
-        gap: 3rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 0 1rem;
+    }
+
+    .leftColumn {
+        width: 100%;
+        order: 2;
+    }
+
+    .rightColumn {
+        width: 100%;
+        max-width: 440px;
+        order: 1;
+        position: static;
+    }
+
+    .skillsGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .title {
+        font-size: 32px;
         text-align: center;
     }
 
-    .content {
-        order: 1;
-        /* Text first? User asked for Text first. Default order is fine if text is first div. */
+    .eyebrow {
+        text-align: center;
     }
 
-    .imageWrapper {
-        order: 2;
-        /* Image below text */
+    .skillsGrid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .techStack {
-        justify-content: center;
-    }
-}
-
-@media (max-width: 768px) {
-    .section {
-        padding: 6rem 1.5rem 4rem;
-        /* More padding top for nav */
-        min-height: auto;
-        height: auto;
+    .modalOverlay {
+        padding: 1rem;
     }
 
-    .title {
-        font-size: 2.5rem;
-    }
-
-    .text {
-        font-size: 1rem;
-    }
-
-    .imageContainer {
-        width: 280px;
-        height: 280px;
-    }
-
-    .backgroundGlow {
-        width: 300px;
-        height: 300px;
-    }
-
-    /* Resume Mobile Fixes */
-    .resumeFrame {
-        min-height: 300px;
-        /* Smaller min height for phone */
+    .modalContent {
+        height: 90vh;
     }
 }

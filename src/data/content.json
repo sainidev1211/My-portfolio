@@ -1,53 +1,120 @@
 {
   "hero": {
     "title": "Building Smart Solutions with AI & Code",
-    "subtitle": "CSE (AIML) student at Chandigarh University passionate about building intelligent, scalable, and user-centric web applications using AI and modern technologies.",
-    "primaryCta": "View Projects",
-    "secondaryCta": "Contact Me"
+    "subtitle": "CSE (AIML) student at Chandigarh University passionate about building intelligent, scalable, and user-centric web applications using modern AI systems and full-stack engineering.",
+    "roles": [
+      "Full Stack Developer_",
+      "AI/ML Engineer_",
+      "Next.js & React Specialist_",
+      "System Architect_",
+      "Problem Solver_"
+    ],
+    "status": "Available for Work & Internships",
+    "primaryCta": "View Selected Work",
+    "secondaryCta": "Ask Dev AI",
+    "tertiaryCta": "Let's Connect"
   },
   "about": {
     "title": "About Me",
-    "text1": "I’m a Computer Science (AIML) student at Chandigarh University with a strong interest in full-stack development and artificial intelligence. I enjoy building modern web applications that are not only functional, but intelligent, scalable, and user-focused.",
-    "text2": "My journey involves continuously exploring new technologies—from developing responsive React and Next.js frontends to working with backend systems and experimenting with machine learning models. I enjoy learning by building real projects and improving my skills every day.",
+    "eyebrow": "< about />",
+    "text1": "I am a Computer Science Engineering (AIML) student at Chandigarh University with a deep passion for building high-performance full-stack web applications and integrating advanced artificial intelligence models. I turn complex ideas into intuitive, scalable digital products.",
+    "text2": "From architecting full-stack architectures with Next.js, Node.js, and MongoDB to fine-tuning machine learning models and deploying real-time AI agents, I focus on engineering excellence, seamless user experience, and measurable real-world impact.",
+    "image": "/images/dev-profile.jpg",
+    "secondaryImage": "/images/dev-hero.jpg",
+    "education": {
+      "degree": "B.E. Computer Science & Engineering (AI & ML)",
+      "institution": "Chandigarh University",
+      "duration": "2024 — 2028",
+      "location": "Punjab, India"
+    },
+    "currently": [
+      "🎓 Pursuing B.E. CSE (AIML) at Chandigarh University",
+      "⚡ Building next-generation AI-powered web applications",
+      "🚀 Open to software engineering & AI/ML internships",
+      "💡 Exploring Large Language Models & Agentic Workflows"
+    ],
     "skills": [
-      "Full stack",
-      "React",
+      "Full Stack",
       "Next.js",
+      "React.js",
+      "TypeScript",
       "Node.js",
       "Python",
       "Machine Learning",
+      "Deep Learning",
       "TensorFlow",
-      "OpenAI API",
+      "PyTorch",
+      "Groq & OpenAI APIs",
       "MongoDB",
       "PostgreSQL",
-      "Git",
-      "Docker",
-      "AWS",
       "Tailwind CSS",
+      "Docker",
+      "Git & GitHub",
+      "RESTful APIs",
       "Figma"
-    ],
-    "image": "/uploads/1769715317677-WhatsApp-Image-2026-01-30-at-12.57.20-AM.jpeg"
+    ]
   },
+  "experience": [
+    {
+      "id": 1,
+      "role": "Full-Stack & AI Engineer",
+      "company": "Independent / Research Projects",
+      "location": "Chandigarh, India",
+      "period": "2024 — Present",
+      "type": "Project Work",
+      "description": "Architecting and developing full-stack web platforms and intelligent AI solutions with modern frameworks.",
+      "highlights": [
+        "Built Suroor, a high-performance Spotify-inspired music platform with playlist curation and streaming playback.",
+        "Engineered intelligent healthcare systems (Virtual Healthcare & Swasthya) streamlining doctor-patient workflows.",
+        "Integrated high-speed LLM inference pipelines with Groq API and custom RAG knowledge retrieval."
+      ],
+      "technologies": ["Next.js", "React", "TypeScript", "Node.js", "Python", "MongoDB", "Groq AI"]
+    },
+    {
+      "id": 2,
+      "role": "B.E. in Computer Science & Engineering (AIML)",
+      "company": "Chandigarh University",
+      "location": "Mohali, Punjab",
+      "period": "2024 — 2028",
+      "type": "Education",
+      "description": "Undergraduate degree focusing on Artificial Intelligence, Machine Learning algorithms, Data Structures & Algorithms, and Software Engineering.",
+      "highlights": [
+        "Specializing in Machine Learning, Deep Neural Networks, and Natural Language Processing.",
+        "Active contributor to software development projects and competitive programming hackathons."
+      ],
+      "technologies": ["Python", "C++", "Data Structures", "Machine Learning", "Mathematics for ML"]
+    }
+  ],
   "projects": [
     {
-      "title": "Suroor — Music Streaming Platform (Spotify Clone)",
-      "description": "Suroor is a full-stack music streaming web application inspired by Spotify. It features user authentication, playlist management, music streaming, and a modern, responsive UI. The project focuses on delivering a smooth user experience while handling real-world frontend and backend challenges.",
+      "id": 1769713194365,
+      "title": "Suroor — Music Streaming Platform",
+      "description": "A full-stack modern music streaming web application inspired by Spotify. Features dynamic user authentication, responsive playlist management, audio streaming player, and seamless UI/UX with smooth transitions.",
+      "category": "Full Stack",
       "tags": [
         "React",
         "Next.js",
         "Node.js",
         "Music Streaming",
-        "Spotify Clone",
         "Full Stack",
-        "UI/UX"
+        "UI/UX",
+        "Tailwind CSS"
       ],
       "link": "",
+      "githubUrl": "https://github.com/sainidev1211",
       "image": "/uploads/1769762763180-Screenshot-2026-01-30-at-12.28.57-AM.png",
-      "id": 1769713194365
+      "featured": true,
+      "highlights": [
+        "Custom audio playback controller with real-time waveform visualization",
+        "High performance media streaming with optimized asset delivery",
+        "Dynamic search and playlist generation"
+      ]
     },
     {
-      "title": "Virtual Healthcare & Appointment Management System",
-      "description": "A web-based healthcare platform that enables patients to book appointments, consult doctors virtually, and manage medical records online. Designed to improve accessibility and efficiency in healthcare services using secure and scalable web technologies",
+      "id": 1769713246671,
+      "title": "Virtual Healthcare & Appointment System",
+      "description": "A web-based digital healthcare ecosystem enabling patients to seamlessly schedule doctor appointments, consult virtually, and securely manage digital electronic health records.",
+      "category": "Healthcare",
       "tags": [
         "React",
         "Node.js",
@@ -57,54 +124,129 @@
         "Full Stack"
       ],
       "link": "",
-      "image": "/uploads/1769713577999-Gemini_Generated_Image_s1o2nes1o2nes1o2.png",
-      "id": 1769713246671
+      "githubUrl": "https://github.com/sainidev1211",
+      "image": "/uploads/virtual_healthcare.png",
+      "featured": true,
+      "highlights": [
+        "End-to-end appointment scheduling system with automated slot management",
+        "Secure medical record storage and quick patient history lookup"
+      ]
     },
     {
-      "title": "Swasthya — Smart Healthcare & Wellness Platform",
-      "description": "Swasthya is a smart healthcare and wellness platform designed to improve access to medical services through technology. The system allows users to manage health records, book doctor appointments, and receive basic health guidance through a simple and user-friendly interface. The project focuses on combining healthcare management with modern web technologies for better user experience and accessibility.",
+      "id": 1769713362547,
+      "title": "Swasthya — Smart Healthcare & Wellness",
+      "description": "An intelligent healthcare wellness portal combining telemedicine appointments, health tracking metrics, and automated basic health insights with an accessible, user-friendly interface.",
+      "category": "Healthcare",
       "tags": [
         "Healthcare",
         "Web Application",
         "React",
         "Node.js",
         "Health Records",
-        "Appointment System",
-        "Full Stack"
+        "AI Insights"
       ],
       "link": "",
+      "githubUrl": "https://github.com/sainidev1211",
+      "image": "/uploads/swasthya.png",
+      "featured": false,
+      "highlights": [
+        "Intuitive patient portal with symptom questionnaire and triage",
+        "Clean, responsive dashboard for healthcare professionals"
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "id": 1001,
+      "title": "Deep Learning Specialization",
+      "issuer": "DeepLearning.AI",
+      "date": "March 2026",
+      "link": "https://coursera.org/verify/specialization/deep-learning",
+      "image": "/uploads/1769713577999-Gemini_Generated_Image_s1o2nes1o2nes1o2.png",
+      "category": "Machine Learning"
+    },
+    {
+      "id": 1002,
+      "title": "TensorFlow Developer Professional Certificate",
+      "issuer": "Google",
+      "date": "February 2026",
+      "link": "https://coursera.org/verify/professional-cert/tensorflow-developer",
+      "image": "/uploads/1769762763180-Screenshot-2026-01-30-at-12.28.57-AM.png",
+      "category": "Machine Learning"
+    },
+    {
+      "id": 1003,
+      "title": "Meta Frontend Developer Professional Certificate",
+      "issuer": "Meta",
+      "date": "January 2026",
+      "link": "https://coursera.org/verify/professional-cert/meta-frontend-developer",
       "image": "/uploads/1769763001336-Gemini_Generated_Image_3phiug3phiug3phi.png",
-      "id": 1769713362547
+      "category": "Frontend Development"
+    },
+    {
+      "id": 1004,
+      "title": "Machine Learning Specialization",
+      "issuer": "Stanford University & DeepLearning.AI",
+      "date": "December 2025",
+      "link": "https://coursera.org/verify/specialization/machine-learning",
+      "image": "/uploads/1769713577999-Gemini_Generated_Image_s1o2nes1o2nes1o2.png",
+      "category": "Machine Learning"
     }
   ],
   "resume": {
     "fileUrl": "/uploads/1769713925222-Dev-saini-(2).pdf",
-    "summary": "Experienced full-stack developer with a focus on AI integration. Proven track record of delivering scalable web applications."
+    "summary": "Full-stack developer and AI/ML engineer pursuing B.E. Computer Science (AIML) at Chandigarh University. Experienced in React, Next.js, Node.js, Python, TensorFlow, and LLM integrations."
   },
   "socials": [
     {
       "platform": "GitHub",
       "url": "https://github.com/sainidev1211",
-      "icon": "",
+      "icon": "github",
       "id": 1769712303185
     },
     {
       "platform": "LinkedIn",
       "url": "https://www.linkedin.com/in/dev-sainii/",
-      "icon": "",
+      "icon": "linkedin",
       "id": 1769712322819
     },
     {
       "platform": "Twitter",
       "url": "https://x.com/saini_dev1",
-      "icon": "",
+      "icon": "twitter",
       "id": 1769712514936
     },
     {
       "platform": "Instagram",
       "url": "https://www.instagram.com/dev__sainii/",
-      "icon": "",
+      "icon": "instagram",
       "id": 1769715531604
+    }
+  ],
+  "contactInfo": {
+    "name": "Dev Saini",
+    "role": "Full Stack Developer & AI Engineer",
+    "email": "devs08107@gmail.com",
+    "phone": "+91 87644 51718",
+    "location": "Chandigarh / Mohali, India",
+    "university": "Chandigarh University (CSE AIML)",
+    "status": "Available for Internships & Projects"
+  },
+  "aiKnowledge": [
+    {
+      "id": 1,
+      "topic": "About Dev Saini",
+      "content": "Dev Saini is a passionate Computer Science student specializing in Artificial Intelligence and Machine Learning (AIML) at Chandigarh University (2024-2028). He creates full-stack applications with Next.js, React, Node.js, and integrates state-of-the-art AI models."
+    },
+    {
+      "id": 2,
+      "topic": "Key Projects",
+      "content": "Dev has built major projects including Suroor (a Spotify clone with music streaming and playlist capabilities), Virtual Healthcare (appointment and patient records management system), and Swasthya (smart wellness and telemedicine platform)."
+    },
+    {
+      "id": 3,
+      "topic": "Skills & Tech Stack",
+      "content": "Full stack development with Next.js, React, TypeScript, Node.js, Python, MongoDB, PostgreSQL, Tailwind CSS; Machine Learning & Deep Learning with TensorFlow, PyTorch, Groq SDK, LLMs, and RAG architectures."
     }
   ]
 }
