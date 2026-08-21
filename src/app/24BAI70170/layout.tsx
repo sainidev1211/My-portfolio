@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './admin.module.css';
@@ -12,16 +12,67 @@ export default function AdminLayout({
 }) {
     const pathname = usePathname();
     const router = useRouter();
+    const [authChecked, setAuthChecked] = useState(false);
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-    // If on login page, don't show custom admin layout
-    if (pathname?.includes('/login')) return <>{children}</>;
+    const isLoginPage = pathname === '/24BAI70170/login';
+
+    useEffect(() => {
+        if (isLoginPage) {
+            setAuthChecked(true);
+            return;
+        }
+
+        // Verify authentication on every route change in admin
+        fetch('/api/auth/check', { cache: 'no-store' })
+            .then(res => {
+                if (!res.ok) {
+                    router.replace('/24BAI70170/login');
+                } else {
+                    setAuthChecked(true);
+                }
+            })
+            .catch(() => {
+                router.replace('/24BAI70170/login');
+            });
+    }, [pathname, isLoginPage, router]);
+
+    // If on login page, render children directly without admin layout
+    if (isLoginPage) return <>{children}</>;
+
+    // While checking authentication, show clean secure loader
+    if (!authChecked) {
+        return (
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100vh',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontFamily: 'var(--font-mono)'
+            }}>
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                        width: '36px',
+                        height: '36px',
+                        border: '3px solid var(--border)',
+                        borderTopColor: 'var(--accent)',
+                        borderRadius: '50%',
+                        animation: 'spin 0.8s linear infinite',
+                        margin: '0 auto 1rem'
+                    }} />
+                    <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>Verifying admin credentials...</p>
+                    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                </div>
+            </div>
+        );
+    }
 
     const handleLogout = async () => {
         await fetch('/api/auth/logout', { method: 'POST' });
         router.push('/24BAI70170/login');
     };
-
-    const [isSidebarOpen, setSidebarOpen] = React.useState(false);
 
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
     const closeSidebar = () => setSidebarOpen(false);

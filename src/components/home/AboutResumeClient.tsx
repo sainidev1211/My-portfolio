@@ -27,6 +27,19 @@ export default function AboutResumeClient({ aboutData = {}, resumeData = {} }: A
     const [activeSkillCat, setActiveSkillCat] = useState("All");
     const [resumeOpen, setResumeOpen] = useState(false);
     const [activePhoto, setActivePhoto] = useState<0 | 1>(0);
+    const [liveResume, setLiveResume] = useState(resumeData || { summary: "", fileUrl: "/uploads/resume.pdf" });
+
+    // Fetch live updated resume from DB / API
+    useEffect(() => {
+        fetch('/api/content', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(res => {
+                if (res.resume && res.resume.fileUrl) {
+                    setLiveResume(res.resume);
+                }
+            })
+            .catch(err => console.error("Failed to load live resume:", err));
+    }, []);
 
     // IntersectionObserver scroll trigger
     useEffect(() => {
@@ -46,6 +59,7 @@ export default function AboutResumeClient({ aboutData = {}, resumeData = {} }: A
             anims.forEach(el => observer.unobserve(el));
         };
     }, []);
+
 
     // Filter skills based on selected category
     const filteredSkills = skills.filter(skill => {
@@ -218,9 +232,9 @@ export default function AboutResumeClient({ aboutData = {}, resumeData = {} }: A
                                     <span className={styles.modalSubtitle}>Chandigarh University (Artificial Intelligence &amp; Machine Learning)</span>
                                 </div>
                                 <div className={styles.modalActions}>
-                                    {resumeData.fileUrl && (
+                                    {liveResume.fileUrl && (
                                         <a
-                                            href={resumeData.fileUrl}
+                                            href={liveResume.fileUrl}
                                             download
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -239,9 +253,9 @@ export default function AboutResumeClient({ aboutData = {}, resumeData = {} }: A
                             </div>
 
                             <div className={styles.modalBody}>
-                                {resumeData.fileUrl ? (
+                                {liveResume.fileUrl ? (
                                     <iframe 
-                                        src={`${resumeData.fileUrl}#view=FitH`} 
+                                        src={`${liveResume.fileUrl}#view=FitH`} 
                                         width="100%" 
                                         height="100%" 
                                         style={{ border: 'none' }} 

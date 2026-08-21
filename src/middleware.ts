@@ -4,18 +4,19 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
 
-    // 1. Protect Admin Routes (Anything starting with /24BAI70170)
+    // 1. Protect Admin Routes (Anything matching /24BAI70170 or /24BAI70170/...)
     // EXCEPTION: The login page itself (/24BAI70170/login)
     if (path.startsWith('/24BAI70170') && !path.startsWith('/24BAI70170/login')) {
         const authCookie = request.cookies.get('admin_auth');
         if (!authCookie || authCookie.value !== 'authenticated') {
-            return NextResponse.redirect(new URL('/24BAI70170/login', request.url));
+            const loginUrl = new URL('/24BAI70170/login', request.url);
+            return NextResponse.redirect(loginUrl);
         }
     }
 
-    // 2. Protect API Routes (POST/PUT/DELETE)
+    // 2. Protect API Routes (POST/PUT/DELETE for content)
     // Allow public POST to /api/contact (for users to send messages)
-    // Block POST to /api/content unless authenticated
+    // Block POST/PUT/DELETE to /api/content unless authenticated
     if (path.startsWith('/api/content') && request.method !== 'GET') {
         const authCookie = request.cookies.get('admin_auth');
         if (!authCookie || authCookie.value !== 'authenticated') {
@@ -36,8 +37,11 @@ export function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
+        '/24BAI70170',
         '/24BAI70170/:path*',
+        '/api/content',
         '/api/content/:path*',
+        '/api/contact',
         '/api/contact/:path*'
     ],
 };

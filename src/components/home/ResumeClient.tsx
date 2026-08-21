@@ -14,9 +14,9 @@ import {
 } from 'react-icons/fa';
 
 interface ResumeProps {
-    data: {
-        summary: string;
-        fileUrl: string;
+    data?: {
+        summary?: string;
+        fileUrl?: string;
     };
 }
 
@@ -31,7 +31,25 @@ const HIGHLIGHT_SKILLS = [
 
 export default function ResumeClient({ data }: ResumeProps) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const { summary, fileUrl } = data;
+    const [resumeInfo, setResumeInfo] = useState({
+        summary: data?.summary || "Computer Science undergraduate specializing in Artificial Intelligence and Machine Learning at Chandigarh University. Passionate about AI & ML engineering, software development, Python architectures, and scalable full-stack applications.",
+        fileUrl: data?.fileUrl || '/uploads/resume.pdf'
+    });
+
+    // Fetch live updated resume from DB / API
+    useEffect(() => {
+        fetch('/api/content', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(res => {
+                if (res.resume && res.resume.fileUrl) {
+                    setResumeInfo({
+                        summary: res.resume.summary || resumeInfo.summary,
+                        fileUrl: res.resume.fileUrl
+                    });
+                }
+            })
+            .catch(err => console.error("Failed to fetch live resume:", err));
+    }, []);
 
     // Close side drawer on Escape key
     useEffect(() => {
@@ -54,7 +72,8 @@ export default function ResumeClient({ data }: ResumeProps) {
         };
     }, [isDrawerOpen]);
 
-    const resumeSummary = summary || "Computer Science undergraduate specializing in Artificial Intelligence and Machine Learning at Chandigarh University. Passionate about AI & ML engineering, software development, Python architectures, and scalable full-stack applications.";
+    const activeFileUrl = resumeInfo.fileUrl;
+    const activeSummary = resumeInfo.summary;
 
     return (
         <section id="resume-slide" className={styles.section}>
@@ -68,82 +87,98 @@ export default function ResumeClient({ data }: ResumeProps) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                 >
-                    <div className={styles.cardGlowTop} />
-
-                    <div className={styles.eyebrow}>
-                        <FaGraduationCap size={14} />
-                        <span>Curriculum Vitae</span>
+                    <div className={styles.cardHeader}>
+                        <div className={styles.badgeWrapper}>
+                            <span className={styles.badgeIcon}>📄</span>
+                            <span className={styles.badgeText}>Interactive Resume</span>
+                        </div>
+                        <h2 className={styles.title}>
+                            Curriculum <span className={styles.gradientText}>Vitae</span>
+                        </h2>
                     </div>
 
-                    <h2 className={styles.title}>Professional Resume</h2>
+                    <p className={styles.summary}>{activeSummary}</p>
 
-                    <p className={styles.summary}>{resumeSummary}</p>
-
-                    <div className={styles.skillsPills}>
-                        {HIGHLIGHT_SKILLS.map((skill, idx) => (
-                            <span key={idx} className={styles.pill}>
-                                <FaCheckCircle size={10} color="var(--accent)" style={{ marginRight: '6px' }} />
+                    {/* Highlighted core skills pills */}
+                    <div className={styles.skillsGrid}>
+                        {HIGHLIGHT_SKILLS.map((skill, index) => (
+                            <span key={index} className={styles.skillPill}>
+                                <FaCheckCircle size={11} className={styles.checkIcon} />
                                 {skill}
                             </span>
                         ))}
                     </div>
 
+                    {/* Trigger button for Right Side-Slide Drawer */}
                     <div className={styles.buttonGroup}>
-                        <motion.button
-                            className={styles.primaryBtn}
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.97 }}
+                        <button
                             onClick={() => setIsDrawerOpen(true)}
+                            className={styles.primaryBtn}
+                            aria-label="Open resume side panel"
                         >
-                            <FaEye size={16} /> Open Resume Preview
-                        </motion.button>
+                            <FaEye size={14} />
+                            <span>Preview Full Resume</span>
+                        </button>
 
-                        {fileUrl && (
-                            <motion.a
-                                href={fileUrl}
+                        {activeFileUrl && (
+                            <a
+                                href={activeFileUrl}
                                 download
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.secondaryBtn}
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.97 }}
+                                className={styles.downloadBtn}
+                                aria-label="Download resume PDF"
                             >
-                                <FaDownload size={14} /> Download PDF
-                            </motion.a>
+                                <FaDownload size={13} />
+                                <span>Download PDF</span>
+                            </a>
                         )}
                     </div>
                 </motion.div>
             </div>
 
-            {/* ── Slide-Over Right Side Drawer ── */}
+            {/* ── Slide-over Right Panel (Resume Drawer) ── */}
             <AnimatePresence>
                 {isDrawerOpen && (
-                    <div className={styles.drawerBackdrop} onClick={() => setIsDrawerOpen(false)}>
+                    <div className={styles.drawerWrapper}>
+                        {/* Dim Backdrop */}
+                        <motion.div
+                            className={styles.drawerBackdrop}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            onClick={() => setIsDrawerOpen(false)}
+                        />
+
+                        {/* Right Slide Drawer Panel */}
                         <motion.div
                             className={styles.drawerPanel}
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-                            onClick={(e) => e.stopPropagation()}
+                            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Resume Document Preview"
                         >
                             {/* Drawer Header */}
                             <div className={styles.drawerHeader}>
-                                <div className={styles.drawerHeaderLeft}>
-                                    <div className={styles.drawerIcon}>
-                                        <FaFileAlt size={18} />
+                                <div className={styles.drawerTitleWrapper}>
+                                    <div className={styles.drawerIconBox}>
+                                        <FaFileAlt size={16} />
                                     </div>
                                     <div>
                                         <h3 className={styles.drawerTitle}>Dev Saini — Resume</h3>
-                                        <span className={styles.drawerSubtitle}>Computer Science (Artificial Intelligence and Machine Learning)</span>
+                                        <p className={styles.drawerSubtitle}>
+                                            <FaGraduationCap size={11} /> Artificial Intelligence &amp; Machine Learning
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div className={styles.drawerActions}>
-                                    {fileUrl && (
+                                    {activeFileUrl && (
                                         <>
                                             <a
-                                                href={fileUrl}
+                                                href={activeFileUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className={styles.drawerActionBtn}
@@ -152,7 +187,7 @@ export default function ResumeClient({ data }: ResumeProps) {
                                                 <FaExternalLinkAlt size={11} /> Tab
                                             </a>
                                             <a
-                                                href={fileUrl}
+                                                href={activeFileUrl}
                                                 download
                                                 className={styles.drawerActionBtn}
                                                 title="Download PDF"
@@ -174,9 +209,9 @@ export default function ResumeClient({ data }: ResumeProps) {
 
                             {/* Drawer Body — Interactive PDF Viewer */}
                             <div className={styles.drawerBody}>
-                                {fileUrl ? (
+                                {activeFileUrl ? (
                                     <iframe
-                                        src={`${fileUrl}#view=FitH`}
+                                        src={`${activeFileUrl}#view=FitH`}
                                         className={styles.pdfFrame}
                                         title="Dev Saini Resume Preview"
                                     />
