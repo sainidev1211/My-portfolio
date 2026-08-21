@@ -176,11 +176,13 @@
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
     z-index: 2000;
-    display: flex;
-    justify-content: flex-end;
 }
 
+/* Panel is a sibling of backdrop — must be fixed on its own */
 .drawerPanel {
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 100%;
     max-width: 820px;
     height: 100vh;
@@ -189,7 +191,6 @@
     box-shadow: -20px 0 60px rgba(0, 0, 0, 0.85);
     display: flex;
     flex-direction: column;
-    position: relative;
     z-index: 2001;
     overflow: hidden;
 }
@@ -340,5 +341,33 @@
 
     .drawerHeader {
         padding: 14px 16px;
+    }
+
+    .skillsPills {
+        justify-content: flex-start;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .primaryBtn,
+    .secondaryBtn {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .title {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+
+    .drawerActions {
+        gap: 6px;
+    }
+
+    .drawerActionBtn {
+        padding: 5px 10px;
+        font-size: 11.5px;
     }
 }

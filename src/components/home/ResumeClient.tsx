@@ -33,7 +33,7 @@ export default function ResumeClient({ data }: ResumeProps) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [resumeInfo, setResumeInfo] = useState({
         summary: data?.summary || "Computer Science undergraduate specializing in Artificial Intelligence and Machine Learning at Chandigarh University. Passionate about AI & ML engineering, software development, Python architectures, and scalable full-stack applications.",
-        fileUrl: data?.fileUrl || '/uploads/resume.pdf'
+        fileUrl: data?.fileUrl || ''
     });
 
     // Fetch live updated resume from DB / API
@@ -41,14 +41,15 @@ export default function ResumeClient({ data }: ResumeProps) {
         fetch('/api/content', { cache: 'no-store' })
             .then(res => res.json())
             .then(res => {
-                if (res.resume && res.resume.fileUrl) {
+                if (res.resume) {
                     setResumeInfo({
                         summary: res.resume.summary || resumeInfo.summary,
-                        fileUrl: res.resume.fileUrl
+                        fileUrl: res.resume.fileUrl || ''
                     });
                 }
             })
             .catch(err => console.error("Failed to fetch live resume:", err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Close side drawer on Escape key
@@ -87,29 +88,28 @@ export default function ResumeClient({ data }: ResumeProps) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                 >
-                    <div className={styles.cardHeader}>
-                        <div className={styles.badgeWrapper}>
-                            <span className={styles.badgeIcon}>📄</span>
-                            <span className={styles.badgeText}>Interactive Resume</span>
-                        </div>
-                        <h2 className={styles.title}>
-                            Curriculum <span className={styles.gradientText}>Vitae</span>
-                        </h2>
+                    <div className={styles.cardGlowTop} />
+
+                    <div className={styles.eyebrow}>
+                        <span>📄</span>
+                        <span>Interactive Resume</span>
                     </div>
+
+                    <h2 className={styles.title}>Curriculum Vitae</h2>
 
                     <p className={styles.summary}>{activeSummary}</p>
 
                     {/* Highlighted core skills pills */}
-                    <div className={styles.skillsGrid}>
+                    <div className={styles.skillsPills}>
                         {HIGHLIGHT_SKILLS.map((skill, index) => (
-                            <span key={index} className={styles.skillPill}>
-                                <FaCheckCircle size={11} className={styles.checkIcon} />
+                            <span key={index} className={styles.pill}>
+                                <FaCheckCircle size={11} style={{ marginRight: '6px', flexShrink: 0 }} />
                                 {skill}
                             </span>
                         ))}
                     </div>
 
-                    {/* Trigger button for Right Side-Slide Drawer */}
+                    {/* Action buttons */}
                     <div className={styles.buttonGroup}>
                         <button
                             onClick={() => setIsDrawerOpen(true)}
@@ -124,7 +124,7 @@ export default function ResumeClient({ data }: ResumeProps) {
                             <a
                                 href={activeFileUrl}
                                 download
-                                className={styles.downloadBtn}
+                                className={styles.secondaryBtn}
                                 aria-label="Download resume PDF"
                             >
                                 <FaDownload size={13} />
@@ -135,22 +135,25 @@ export default function ResumeClient({ data }: ResumeProps) {
                 </motion.div>
             </div>
 
-            {/* ── Slide-over Right Panel (Resume Drawer) ── */}
+            {/* ── Side Drawer (slides from right) ── */}
             <AnimatePresence>
                 {isDrawerOpen && (
-                    <div className={styles.drawerWrapper}>
-                        {/* Dim Backdrop */}
+                    <>
+                        {/* Dimmed backdrop — clicking it closes the drawer */}
                         <motion.div
+                            key="backdrop"
                             className={styles.drawerBackdrop}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.25 }}
                             onClick={() => setIsDrawerOpen(false)}
+                            aria-hidden="true"
                         />
 
-                        {/* Right Slide Drawer Panel */}
+                        {/* Drawer Panel — sibling of backdrop, NOT nested inside it */}
                         <motion.div
+                            key="panel"
                             className={styles.drawerPanel}
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
@@ -160,16 +163,16 @@ export default function ResumeClient({ data }: ResumeProps) {
                             aria-modal="true"
                             aria-label="Resume Document Preview"
                         >
-                            {/* Drawer Header */}
+                            {/* Header */}
                             <div className={styles.drawerHeader}>
-                                <div className={styles.drawerTitleWrapper}>
-                                    <div className={styles.drawerIconBox}>
+                                <div className={styles.drawerHeaderLeft}>
+                                    <div className={styles.drawerIcon}>
                                         <FaFileAlt size={16} />
                                     </div>
                                     <div>
                                         <h3 className={styles.drawerTitle}>Dev Saini — Resume</h3>
                                         <p className={styles.drawerSubtitle}>
-                                            <FaGraduationCap size={11} /> Artificial Intelligence &amp; Machine Learning
+                                            <FaGraduationCap size={11} /> AI &amp; Machine Learning
                                         </p>
                                     </div>
                                 </div>
@@ -196,18 +199,17 @@ export default function ResumeClient({ data }: ResumeProps) {
                                             </a>
                                         </>
                                     )}
-
                                     <button
                                         className={styles.closeDrawerBtn}
                                         onClick={() => setIsDrawerOpen(false)}
-                                        aria-label="Close"
+                                        aria-label="Close resume drawer"
                                     >
                                         <FaTimes size={14} />
                                     </button>
                                 </div>
                             </div>
 
-                            {/* Drawer Body — Interactive PDF Viewer */}
+                            {/* Body — PDF iframe */}
                             <div className={styles.drawerBody}>
                                 {activeFileUrl ? (
                                     <iframe
@@ -226,13 +228,13 @@ export default function ResumeClient({ data }: ResumeProps) {
                                 )}
                             </div>
 
-                            {/* Drawer Footer */}
+                            {/* Footer */}
                             <div className={styles.drawerFooter}>
                                 <span>Chandigarh University • 2024–2028</span>
                                 <span>Press Esc to close</span>
                             </div>
                         </motion.div>
-                    </div>
+                    </>
                 )}
             </AnimatePresence>
         </section>

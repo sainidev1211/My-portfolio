@@ -10,7 +10,8 @@ import {
     FaUsers,
     FaLaptopCode,
     FaTrophy,
-    FaLightbulb
+    FaLightbulb,
+    FaImage
 } from "react-icons/fa";
 
 interface CampusInvolvementProps {
@@ -21,12 +22,11 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
     const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
     const [events, setEvents] = useState<any[]>(initialEvents);
 
-
     useEffect(() => {
-        fetch('/api/content')
+        fetch('/api/content', { cache: 'no-store' })
             .then(res => res.json())
             .then(res => {
-                if (res.campusInvolvement) {
+                if (res.campusInvolvement && res.campusInvolvement.length > 0) {
                     setEvents(res.campusInvolvement);
                 }
             })
@@ -50,7 +50,7 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
             case 'FaUsers': return FaUsers;
             default: return FaUsers;
         }
-    }
+    };
 
     return (
         <section id="campus-activities" className={styles.section}>
@@ -84,6 +84,10 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
                 <div className={styles.activitiesGrid}>
                     {events.map((photo, i) => {
                         const IconComponent = getIconComponent(photo.icon);
+                        // Use the stored src (which is /api/files/<id> from DB upload)
+                        // Only fall back to placeholder on actual load error
+                        const imgSrc = photo.src || null;
+
                         return (
                             <motion.div
                                 key={i}
@@ -95,24 +99,25 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
                                 onClick={() => setSelectedPhoto(photo)}
                             >
                                 <div className={styles.imageWrapper}>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={photo.src || `/uploads/event${(i % 4) + 1}.jpg`}
-                                        alt={photo.alt || photo.title}
-                                        className={styles.cardImg}
-                                        onError={(e) => {
-                                            const target = e.currentTarget as HTMLImageElement;
-                                            if (!target.src.includes('/uploads/event')) {
-                                                target.src = `/uploads/event${(i % 4) + 1}.jpg`;
-                                            } else {
-                                                target.style.display = "none";
-                                                const parent = target.parentElement;
-                                                if (parent) {
-                                                    parent.classList.add(styles.imgFallback);
-                                                }
-                                            }
-                                        }}
-                                    />
+                                    {imgSrc ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <ImgWithFallback
+                                            src={imgSrc}
+                                            alt={photo.alt || photo.title}
+                                            className={styles.cardImg}
+                                        />
+                                    ) : (
+                                        <div className={`${styles.cardImg} ${styles.imgFallback}`}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                background: 'rgba(57,211,83,0.06)',
+                                                color: 'rgba(57,211,83,0.4)'
+                                            }}>
+                                            <FaImage size={36} />
+                                        </div>
+                                    )}
                                     <div className={styles.cardBadge}>
                                         <IconComponent size={11} />
                                         <span>{photo.category}</span>
@@ -160,17 +165,25 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
                                 <FaTimes size={14} />
                             </button>
 
-                            <img
-                                src={selectedPhoto.src || '/uploads/event1.jpg'}
-                                alt={selectedPhoto.alt || selectedPhoto.title}
-                                className={styles.modalImage}
-                                onError={(e) => {
-                                    const target = e.currentTarget as HTMLImageElement;
-                                    if (!target.src.includes('/uploads/event')) {
-                                        target.src = '/uploads/event1.jpg';
-                                    }
-                                }}
-                            />
+                            {selectedPhoto.src ? (
+                                <ImgWithFallback
+                                    src={selectedPhoto.src}
+                                    alt={selectedPhoto.alt || selectedPhoto.title}
+                                    className={styles.modalImage}
+                                />
+                            ) : (
+                                <div className={styles.modalImage}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        background: 'rgba(57,211,83,0.06)',
+                                        color: 'rgba(57,211,83,0.4)',
+                                        minHeight: '220px'
+                                    }}>
+                                    <FaImage size={48} />
+                                </div>
+                            )}
 
                             <div className={styles.modalBody}>
                                 <span className={styles.modalBadge}>{selectedPhoto.category}</span>
@@ -185,3 +198,43 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
     );
 }
 
+// ── Reliable image component with error boundary ──
+function ImgWithFallback({
+    src,
+    alt,
+    className,
+}: {
+    src: string;
+    alt: string;
+    className?: string;
+}) {
+    const [errored, setErrored] = useState(false);
+
+    if (errored) {
+        return (
+            <div
+                className={className}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(57,211,83,0.06)',
+                    color: 'rgba(57,211,83,0.4)',
+                    minHeight: '180px',
+                }}
+            >
+                <FaImage size={36} />
+            </div>
+        );
+    }
+
+    return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+            src={src}
+            alt={alt}
+            className={className}
+            onError={() => setErrored(true)}
+        />
+    );
+}

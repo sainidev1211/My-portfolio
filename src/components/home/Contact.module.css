@@ -520,19 +520,89 @@
     .title {
         font-size: 36px;
     }
+
+    .header {
+        margin-bottom: 2.5rem;
+    }
 }
 
 @media (max-width: 640px) {
+    .section {
+        padding: 0 4%;
+    }
+
     .rowTwo {
         grid-template-columns: 1fr;
     }
 
     .form,
     .infoCard {
-        padding: 1.5rem;
+        padding: 1.25rem;
     }
 
     .title {
-        font-size: 32px;
+        font-size: 28px;
+        letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .profileHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .avatarWrapper {
+        width: 56px;
+        height: 56px;
+    }
+
+    .devName {
+        font-size: 1.15rem;
+    }
+
+    .detailItem {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .detailValue {
+        font-size: 12.5px;
+    }
+
+    /* Email copy row — stack vertically on very small screens */
+    .copyBtn {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+
+    .statusBox {
+        font-size: 11.5px;
+        padding: 9px 12px;
+    }
+
+    .socialButtonsRow {
+        gap: 6px;
+    }
+
+    .socialBtn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .formTitle {
+        font-size: 1.1rem;
+    }
+
+    .submitButton {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+
+    .header {
+        margin-bottom: 2rem;
     }
 }
