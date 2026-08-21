@@ -97,14 +97,19 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
                                 <div className={styles.imageWrapper}>
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
-                                        src={photo.src}
-                                        alt={photo.alt}
+                                        src={photo.src || `/uploads/event${(i % 4) + 1}.jpg`}
+                                        alt={photo.alt || photo.title}
                                         className={styles.cardImg}
                                         onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).style.display = "none";
-                                            const parent = e.currentTarget.parentElement;
-                                            if (parent) {
-                                                parent.classList.add(styles.imgFallback);
+                                            const target = e.currentTarget as HTMLImageElement;
+                                            if (!target.src.includes('/uploads/event')) {
+                                                target.src = `/uploads/event${(i % 4) + 1}.jpg`;
+                                            } else {
+                                                target.style.display = "none";
+                                                const parent = target.parentElement;
+                                                if (parent) {
+                                                    parent.classList.add(styles.imgFallback);
+                                                }
                                             }
                                         }}
                                     />
@@ -156,9 +161,15 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
                             </button>
 
                             <img
-                                src={selectedPhoto.src}
-                                alt={selectedPhoto.alt}
+                                src={selectedPhoto.src || '/uploads/event1.jpg'}
+                                alt={selectedPhoto.alt || selectedPhoto.title}
                                 className={styles.modalImage}
+                                onError={(e) => {
+                                    const target = e.currentTarget as HTMLImageElement;
+                                    if (!target.src.includes('/uploads/event')) {
+                                        target.src = '/uploads/event1.jpg';
+                                    }
+                                }}
                             />
 
                             <div className={styles.modalBody}>
@@ -173,3 +184,4 @@ export default function CampusInvolvementClient({ initialEvents = [] }: CampusIn
         </section>
     );
 }
+

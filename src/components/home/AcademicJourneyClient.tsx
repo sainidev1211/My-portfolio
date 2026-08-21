@@ -54,11 +54,16 @@ export default function AcademicJourneyClient({ initialPhotos = [] }: AcademicJo
                             <div key={i} className={styles.photoCard}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img 
-                                    src={photo.src} 
+                                    src={photo.src || `/uploads/event${(i % 4) + 1}.jpg`} 
                                     alt={photo.alt || 'Academic Journey Photo'} 
                                     className={styles.photoImage} 
                                     onError={(e) => {
-                                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                                        const target = e.currentTarget as HTMLImageElement;
+                                        if (!target.src.includes('/uploads/event')) {
+                                            target.src = `/uploads/event${(i % 4) + 1}.jpg`;
+                                        } else {
+                                            target.style.display = "none";
+                                        }
                                     }}
                                 />
                                 {photo.alt && (

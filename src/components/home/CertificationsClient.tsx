@@ -24,25 +24,32 @@ interface Cert {
     link?: string;
 }
 
-export default function CertificationsClient() {
-    const [certs, setCerts] = useState<Cert[]>([]);
+interface CertificationsClientProps {
+    initialCerts?: Cert[];
+}
+
+
+export default function CertificationsClient({ initialCerts = [] }: CertificationsClientProps) {
+    const [certs, setCerts] = useState<Cert[]>(initialCerts);
     const [selectedCert, setSelectedCert] = useState<Cert | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(initialCerts.length === 0);
     const [activeCategory, setActiveCategory] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Fetch certificates from content.certifications (from DB)
+    // Fetch live updated certificates from DB
     useEffect(() => {
-        setIsLoading(true);
-        fetch('/api/content')
+        fetch('/api/content', { cache: 'no-store' })
             .then(res => res.json())
             .then(data => {
-                setCerts(data.certifications || []);
+                if (data.certifications && data.certifications.length > 0) {
+                    setCerts(data.certifications);
+                }
             })
             .catch(err => console.error("[CertificationsClient] fetch error:", err))
             .finally(() => setIsLoading(false));
     }, []);
+
 
     // Close modal on Escape
     useEffect(() => {
