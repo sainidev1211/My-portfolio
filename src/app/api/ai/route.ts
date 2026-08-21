@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Load full dynamic content from DB
-    const content = await getContent();
+    const content: any = await getContent();
 
     const hero = content.hero || {};
     const about = content.about || {};

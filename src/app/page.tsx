@@ -6,7 +6,7 @@ import Projects from "@/components/home/Projects";
 import Resume from "@/components/home/Resume";
 import Header from "@/components/layout/Header";
 import Certifications from '@/components/home/Certifications';
-import AcademicJourneyClient from '@/components/home/AcademicJourneyClient';
+import AcademicJourney from '@/components/home/AcademicJourney';
 import AiAssistant from '@/components/home/AiAssistant';
 import Footer from '@/components/layout/Footer';
 
@@ -37,7 +37,7 @@ export default function Home() {
 
       {/* Academic Journey Section */}
       <div className="section-wrapper" id="academic-journey" style={{ scrollMarginTop: '80px' }}>
-        <AcademicJourneyClient />
+        <AcademicJourney />
       </div>
 
       {/* Campus Involvement & Extra-Curricular Activities */}

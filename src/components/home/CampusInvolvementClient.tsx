@@ -13,9 +13,14 @@ import {
     FaLightbulb
 } from "react-icons/fa";
 
-export default function CampusInvolvementClient() {
+interface CampusInvolvementProps {
+    initialEvents?: any[];
+}
+
+export default function CampusInvolvementClient({ initialEvents = [] }: CampusInvolvementProps) {
     const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
-    const [events, setEvents] = useState<any[]>([]);
+    const [events, setEvents] = useState<any[]>(initialEvents);
+
 
     useEffect(() => {
         fetch('/api/content')

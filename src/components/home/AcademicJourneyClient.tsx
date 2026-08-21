@@ -5,8 +5,13 @@ import styles from "./AcademicJourney.module.css";
 import { motion } from "framer-motion";
 import { FaGraduationCap } from "react-icons/fa";
 
-export default function AcademicJourneyClient() {
-    const [photos, setPhotos] = useState<any[]>([]);
+interface AcademicJourneyProps {
+    initialPhotos?: any[];
+}
+
+export default function AcademicJourneyClient({ initialPhotos = [] }: AcademicJourneyProps) {
+    const [photos, setPhotos] = useState<any[]>(initialPhotos);
+
 
     useEffect(() => {
         fetch('/api/content')
